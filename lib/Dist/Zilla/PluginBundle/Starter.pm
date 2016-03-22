@@ -69,12 +69,12 @@ stay relevant and allow greater customization. It composes the
 L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover> and
 L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> roles to make
 it easier to extend and customize. Also, it supports bundle revisions specified
-as an option, in case distribution packaging and releasing practices change in
-the future.
+as an option, in order to allow for future changes to distribution packaging
+and releasing practices.
 
 =head1 REVISIONS
 
-The plugin bundle currently includes only one revision.
+The C<[@Starter]> plugin bundle currently includes only one revision.
 
 =head2 1
 
@@ -104,6 +104,53 @@ L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> instead of
 L<[Readme]|Dist::Zilla::Plugin::Readme>; and using
 L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests> instead of
 L<[ExtraTests]|Dist::Zilla::Plugin::ExtraTests>.
+
+=head1 CONFIGURING
+
+By using the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover> or
+L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> role options,
+you can customize the C<[@Starter]> bundle's included plugins as desired. Here
+are some examples:
+
+=head2 GatherDir
+
+If you are using git source control, you may wish to replace the default
+L<[GatherDir]|Dist::Zilla::Plugin::GatherDir> plugin with
+L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>, which is included as
+part of the L<[@Git]|Dist::Zilla::PluginBundle::Git> bundle.
+
+  [Git::GatherDir]
+  [@Starter]
+  -remove = GatherDir
+
+=head2 Readme
+
+The L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> plugin
+generates a plaintext README from the distribution L<Dist::Zilla/"main_module">
+by default, but can be configured to look elsewhere. The standard README should
+always be plaintext, but if you want to generate a non-plaintext README in
+addition, you can simply use the plugin a second time. Note that POD-format
+READMEs should not be included in the distribution build because they will get
+indexed and installed due to an oddity in CPAN installation tools.
+
+  [@Starter]
+  ReadmeAnyFromPod.source_filename = bin/foobar
+  
+  [ReadmeAnyFromPod / Markdown_Readme]
+  type = markdown
+  filename = README.md
+  
+  [ReadmeAnyFromPod / Pod_Readme]
+  type = pod
+  location = root ; do not include pod readmes in the build!
+
+=head2 ExecDir
+
+Some distributions use the C<script> directory instead of C<bin> (the
+L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> default) for executable scripts.
+
+  [@Starter]
+  ExecDir.dir = script
 
 =head1 EXTENDING
 
