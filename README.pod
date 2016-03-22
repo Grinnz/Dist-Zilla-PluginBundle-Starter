@@ -1,45 +1,4 @@
-package Dist::Zilla::PluginBundle::Starter;
-
-use Moose;
-with 'Dist::Zilla::Role::PluginBundle::Easy',
-  'Dist::Zilla::Role::PluginBundle::Config::Slicer',
-  'Dist::Zilla::Role::PluginBundle::PluginRemover';
-use namespace::clean;
-
-our $VERSION = '0.001';
-
-my %plugin_groups = (
-  1 => [qw(
-    GatherDir
-    PruneCruft
-    ManifestSkip
-    MetaYAML
-    MetaJSON
-    License
-    ReadmeAnyFromPod
-    ExecDir
-    ShareDir
-    
-    MakeMaker
-    Manifest
-    
-    TestRelease
-    RunExtraTests
-    ConfirmRelease
-    UploadToCPAN
-  )],
-);
-
-sub configure {
-  my $self = shift;
-  my $group = $self->payload->{group} // '1';
-  die "Unknown [\@Starter] group specified: $group\n"
-    unless exists $plugin_groups{$group};
-  $self->add_plugins(@{$plugin_groups{$group}});
-}
-
-__PACKAGE__->meta->make_immutable;
-1;
+=pod
 
 =head1 NAME
 
@@ -116,3 +75,5 @@ This is free software, licensed under:
 =head1 SEE ALSO
 
 L<Dist::Zilla>, L<Dist::Zilla::PluginBundle::Basic>
+
+=cut
