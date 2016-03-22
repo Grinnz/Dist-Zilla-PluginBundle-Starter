@@ -8,7 +8,7 @@ use namespace::clean;
 
 our $VERSION = '0.001';
 
-my %plugin_groups = (
+my %revisions = (
   1 => [qw(
     GatherDir
     PruneCruft
@@ -32,10 +32,10 @@ my %plugin_groups = (
 
 sub configure {
   my $self = shift;
-  my $group = $self->payload->{group} // '1';
-  die "Unknown [\@Starter] group specified: $group\n"
-    unless exists $plugin_groups{$group};
-  $self->add_plugins(@{$plugin_groups{$group}});
+  my $revision = $self->payload->{revision} // '1';
+  die "Unknown [\@Starter] revision specified: $revision\n"
+    unless exists $revisions{$revision};
+  $self->add_plugins(@{$revisions{$revision}});
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -49,7 +49,7 @@ Dist::Zilla::PluginBundle::Starter - A simple start for Dist::Zilla configuratio
 
   ; dist.ini
   [@Starter]           ; all that is needed to start
-  group = 1            ; always defaults to group 1
+  revision = 1         ; always defaults to revision 1
   -remove = GatherDir  ; to use [Git::GatherDir] instead, for example
   ExecDir.dir = script ; change the directory used by [ExecDir]
 
@@ -60,17 +60,17 @@ work to release a complete distribution reliably. It is similar in purpose to
 L<[@Basic]|Dist::Zilla::PluginBundle::Basic>, but with additional features. It
 composes the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover>
 and L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> roles to
-make it easier to extend and customize. Also, it supports additional "groups"
+make it easier to extend and customize. Also, it supports bundle revisions
 specified as an option, in case distribution packaging and releasing practices
 change in the future.
 
-=head1 GROUPS
+=head1 REVISIONS
 
-The plugin bundle currently includes only one group.
+The plugin bundle currently includes only one revision.
 
 =head2 1
 
-Group 1 is equivalent to using the following plugins:
+Revision 1 is the default and is equivalent to using the following plugins:
 
   [GatherDir]
   [PruneCruft]
@@ -90,7 +90,7 @@ Group 1 is equivalent to using the following plugins:
   [ConfirmRelease]
   [UploadToCPAN]
 
-This group differs from L<[@Basic]|Dist::Zilla::PluginBundle::Basic> as
+This revision differs from L<[@Basic]|Dist::Zilla::PluginBundle::Basic> as
 follows: including L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>; using
 L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> instead of
 L<[Readme]|Dist::Zilla::Plugin::Readme>; and using
