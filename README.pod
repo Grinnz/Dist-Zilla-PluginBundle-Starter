@@ -7,6 +7,13 @@ Dist::Zilla::PluginBundle::Starter - A simple start for Dist::Zilla configuratio
 =head1 SYNOPSIS
 
   ; dist.ini
+  name    = My-Cool-Distribution
+  author  = Example Jones <jones@example.com>
+  license = Perl_5
+  copyright_holder = Example Jones
+  copyright_year   = 2016
+  version = 0.001
+  
   [@Starter]           ; all that is needed to start
   revision = 1         ; always defaults to revision 1
   -remove = GatherDir  ; to use [Git::GatherDir] instead, for example
@@ -16,12 +23,13 @@ Dist::Zilla::PluginBundle::Starter - A simple start for Dist::Zilla configuratio
 
 This plugin bundle for L<Dist::Zilla> is designed to do the minimal amount of
 work to release a complete distribution reliably. It is similar in purpose to
-L<[@Basic]|Dist::Zilla::PluginBundle::Basic>, but with additional features. It
-composes the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover>
-and L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> roles to
-make it easier to extend and customize. Also, it supports bundle revisions
-specified as an option, in case distribution packaging and releasing practices
-change in the future.
+L<[@Basic]|Dist::Zilla::PluginBundle::Basic>, but with additional features to
+stay relevant and allow greater customization. It composes the
+L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover> and
+L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> roles to make
+it easier to extend and customize. Also, it supports bundle revisions specified
+as an option, in case distribution packaging and releasing practices change in
+the future.
 
 =head1 REVISIONS
 
@@ -55,6 +63,57 @@ L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> instead of
 L<[Readme]|Dist::Zilla::Plugin::Readme>; and using
 L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests> instead of
 L<[ExtraTests]|Dist::Zilla::Plugin::ExtraTests>.
+
+=head1 EXTENDING
+
+This bundle includes the basic set of plugins for releasing a distribution, but
+there are many common non-intrusive tasks that L<Dist::Zilla> can also help
+with simply by using additional plugins.
+
+=head2 Name
+
+To automatically set the distribution name from the current directory, use
+L<[NameFromDirectory]|Dist::Zilla::Plugin::NameFromDirectory>.
+
+=head2 License and Copyright
+
+To extract the license and copyright information from the main module, and
+optionally set the author as well, use
+L<[LicenseFromModule]|Dist::Zilla::Plugin::LicenseFromModule>.
+
+=head2 Versions
+
+To automatically extract the distribution's version from the main module and
+bump it after a release, you can use either
+L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> with
+L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>, or
+L<[VersionFromModule]|Dist::Zilla::Plugin::VersionFromModule> with
+L<[ReversionOnRelease]|Dist::Zilla::Plugin::ReversionOnRelease>. Don't mix
+these two approaches!
+
+=head2 Changelog
+
+To automatically add the new release version to the distribution changelog,
+use L<[NextRelease]|Dist::Zilla::Plugin::NextRelease>. To ensure the release
+has changelog entries, use
+L<[CheckChangesHasContent]|Dist::Zilla::Plugin::CheckChangesHasContent>.
+
+=head2 Git
+
+To better integrate with a git workflow, use the plugins from
+L<[@Git]|Dist::Zilla::PluginBundle::Git>. To automatically add contributors to
+metadata from git commits, use L<[Git::Contributors]|Dist::Zilla::Plugin::Git::Contributors>.
+
+=head2 Resources
+
+To automatically set resource metadata from an associated GitHub repository,
+use L<[GithubMeta]|Dist::Zilla::Plugin::GithubMeta>. To set resource metadata
+manually, use L<[MetaResources]|Dist::Zilla::Plugin::MetaResources>.
+
+=head2 Prereqs
+
+To automatically set distribution prereqs from a cpanfile, use
+L<[Prereqs::FromCPANfile]|Dist::Zilla::Plugin::Prereqs::FromCPANfile>.
 
 =head1 BUGS
 
