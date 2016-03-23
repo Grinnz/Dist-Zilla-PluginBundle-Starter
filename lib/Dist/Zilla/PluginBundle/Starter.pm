@@ -25,9 +25,9 @@ my %revisions = (
     
     TestRelease
     RunExtraTests
-    ConfirmRelease
-    UploadToCPAN
-  )],
+    ConfirmRelease),
+    sub { $ENV{FAKE_RELEASE} ? 'FakeRelease' : 'UploadToCPAN' },
+  ],
 );
 
 sub configure {
@@ -35,7 +35,9 @@ sub configure {
   my $revision = $self->payload->{revision} // '1';
   die "Unknown [\@Starter] revision specified: $revision\n"
     unless exists $revisions{$revision};
-  $self->add_plugins(@{$revisions{$revision}});
+  my @plugins = @{$revisions{$revision}};
+  $_ = $_->() foreach grep { ref $_ eq 'CODE' } @plugins;
+  $self->add_plugins(@plugins);
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -71,6 +73,12 @@ L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> roles to make
 it easier to extend and customize. Also, it supports bundle revisions specified
 as an option, in order to allow for future changes to distribution packaging
 and releasing practices.
+
+The C<FAKE_RELEASE> environment variable is supported as in L<Dist::Milla> and
+L<Minilla>, to replace the L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
+plugin with L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>, to test the
+release process (including any version bumping and commits!) without actually
+uploading to CPAN.
 
 =head1 REVISIONS
 

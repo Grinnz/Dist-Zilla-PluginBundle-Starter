@@ -1,6 +1,7 @@
 requires 'perl' => '5.008005';
 requires 'Dist::Zilla::Plugin::ConfirmRelease';
 requires 'Dist::Zilla::Plugin::ExecDir';
+requires 'Dist::Zilla::Plugin::FakeRelease';
 requires 'Dist::Zilla::Plugin::GatherDir';
 requires 'Dist::Zilla::Plugin::License';
 requires 'Dist::Zilla::Plugin::MakeMaker';

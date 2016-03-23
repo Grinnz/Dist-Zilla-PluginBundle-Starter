@@ -31,6 +31,12 @@ it easier to extend and customize. Also, it supports bundle revisions specified
 as an option, in order to allow for future changes to distribution packaging
 and releasing practices.
 
+The C<FAKE_RELEASE> environment variable is supported as in L<Dist::Milla> and
+L<Minilla>, to replace the L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
+plugin with L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>, to test the
+release process (including any version bumping and commits!) without actually
+uploading to CPAN.
+
 =head1 REVISIONS
 
 The C<[@Starter]> plugin bundle currently includes only one revision.
