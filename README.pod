@@ -48,7 +48,7 @@ The C<[@Starter]> plugin bundle currently includes only one revision.
 
 Revision 1 is the default and is equivalent to using the following plugins:
 
-=over
+=over 2
 
 =item L<[GatherDir]|Dist::Zilla::Plugin::GatherDir>
 
