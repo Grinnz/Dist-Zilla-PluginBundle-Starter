@@ -170,7 +170,8 @@ manually, use L<[MetaResources]|Dist::Zilla::Plugin::MetaResources>.
 =head2 Prereqs
 
 To automatically set distribution prereqs from a cpanfile, use
-L<[Prereqs::FromCPANfile]|Dist::Zilla::Plugin::Prereqs::FromCPANfile>.
+L<[Prereqs::FromCPANfile]|Dist::Zilla::Plugin::Prereqs::FromCPANfile>. To
+specify prereqs manually, use L<[Prereqs]|Dist::Zilla::Plugin::Prereqs>.
 
 =head1 BUGS
 
