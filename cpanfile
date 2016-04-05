@@ -20,3 +20,4 @@ requires 'Dist::Zilla::Role::PluginBundle::Easy';
 requires 'Dist::Zilla::Role::PluginBundle::PluginRemover';
 requires 'Moose';
 requires 'namespace::clean';
+test_requires 'Test::More' => '0.88';
