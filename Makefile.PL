@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-
+use 5.008005;
 
 use ExtUtils::MakeMaker;
 
@@ -14,8 +14,34 @@ my %WriteMakefileArgs = (
   },
   "DISTNAME" => "Dist-Zilla-PluginBundle-Starter",
   "LICENSE" => "artistic_2",
+  "MIN_PERL_VERSION" => "5.008005",
   "NAME" => "Dist::Zilla::PluginBundle::Starter",
-  "PREREQ_PM" => {},
+  "PREREQ_PM" => {
+    "Dist::Zilla::Plugin::ConfirmRelease" => 0,
+    "Dist::Zilla::Plugin::ExecDir" => 0,
+    "Dist::Zilla::Plugin::FakeRelease" => 0,
+    "Dist::Zilla::Plugin::GatherDir" => 0,
+    "Dist::Zilla::Plugin::License" => 0,
+    "Dist::Zilla::Plugin::MakeMaker" => 0,
+    "Dist::Zilla::Plugin::Manifest" => 0,
+    "Dist::Zilla::Plugin::ManifestSkip" => 0,
+    "Dist::Zilla::Plugin::MetaJSON" => 0,
+    "Dist::Zilla::Plugin::MetaYAML" => 0,
+    "Dist::Zilla::Plugin::PruneCruft" => 0,
+    "Dist::Zilla::Plugin::ReadmeAnyFromPod" => 0,
+    "Dist::Zilla::Plugin::RunExtraTests" => 0,
+    "Dist::Zilla::Plugin::ShareDir" => 0,
+    "Dist::Zilla::Plugin::TestRelease" => 0,
+    "Dist::Zilla::Plugin::UploadToCPAN" => 0,
+    "Dist::Zilla::Role::PluginBundle::Config::Slicer" => 0,
+    "Dist::Zilla::Role::PluginBundle::Easy" => 0,
+    "Dist::Zilla::Role::PluginBundle::PluginRemover" => 0,
+    "Moose" => 0,
+    "namespace::clean" => 0
+  },
+  "TEST_REQUIRES" => {
+    "Test::More" => "0.88"
+  },
   "VERSION" => "0.001",
   "test" => {
     "TESTS" => "t/*.t"
@@ -23,7 +49,30 @@ my %WriteMakefileArgs = (
 );
 
 
-my %FallbackPrereqs = ();
+my %FallbackPrereqs = (
+  "Dist::Zilla::Plugin::ConfirmRelease" => 0,
+  "Dist::Zilla::Plugin::ExecDir" => 0,
+  "Dist::Zilla::Plugin::FakeRelease" => 0,
+  "Dist::Zilla::Plugin::GatherDir" => 0,
+  "Dist::Zilla::Plugin::License" => 0,
+  "Dist::Zilla::Plugin::MakeMaker" => 0,
+  "Dist::Zilla::Plugin::Manifest" => 0,
+  "Dist::Zilla::Plugin::ManifestSkip" => 0,
+  "Dist::Zilla::Plugin::MetaJSON" => 0,
+  "Dist::Zilla::Plugin::MetaYAML" => 0,
+  "Dist::Zilla::Plugin::PruneCruft" => 0,
+  "Dist::Zilla::Plugin::ReadmeAnyFromPod" => 0,
+  "Dist::Zilla::Plugin::RunExtraTests" => 0,
+  "Dist::Zilla::Plugin::ShareDir" => 0,
+  "Dist::Zilla::Plugin::TestRelease" => 0,
+  "Dist::Zilla::Plugin::UploadToCPAN" => 0,
+  "Dist::Zilla::Role::PluginBundle::Config::Slicer" => 0,
+  "Dist::Zilla::Role::PluginBundle::Easy" => 0,
+  "Dist::Zilla::Role::PluginBundle::PluginRemover" => 0,
+  "Moose" => 0,
+  "Test::More" => "0.88",
+  "namespace::clean" => 0
+);
 
 
 unless ( eval { ExtUtils::MakeMaker->VERSION(6.63_03) } ) {
