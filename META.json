@@ -1,5 +1,5 @@
 {
-   "abstract" : "A simple start for Dist::Zilla configuration",
+   "abstract" : "A minimal Dist::Zilla plugin bundle",
    "author" : [
       "Dan Book <dbook@cpan.org>"
    ],

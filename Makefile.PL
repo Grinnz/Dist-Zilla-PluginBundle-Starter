@@ -7,7 +7,7 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "A simple start for Dist::Zilla configuration",
+  "ABSTRACT" => "A minimal Dist::Zilla plugin bundle",
   "AUTHOR" => "Dan Book <dbook\@cpan.org>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
@@ -18,7 +18,7 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {},
   "VERSION" => "0.001",
   "test" => {
-    "TESTS" => ""
+    "TESTS" => "t/*.t"
   }
 );
 
