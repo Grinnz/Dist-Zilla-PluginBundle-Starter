@@ -48,23 +48,39 @@ The C<[@Starter]> plugin bundle currently includes only one revision.
 
 Revision 1 is the default and is equivalent to using the following plugins:
 
-  [GatherDir]
-  [PruneCruft]
-  [ManifestSkip]
-  [MetaYAML]
-  [MetaJSON]
-  [License]
-  [ReadmeAnyFromPod]
-  [ExecDir]
-  [ShareDir]
-  
-  [MakeMaker]
-  [Manifest]
-  
-  [TestRelease]
-  [RunExtraTests]
-  [ConfirmRelease]
-  [UploadToCPAN]
+=over
+
+=item L<[GatherDir]|Dist::Zilla::Plugin::GatherDir>
+
+=item L<[PruneCruft]|Dist::Zilla::Plugin::PruneCruft>
+
+=item L<[ManifestSkip]|Dist::Zilla::Plugin::ManifestSkip>
+
+=item L<[MetaYAML]|Dist::Zilla::Plugin::MetaYAML>
+
+=item L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>
+
+=item L<[License]|Dist::Zilla::Plugin::License>
+
+=item L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod>
+
+=item L<[ExecDir]|Dist::Zilla::Plugin::ExecDir>
+
+=item L<[ShareDir]|Dist::Zilla::Plugin::ShareDir>
+
+=item L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>
+
+=item L<[Manifest]|Dist::Zilla::Plugin::Manifest>
+
+=item L<[TestRelease]|Dist::Zilla::Plugin::TestRelease>
+
+=item L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests>
+
+=item L<[ConfirmRelease]|Dist::Zilla::Plugin::ConfirmRelease>
+
+=item L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
+
+=back
 
 This revision differs from L<[@Basic]|Dist::Zilla::PluginBundle::Basic> as
 follows: including L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>; using
