@@ -9,35 +9,45 @@ use namespace::clean;
 our $VERSION = '0.001';
 
 my %revisions = (
-  1 => [qw(
-    GatherDir
-    PruneCruft
-    ManifestSkip
-    MetaYAML
-    MetaJSON
-    License
-    ReadmeAnyFromPod
-    ExecDir
-    ShareDir
-    
-    MakeMaker
-    Manifest
-    
-    TestRelease
-    RunExtraTests
-    ConfirmRelease),
+  1 => [
+    'GatherDir',
+    'PruneCruft',
+    'ManifestSkip',
+    'MetaConfig',
+    'MetaProvides::Package',
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    'MetaYAML',
+    'MetaJSON',
+    'License',
+    'ReadmeAnyFromPod',
+    'ExecDir',
+    'ShareDir',
+    'PodSyntaxTests',
+    'Test::ReportPrereqs',
+    ['Test::Compile' => { xt_mode => 1 }],
+    'MakeMaker',
+    'Manifest',
+    'TestRelease',
+    'RunExtraTests',
+    'ConfirmRelease',
     sub { $ENV{FAKE_RELEASE} ? 'FakeRelease' : 'UploadToCPAN' },
   ],
 );
 
 sub configure {
   my $self = shift;
-  my $revision = $self->payload->{revision} // '1';
+  my $revision = $self->payload->{revision};
+  $revision = '1' unless defined $revision;
+  $self->add_plugins(@{$self->get_revision($revision)});
+}
+
+sub get_revision {
+  my ($self, $revision) = @_;
   die "Unknown [\@Starter] revision specified: $revision\n"
     unless exists $revisions{$revision};
   my @plugins = @{$revisions{$revision}};
   $_ = $_->($self) foreach grep { ref $_ eq 'CODE' } @plugins;
-  $self->add_plugins(@plugins);
+  return \@plugins;
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -99,6 +109,19 @@ Revision 1 is the default and is equivalent to using the following plugins:
 
 =item L<[ManifestSkip]|Dist::Zilla::Plugin::ManifestSkip>
 
+=item L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>
+
+=item L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
+
+=item L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>
+
+  directory = t
+  directory = xt
+  directory = inc
+  directory = share
+  directory = eg
+  directory = examples
+
 =item L<[MetaYAML]|Dist::Zilla::Plugin::MetaYAML>
 
 =item L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>
@@ -110,6 +133,14 @@ Revision 1 is the default and is equivalent to using the following plugins:
 =item L<[ExecDir]|Dist::Zilla::Plugin::ExecDir>
 
 =item L<[ShareDir]|Dist::Zilla::Plugin::ShareDir>
+
+=item L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>
+
+=item L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>
+
+=item L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>
+
+  xt_mode = 1
 
 =item L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>
 
@@ -126,11 +157,17 @@ Revision 1 is the default and is equivalent to using the following plugins:
 =back
 
 This revision differs from L<[@Basic]|Dist::Zilla::PluginBundle::Basic> as
-follows: including L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>; using
-L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> instead of
-L<[Readme]|Dist::Zilla::Plugin::Readme>; and using
+follows: using L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod>
+instead of L<[Readme]|Dist::Zilla::Plugin::Readme>; using
 L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests> instead of
-L<[ExtraTests]|Dist::Zilla::Plugin::ExtraTests>.
+L<[ExtraTests]|Dist::Zilla::Plugin::ExtraTests>; and including the following
+additional plugins: L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>,
+L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>,
+L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>,
+L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>,
+L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
+L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
+L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>.
 
 =head1 CONFIGURING
 
