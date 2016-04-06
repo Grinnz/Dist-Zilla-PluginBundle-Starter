@@ -130,8 +130,7 @@ are some examples:
 
 If you are using git source control, you may wish to replace the default
 L<[GatherDir]|Dist::Zilla::Plugin::GatherDir> plugin with
-L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>, which is included as
-part of the L<[@Git]|Dist::Zilla::PluginBundle::Git> bundle.
+L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>.
 
   [Git::GatherDir]
   [@Starter]
@@ -166,6 +165,17 @@ L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> default) for executable scripts.
 
   [@Starter]
   ExecDir.dir = script
+
+=head2 MetaNoIndex
+
+You may wish to specify that additional files or directories are not indexed as
+CPAN modules. (See L<Config::MVP::Slicer/"CONFIGURATION SYNTAX"> for an
+explanation of the subscripts for slicing array attributes.)
+
+  [@Starter]
+  MetaNoIndex.file[0] = eggs/FooBar.pm
+  MetaNoIndex.directory[a] = eggs
+  MetaNoIndex.directory[b] = bacon
 
 =head1 EXTENDING
 
