@@ -72,14 +72,14 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
 
 =head1 DESCRIPTION
 
-This plugin bundle for L<Dist::Zilla> is designed to do the minimal amount of
-work to release a complete distribution reliably. It is similar in purpose to
-L<[@Basic]|Dist::Zilla::PluginBundle::Basic>, but with additional features to
-stay up to date and allow greater customization. The selection of included
-plugins is intended to be unopinionated and unobtrusive, so that it is usable
-for any well-formed CPAN distribution.
+The C<[@Starter]> plugin bundle for L<Dist::Zilla> is designed to do the
+minimal amount of work to release a complete distribution reliably. It is
+similar in purpose to L<[@Basic]|Dist::Zilla::PluginBundle::Basic>, but with
+additional features to stay up to date and allow greater customization. The
+selection of included plugins is intended to be unopinionated and unobtrusive,
+so that it is usable for any well-formed CPAN distribution.
 
-It composes the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover>
+C<[@Starter]> composes the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover>
 and L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> roles to
 make it easier to customize and extend. Also, it supports bundle revisions
 specified as an option, in order to incorporate future changes to distribution
