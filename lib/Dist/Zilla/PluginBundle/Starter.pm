@@ -46,8 +46,7 @@ sub get_revision {
   die "Unknown [\@Starter] revision specified: $revision\n"
     unless exists $revisions{$revision};
   my @plugins = @{$revisions{$revision}};
-  $_ = $_->($self) foreach grep { ref $_ eq 'CODE' } @plugins;
-  return \@plugins;
+  return [map { ref $_ eq 'CODE' ? $_->($self) : $_ } @plugins];
 }
 
 __PACKAGE__->meta->make_immutable;
