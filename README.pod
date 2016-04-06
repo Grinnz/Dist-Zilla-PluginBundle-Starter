@@ -31,8 +31,9 @@ for any well-formed CPAN distribution.
 It composes the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover>
 and L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> roles to
 make it easier to customize and extend. Also, it supports bundle revisions
-specified as an option, in order to allow for future changes to distribution
-packaging and releasing practices.
+specified as an option, in order to incorporate future changes to distribution
+packaging and releasing practices. Existing revisions will not be changed to
+preserve backwards compatibility.
 
 The C<FAKE_RELEASE> environment variable is supported as in L<Dist::Milla> and
 L<Minilla>. It replaces the L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
