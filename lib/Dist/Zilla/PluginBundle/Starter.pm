@@ -30,7 +30,7 @@ my %revisions = (
     'TestRelease',
     'RunExtraTests',
     'ConfirmRelease',
-    sub { $ENV{FAKE_RELEASE} ? 'FakeRelease' : 'UploadToCPAN' },
+    'UploadToCPAN',
   ],
 );
 
@@ -38,7 +38,18 @@ sub configure {
   my $self = shift;
   my $revision = $self->payload->{revision};
   $revision = '1' unless defined $revision;
-  $self->add_plugins(map { ref $_ eq 'CODE' ? $_->($self) : $_ } @{$self->get_revision($revision)});
+  my @plugins = @{$self->get_revision($revision)};
+  foreach my $plugin (@plugins) {
+    $plugin = $plugin->($self) if ref $plugin eq 'CODE';
+    if ($ENV{FAKE_RELEASE}) {
+      if (ref $plugin eq 'ARRAY' and $plugin->[0] eq 'UploadToCPAN') {
+        $plugin = ['FakeRelease', @$plugin[1..$#$plugin]];
+      } elsif (!ref $plugin and $plugin eq 'UploadToCPAN') {
+        $plugin = 'FakeRelease';
+      }
+    }
+  }
+  $self->add_plugins(@plugins);
 }
 
 sub get_revision {
