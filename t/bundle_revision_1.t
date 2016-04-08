@@ -10,7 +10,7 @@ my $tzil = Builder->from_config(
     add_files => {
       path('source', 'dist.ini') => simple_ini({},
         ['@Starter' => { revision => 1 }],
-        [Prereqs => { 'List::Util' => '1.33' }],
+        [Prereqs => { 'perl' => '5.006' }],
       ),
       path('source', 'lib', 'DZT', 'Sample.pm') => "package DZT::Sample;\nour \$VERSION = '0.001';\n1",
       path('source', '.git', 'this-should-get-pruned') => "",
@@ -47,7 +47,7 @@ is_deeply [sort @found_files], \@expected_files, 'built the correct files';
 my $meta = $tzil->distmeta;
 
 is $meta->{version}, '0.001', 'right dist version';
-is_deeply $meta->{prereqs}{runtime}{requires}, { 'List::Util' => '1.33' }, 'right prereqs metadata';
+is_deeply $meta->{prereqs}{runtime}{requires}, { 'perl' => '5.006' }, 'right prereqs metadata';
 is_deeply $meta->{provides}, { 'DZT::Sample' => { file => 'lib/DZT/Sample.pm', version => '0.001' } }, 'right provides metadata';
 my @expected_no_index = sort qw(eg examples inc share t xt);
 is_deeply [sort @{$meta->{no_index}{directory}}], \@expected_no_index, 'right no_index metadata';
