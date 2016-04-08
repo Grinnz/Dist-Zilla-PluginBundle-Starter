@@ -8,6 +8,8 @@ use namespace::clean;
 
 our $VERSION = '0.001';
 
+# Revisions can include entries with the standard plugin name, array ref of plugin/name/config,
+# or coderefs which are passed the pluginbundle object and return one of these formats.
 my %revisions = (
   1 => [
     'GatherDir',
@@ -42,7 +44,7 @@ sub configure {
   foreach my $plugin (@plugins) {
     $plugin = $plugin->($self) if ref $plugin eq 'CODE';
     if ($ENV{FAKE_RELEASE}) {
-      if (ref $plugin eq 'ARRAY' and $plugin->[0] eq 'UploadToCPAN') {
+      if (ref $plugin eq 'ARRAY' and @$plugin and $plugin->[0] eq 'UploadToCPAN') {
         $plugin = ['FakeRelease', @$plugin[1..$#$plugin]];
       } elsif (!ref $plugin and $plugin eq 'UploadToCPAN') {
         $plugin = 'FakeRelease';
