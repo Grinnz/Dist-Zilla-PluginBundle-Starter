@@ -6,11 +6,18 @@ use 5.008005;
 
 use ExtUtils::MakeMaker;
 
+use File::ShareDir::Install;
+$File::ShareDir::Install::INCLUDE_DOTFILES = 1;
+$File::ShareDir::Install::INCLUDE_DOTDIRS = 1;
+install_share module => "Dist::Zilla::MintingProfile::Starter", "profiles";
+
+
 my %WriteMakefileArgs = (
   "ABSTRACT" => "A minimal Dist::Zilla plugin bundle",
   "AUTHOR" => "Dan Book <dbook\@cpan.org>",
   "CONFIGURE_REQUIRES" => {
-    "ExtUtils::MakeMaker" => 0
+    "ExtUtils::MakeMaker" => 0,
+    "File::ShareDir::Install" => "0.06"
   },
   "DISTNAME" => "Dist-Zilla-PluginBundle-Starter",
   "LICENSE" => "artistic_2",
@@ -40,6 +47,7 @@ my %WriteMakefileArgs = (
     "Dist::Zilla::Plugin::Test::ReportPrereqs" => "0.014",
     "Dist::Zilla::Plugin::TestRelease" => 0,
     "Dist::Zilla::Plugin::UploadToCPAN" => 0,
+    "Dist::Zilla::Role::MintingProfile::ShareDir" => 0,
     "Dist::Zilla::Role::PluginBundle::Config::Slicer" => 0,
     "Dist::Zilla::Role::PluginBundle::Easy" => 0,
     "Dist::Zilla::Role::PluginBundle::PluginRemover" => 0,
@@ -54,7 +62,7 @@ my %WriteMakefileArgs = (
     "Test::DZil" => 0,
     "Test::More" => "0.88"
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -85,6 +93,7 @@ my %FallbackPrereqs = (
   "Dist::Zilla::Plugin::Test::ReportPrereqs" => "0.014",
   "Dist::Zilla::Plugin::TestRelease" => 0,
   "Dist::Zilla::Plugin::UploadToCPAN" => 0,
+  "Dist::Zilla::Role::MintingProfile::ShareDir" => 0,
   "Dist::Zilla::Role::PluginBundle::Config::Slicer" => 0,
   "Dist::Zilla::Role::PluginBundle::Easy" => 0,
   "Dist::Zilla::Role::PluginBundle::PluginRemover" => 0,
@@ -109,3 +118,9 @@ delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
   unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
 
 WriteMakefile(%WriteMakefileArgs);
+
+{
+package
+MY;
+use File::ShareDir::Install qw(postamble);
+}

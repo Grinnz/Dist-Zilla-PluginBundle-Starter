@@ -22,6 +22,7 @@ requires 'Dist::Zilla::Plugin::TestRelease';
 requires 'Dist::Zilla::Plugin::Test::Compile';
 requires 'Dist::Zilla::Plugin::Test::ReportPrereqs' => '0.014'; # .dd file added
 requires 'Dist::Zilla::Plugin::UploadToCPAN';
+requires 'Dist::Zilla::Role::MintingProfile::ShareDir';
 requires 'Dist::Zilla::Role::PluginBundle::Config::Slicer';
 requires 'Dist::Zilla::Role::PluginBundle::Easy';
 requires 'Dist::Zilla::Role::PluginBundle::PluginRemover';

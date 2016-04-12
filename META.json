@@ -18,6 +18,7 @@
          "eg",
          "examples",
          "inc",
+         "profiles",
          "share",
          "t",
          "xt"
@@ -26,7 +27,8 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "0"
+            "ExtUtils::MakeMaker" : "0",
+            "File::ShareDir::Install" : "0.06"
          }
       },
       "develop" : {
@@ -63,6 +65,7 @@
             "Dist::Zilla::Plugin::Test::ReportPrereqs" : "0.014",
             "Dist::Zilla::Plugin::TestRelease" : "0",
             "Dist::Zilla::Plugin::UploadToCPAN" : "0",
+            "Dist::Zilla::Role::MintingProfile::ShareDir" : "0",
             "Dist::Zilla::Role::PluginBundle::Config::Slicer" : "0",
             "Dist::Zilla::Role::PluginBundle::Easy" : "0",
             "Dist::Zilla::Role::PluginBundle::PluginRemover" : "0",
@@ -86,9 +89,13 @@
       }
    },
    "provides" : {
+      "Dist::Zilla::MintingProfile::Starter" : {
+         "file" : "lib/Dist/Zilla/MintingProfile/Starter.pm",
+         "version" : "0.002"
+      },
       "Dist::Zilla::PluginBundle::Starter" : {
          "file" : "lib/Dist/Zilla/PluginBundle/Starter.pm",
-         "version" : "0.001"
+         "version" : "0.002"
       }
    },
    "release_status" : "stable",
@@ -103,7 +110,7 @@
          "web" : "https://github.com/Grinnz/Dist-Zilla-PluginBundle-Starter"
       }
    },
-   "version" : "0.001",
+   "version" : "0.002",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.022000"
@@ -235,7 +242,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v0.001",
+                  "tag" : "v0.002",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
@@ -334,6 +341,11 @@
             "class" : "Dist::Zilla::Plugin::CopyFilesFromBuild",
             "name" : "CopyFilesFromBuild",
             "version" : "0.151680"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::ModuleShareDirs",
+            "name" : "ModuleShareDirs",
+            "version" : "5.044"
          },
          {
             "class" : "Dist::Zilla::Plugin::PruneCruft",
