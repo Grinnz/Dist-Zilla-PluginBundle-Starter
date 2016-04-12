@@ -34,3 +34,4 @@ requires 'Test::Pod' => '1.41'; # for pod syntax tests
 test_requires 'Path::Tiny' => '0.079'; # relative method algorithm
 test_requires 'Test::DZil';
 test_requires 'Test::More' => '0.88'; # done_testing
+test_requires 'Test::File::ShareDir::Module';

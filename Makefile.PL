@@ -62,6 +62,7 @@ my %WriteMakefileArgs = (
     "File::Spec" => 0,
     "Path::Tiny" => "0.079",
     "Test::DZil" => 0,
+    "Test::File::ShareDir::Module" => 0,
     "Test::More" => "0.88"
   },
   "VERSION" => "0.002",
@@ -106,6 +107,7 @@ my %FallbackPrereqs = (
   "Moose" => 0,
   "Path::Tiny" => "0.079",
   "Test::DZil" => 0,
+  "Test::File::ShareDir::Module" => 0,
   "Test::More" => "0.88",
   "Test::Pod" => "1.41",
   "namespace::clean" => 0
