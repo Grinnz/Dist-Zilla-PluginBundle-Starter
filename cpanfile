@@ -1,6 +1,7 @@
 requires 'perl' => '5.008005';
 requires 'Dist::Zilla';
 requires 'Dist::Zilla::Plugin::ConfirmRelease';
+requires 'Dist::Zilla::Plugin::DistINI';
 requires 'Dist::Zilla::Plugin::ExecDir';
 requires 'Dist::Zilla::Plugin::FakeRelease';
 requires 'Dist::Zilla::Plugin::GatherDir';
@@ -18,6 +19,7 @@ requires 'Dist::Zilla::Plugin::PruneCruft';
 requires 'Dist::Zilla::Plugin::ReadmeAnyFromPod';
 requires 'Dist::Zilla::Plugin::RunExtraTests';
 requires 'Dist::Zilla::Plugin::ShareDir';
+requires 'Dist::Zilla::Plugin::TemplateModule';
 requires 'Dist::Zilla::Plugin::TestRelease';
 requires 'Dist::Zilla::Plugin::Test::Compile';
 requires 'Dist::Zilla::Plugin::Test::ReportPrereqs' => '0.014'; # .dd file added
