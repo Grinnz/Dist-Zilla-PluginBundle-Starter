@@ -17,7 +17,7 @@ our $VERSION = '0.001';
 
 =head1 DESCRIPTION
 
-=for comment The module's description goes here.
+=for comment The module's description.
 
 =head1 AUTHOR
 

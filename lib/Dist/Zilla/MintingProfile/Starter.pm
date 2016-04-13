@@ -15,17 +15,22 @@ Dist::Zilla::MintingProfile::Starter - A minimal Dist::Zilla minting profile
 
 =head1 SYNOPSIS
 
-  # setup is only needed the first time
+  # setup only needs to be run once to set up your dzil config
   $ dzil setup
-  $ dzil new -P Starter My::New::Dist
+  $ dzil new -P Starter My::New::Dist # or My-New-Dist
 
 =head1 DESCRIPTION
 
-This minting profile creates a minimal new distribution consisting of a basic
-C<dist.ini> using the L<[@Starter]|Dist::Zilla::PluginBundle::Starter> plugin
-bundle, and a skeleton for the main module and documentation. The author,
-license, and copyright will be populated by the current dzil C<config.ini>,
-which can be initialized using C<dzil setup>.
+This minting profile for L<C<dzil new>|Dist::Zilla::App::Command::new> creates
+a minimal new distribution consisting of a basic C<dist.ini> using the
+L<[@Starter]|Dist::Zilla::PluginBundle::Starter> plugin bundle, and a skeleton
+for the main module and its documentation. The author, license, and copyright
+will be populated in the C<dist.ini> and documentation by the current dzil
+C<config.ini>, which can be initialized using
+L<C<dzil setup>|Dist::Zilla::App::Command::setup>. The version is initialized
+statically as C<0.001>. See L<Dist::Zilla::PluginBundle::Starter/"Versions">
+for ways to automatically manage distribution versions between releases with
+L<Dist::Zilla>.
 
 =head1 BUGS
 
