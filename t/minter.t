@@ -32,12 +32,13 @@ my $pm = $tzil->slurp_file('mint/lib/DZT/Minty.pm');
 my $distini = $tzil->slurp_file('mint/dist.ini');
 
 like $pm, qr/^package DZT::Minty;$/m, 'right package declaration';
-like $pm, qr/^use strict;$/m, 'uses strict';
-like $pm, qr/^use warnings;$/m, 'uses warnings';
-like $pm, qr/^=head1 NAME\n\nDZT::Minty - /m, 'right name pod section';
+like $pm, qr/^use strict;$/m, 'module uses strict';
+like $pm, qr/^use warnings;$/m, 'module uses warnings';
+like $pm, qr/^our \$VERSION = '0\.001';$/m, 'module version is set';
+like $pm, qr/^=head1 NAME\n\nDZT::Minty - /m, 'right name section in pod';
 
 like $distini, qr/^name\s+=\s+DZT-Minty$/m, 'right dist name';
-like $distini, qr/^version\s+=/m, 'dist version is set';
+like $distini, qr/^version\s+=\s+0\.001$/m, 'dist version is set';
 like $distini, qr/^\[\@Starter\]$/m, 'starter bundle included';
 
 done_testing;

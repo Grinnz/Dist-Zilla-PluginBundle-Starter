@@ -25,7 +25,7 @@ This minting profile for L<C<dzil new>|Dist::Zilla::App::Command::new> creates
 a minimal new distribution consisting of a basic C<dist.ini> using the
 L<[@Starter]|Dist::Zilla::PluginBundle::Starter> plugin bundle, and a skeleton
 for the main module and its documentation. The author, license, and copyright
-will be populated in the C<dist.ini> and documentation by the current dzil
+will be populated in the C<dist.ini> and documentation from the current dzil
 C<config.ini>, which can be initialized using
 L<C<dzil setup>|Dist::Zilla::App::Command::setup>. The version is initialized
 statically as C<0.001>. See L<Dist::Zilla::PluginBundle::Starter/"Versions">

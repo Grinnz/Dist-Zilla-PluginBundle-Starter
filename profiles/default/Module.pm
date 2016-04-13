@@ -21,7 +21,7 @@ our $VERSION = '0.001';
 
 =head1 AUTHOR
 
-{{$dist->authors->[0]}}
+{{ join "\n\n", @{$dist->authors} }}
 
 =head1 COPYRIGHT AND LICENSE
 
