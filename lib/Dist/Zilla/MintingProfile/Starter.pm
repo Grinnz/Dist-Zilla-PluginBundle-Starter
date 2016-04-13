@@ -17,7 +17,7 @@ Dist::Zilla::MintingProfile::Starter - A minimal Dist::Zilla minting profile
 
   # setup only needs to be run once to set up your dzil config
   $ dzil setup
-  $ dzil new -P Starter My::New::Dist # or My-New-Dist
+  $ dzil new -P Starter My::New::Dist
 
 =head1 DESCRIPTION
 
