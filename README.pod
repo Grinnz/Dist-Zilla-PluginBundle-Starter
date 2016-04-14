@@ -45,8 +45,9 @@ uploading to CPAN.
 
 Migrating from C<[@Basic]> is easy for most cases. Most of the bundle is the
 same, so just make sure to remove any extra plugins that C<[@Starter]> already
-includes. Migrating a more complex set of plugins, including some that interact
-with the additional generated files, may require more careful consideration.
+includes, and configure the included plugins if needed (see L</"CONFIGURING">).
+Migrating a more complex set of plugins, including some that interact with the
+additional generated files, may require more careful consideration.
 
 For one-line initialization of a new C<[@Starter]>-based distribution, try
 L<Dist::Zilla::MintingProfile::Starter>.
