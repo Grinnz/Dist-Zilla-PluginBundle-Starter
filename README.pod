@@ -16,6 +16,8 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   
   [@Starter]           ; all that is needed to start
   revision = 1         ; always defaults to revision 1
+  
+  ; configuring examples
   -remove = GatherDir  ; to use [Git::GatherDir] instead, for example
   ExecDir.dir = script ; change the directory used by [ExecDir]
 
