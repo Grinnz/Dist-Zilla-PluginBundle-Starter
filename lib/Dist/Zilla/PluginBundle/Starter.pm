@@ -34,6 +34,29 @@ my %revisions = (
     'ConfirmRelease',
     'UploadToCPAN',
   ],
+  2 => [ # experimental
+    'GatherDir',
+    'PruneCruft',
+    'ManifestSkip',
+    'MetaConfig',
+    ['MetaProvides::Package' => { inherit_version => 0 }],
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    'MetaYAML',
+    'MetaJSON',
+    'License',
+    'ReadmeAnyFromPod',
+    'ExecDir',
+    'ShareDir',
+    'PodSyntaxTests',
+    'Test::ReportPrereqs',
+    ['Test::Compile' => { xt_mode => 1 }],
+    'MakeMaker',
+    'Manifest',
+    'TestRelease',
+    'RunExtraTests',
+    'ConfirmRelease',
+    'UploadToCPAN',
+  ],
 );
 
 sub configure {
@@ -248,6 +271,24 @@ explanation of the subscripts for slicing array attributes.)
   MetaNoIndex.file[0] = eggs/FooBar.pm
   MetaNoIndex.directory[a] = eggs
   MetaNoIndex.directory[b] = bacon
+
+=head2 MetaProvides
+
+The L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
+plugin will use the distribution's version as the version of each module when
+populating the C<provides> metadata by default. If you do not maintain uniform
+module versions, you can configure it to use each module's hardcoded version.
+
+  [@Starter]
+  MetaProvides::Package.inherit_version = 0
+
+With this option set, it will use the distribution version as a fallback for
+any module where it can't find a version. This can also be overridden, so that
+these modules will simply not have a version specified in metadata.
+
+  [@Starter]
+  MetaProvides::Package.inherit_version = 0
+  MetaProvides::Package.inherit_missing = 0
 
 =head1 EXTENDING
 

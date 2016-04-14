@@ -94,11 +94,11 @@
    "provides" : {
       "Dist::Zilla::MintingProfile::Starter" : {
          "file" : "lib/Dist/Zilla/MintingProfile/Starter.pm",
-         "version" : "0.002"
+         "version" : "0.003"
       },
       "Dist::Zilla::PluginBundle::Starter" : {
          "file" : "lib/Dist/Zilla/PluginBundle/Starter.pm",
-         "version" : "0.002"
+         "version" : "0.003"
       }
    },
    "release_status" : "stable",
@@ -113,7 +113,7 @@
          "web" : "https://github.com/Grinnz/Dist-Zilla-PluginBundle-Starter"
       }
    },
-   "version" : "0.002",
+   "version" : "0.003",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.022000"
@@ -245,7 +245,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v0.002",
+                  "tag" : "v0.003",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
