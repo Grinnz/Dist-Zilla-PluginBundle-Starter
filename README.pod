@@ -131,13 +131,13 @@ L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>.
 
 By using the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover> or
 L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> role options,
-you can customize the C<[@Starter]> bundle's included plugins as desired. Here
+the C<[@Starter]> bundle's included plugins can be customized as desired. Here
 are some examples:
 
 =head2 GatherDir
 
-If you are using git source control, you may wish to replace the default
-L<[GatherDir]|Dist::Zilla::Plugin::GatherDir> plugin with
+If the distribution is using git source control, it is often helpful to replace
+the default L<[GatherDir]|Dist::Zilla::Plugin::GatherDir> plugin with
 L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>.
 
   [Git::GatherDir]
@@ -149,8 +149,8 @@ L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>.
 The L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> plugin
 generates a plaintext README from the POD text in the distribution's
 L<Dist::Zilla/"main_module"> by default, but can be configured to look
-elsewhere. The standard README should always be plaintext, but if you want to
-generate a non-plaintext README in addition, you can simply use the plugin a
+elsewhere. The standard README should always be plaintext, but in order to
+generate a non-plaintext README in addition, the plugin can simply be used a
 second time. Note that POD-format READMEs should not be included in the
 distribution build because they will get indexed and installed due to an oddity
 in CPAN installation tools.
@@ -176,9 +176,10 @@ L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> default) for executable scripts.
 
 =head2 MetaNoIndex
 
-You may wish to specify that additional files or directories are not indexed as
-CPAN modules. (See L<Config::MVP::Slicer/"CONFIGURATION SYNTAX"> for an
-explanation of the subscripts for slicing array attributes.)
+A distribution may include additional files or directories that should not have
+their contents indexed as CPAN modules. (See
+L<Config::MVP::Slicer/"CONFIGURATION SYNTAX"> for an explanation of the
+subscripts for slicing array attributes.)
 
   [@Starter]
   MetaNoIndex.file[0] = eggs/FooBar.pm
@@ -189,8 +190,9 @@ explanation of the subscripts for slicing array attributes.)
 
 The L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
 plugin will use the distribution's version as the version of each module when
-populating the C<provides> metadata by default. If you do not maintain uniform
-module versions, you can configure it to use each module's hardcoded version.
+populating the C<provides> metadata by default. If the distribution does not
+maintain uniform module versions, the plugin can be configured to use each
+module's hardcoded version.
 
   [@Starter]
   MetaProvides::Package.inherit_version = 0
@@ -207,7 +209,7 @@ these modules will simply not have a version specified in metadata.
 
 This bundle includes a basic set of plugins for releasing a distribution, but
 there are many more common non-intrusive tasks that L<Dist::Zilla> can help
-with simply by using additional plugins in your C<dist.ini>.
+with simply by using additional plugins in the C<dist.ini>.
 
 =head2 Name
 
@@ -222,8 +224,10 @@ L<[LicenseFromModule]|Dist::Zilla::Plugin::LicenseFromModule>.
 
 =head2 Versions
 
-To automatically extract the distribution's version from the main module and
-bump it after a release, you can use either
+A common approach to maintaining versions in L<Dist::Zilla> managed
+distributions is to automatically extract the distribution's version from the
+main module, maintain uniform module versions, and bump the version after a
+release. This can be accomplished with either
 L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> with
 L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>, or
 L<[VersionFromModule]|Dist::Zilla::Plugin::VersionFromModule> with
