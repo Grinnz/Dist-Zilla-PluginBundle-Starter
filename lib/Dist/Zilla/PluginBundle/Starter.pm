@@ -312,7 +312,7 @@ L<[LicenseFromModule]|Dist::Zilla::Plugin::LicenseFromModule>.
 
 =head2 Versions
 
-A common approach to maintaining versions in L<Dist::Zilla> managed
+A common approach to maintaining versions in L<Dist::Zilla>-managed
 distributions is to automatically extract the distribution's version from the
 main module, maintain uniform module versions, and bump the version after a
 release. This can be accomplished with either
@@ -320,7 +320,7 @@ L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> with
 L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>, or
 L<[VersionFromModule]|Dist::Zilla::Plugin::VersionFromModule> with
 L<[ReversionOnRelease]|Dist::Zilla::Plugin::ReversionOnRelease>. Don't mix
-these two approaches!
+these two methods!
 
 =head2 Changelog
 
@@ -343,7 +343,7 @@ manually, use L<[MetaResources]|Dist::Zilla::Plugin::MetaResources>.
 
 =head2 Prereqs
 
-To automatically set distribution prereqs from a cpanfile, use
+To automatically set distribution prereqs from a L<cpanfile>, use
 L<[Prereqs::FromCPANfile]|Dist::Zilla::Plugin::Prereqs::FromCPANfile>. To
 specify prereqs manually, use L<[Prereqs]|Dist::Zilla::Plugin::Prereqs>.
 
