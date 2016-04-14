@@ -90,7 +90,9 @@ minimal amount of work to release a complete distribution reliably. It is
 similar in purpose to L<[@Basic]|Dist::Zilla::PluginBundle::Basic>, but with
 additional features to stay up to date and allow greater customization. The
 selection of included plugins is intended to be unopinionated and unobtrusive,
-so that it is usable for any well-formed CPAN distribution.
+so that it is usable for any well-formed CPAN distribution. If you're just
+getting started with L<Dist::Zilla>, check out the tutorials at
+L<http://dzil.org>.
 
 C<[@Starter]> composes the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover>
 and L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> roles to
