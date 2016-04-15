@@ -181,8 +181,8 @@ L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> default) for executable scripts.
 
 =head2 MetaNoIndex
 
-A distribution may include additional files or directories that should not have
-their contents indexed as CPAN modules. (See
+The distribution may include additional files or directories that should not
+have their contents indexed as CPAN modules. (See
 L<Config::MVP::Slicer/"CONFIGURATION SYNTAX"> for an explanation of the
 subscripts for slicing array attributes.)
 
@@ -194,17 +194,17 @@ subscripts for slicing array attributes.)
 =head2 MetaProvides
 
 The L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
-plugin will use the distribution's version as the version of each module when
-populating the C<provides> metadata by default. If the distribution does not
-maintain uniform module versions, the plugin can be configured to use each
-module's hardcoded version.
+plugin will use the distribution's version (as set in C<dist.ini> or by a
+plugin) as the version of each module when populating the C<provides> metadata
+by default. If the distribution does not have uniform module versions, the
+plugin can be configured to use each module's hardcoded version.
 
   [@Starter]
   MetaProvides::Package.inherit_version = 0
 
-With this option set, it will use the distribution version as a fallback for
-any module where it can't find a version. This can also be overridden, so that
-these modules will simply not have a version specified in metadata.
+With this option set, it will use the main distribution version as a fallback
+for any module where a version is not found. This can also be overridden, so
+that no version will be specified for these modules in the metadata.
 
   [@Starter]
   MetaProvides::Package.inherit_version = 0
