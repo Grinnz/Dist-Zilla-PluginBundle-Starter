@@ -94,11 +94,11 @@
    "provides" : {
       "Dist::Zilla::MintingProfile::Starter" : {
          "file" : "lib/Dist/Zilla/MintingProfile/Starter.pm",
-         "version" : "0.004"
+         "version" : "0.005"
       },
       "Dist::Zilla::PluginBundle::Starter" : {
          "file" : "lib/Dist/Zilla/PluginBundle/Starter.pm",
-         "version" : "0.004"
+         "version" : "0.005"
       }
    },
    "release_status" : "stable",
@@ -111,9 +111,10 @@
          "type" : "git",
          "url" : "https://github.com/Grinnz/Dist-Zilla-PluginBundle-Starter.git",
          "web" : "https://github.com/Grinnz/Dist-Zilla-PluginBundle-Starter"
-      }
+      },
+      "x_IRC" : "irc://irc.perl.org/#distzilla"
    },
-   "version" : "0.004",
+   "version" : "0.005",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.022000"
@@ -158,6 +159,11 @@
             },
             "name" : "Git::Contributors",
             "version" : "0.022"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MetaResources",
+            "name" : "MetaResources",
+            "version" : "5.046"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Check",
@@ -245,7 +251,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v0.004",
+                  "tag" : "v0.005",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
