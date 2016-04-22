@@ -32,6 +32,12 @@ so that it is usable for any well-formed CPAN distribution. If you're just
 getting started with L<Dist::Zilla>, check out the tutorials at
 L<http://dzil.org>.
 
+Migrating from C<[@Basic]> is easy for most cases. Most of the bundle is the
+same, so just make sure to remove any extra plugins that C<[@Starter]> already
+includes, and configure the included plugins if needed (see L</"CONFIGURING">).
+Migrating a more complex set of plugins, including some that interact with the
+additional generated files, may require more careful consideration.
+
 C<[@Starter]> composes the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover>
 and L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> roles to
 make it easier to customize and extend. Also, it supports bundle revisions
@@ -47,14 +53,12 @@ uploading to CPAN.
 
   $ FAKE_RELEASE=1 dzil release
 
-Migrating from C<[@Basic]> is easy for most cases. Most of the bundle is the
-same, so just make sure to remove any extra plugins that C<[@Starter]> already
-includes, and configure the included plugins if needed (see L</"CONFIGURING">).
-Migrating a more complex set of plugins, including some that interact with the
-additional generated files, may require more careful consideration.
-
 For one-line initialization of a new C<[@Starter]>-based distribution, try
 L<Dist::Zilla::MintingProfile::Starter>.
+
+Another simple way to use L<Dist::Zilla> is with L<Dist::Milla>, an opinionated
+bundle that requires no configuration and performs all of the tasks in
+L</"EXTENDING"> by default.
 
 =head1 REVISIONS
 
@@ -282,7 +286,7 @@ This is free software, licensed under:
 
 =head1 SEE ALSO
 
-L<Dist::Zilla>, L<Dist::Zilla::PluginBundle::Basic>,
+L<Dist::Zilla>, L<Dist::Zilla::PluginBundle::Basic>, L<Dist::Milla>,
 L<Dist::Zilla::MintingProfile::Starter>
 
 =cut
