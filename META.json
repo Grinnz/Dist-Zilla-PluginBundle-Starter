@@ -57,7 +57,6 @@
             "Dist::Zilla::Plugin::MetaNoIndex" : "0",
             "Dist::Zilla::Plugin::MetaProvides::Package" : "0",
             "Dist::Zilla::Plugin::MetaYAML" : "0",
-            "Dist::Zilla::Plugin::Pod2Readme" : "0",
             "Dist::Zilla::Plugin::PodSyntaxTests" : "5.040",
             "Dist::Zilla::Plugin::PruneCruft" : "0",
             "Dist::Zilla::Plugin::ReadmeAnyFromPod" : "0",
@@ -445,9 +444,14 @@
             "version" : "6.008"
          },
          {
-            "class" : "Dist::Zilla::Plugin::Pod2Readme",
-            "name" : "@Starter/Pod2Readme",
-            "version" : "0.001"
+            "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
+            "config" : {
+               "Dist::Zilla::Role::FileWatcher" : {
+                  "version" : "0.006"
+               }
+            },
+            "name" : "@Starter/ReadmeAnyFromPod",
+            "version" : "0.163250"
          },
          {
             "class" : "Dist::Zilla::Plugin::ExecDir",

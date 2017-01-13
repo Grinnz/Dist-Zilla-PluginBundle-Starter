@@ -14,7 +14,6 @@ requires 'Dist::Zilla::Plugin::MetaJSON';
 requires 'Dist::Zilla::Plugin::MetaNoIndex';
 requires 'Dist::Zilla::Plugin::MetaProvides::Package';
 requires 'Dist::Zilla::Plugin::MetaYAML';
-requires 'Dist::Zilla::Plugin::Pod2Readme';
 requires 'Dist::Zilla::Plugin::PodSyntaxTests' => '5.040'; # moved to author tests
 requires 'Dist::Zilla::Plugin::PruneCruft';
 requires 'Dist::Zilla::Plugin::ReadmeAnyFromPod';
