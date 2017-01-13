@@ -322,13 +322,19 @@ L<[LicenseFromModule]|Dist::Zilla::Plugin::LicenseFromModule>.
 
 A common approach to maintaining versions in L<Dist::Zilla>-managed
 distributions is to automatically extract the distribution's version from the
-main module, maintain uniform module versions, and bump the version after a
-release. This can be accomplished with either
-L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> with
-L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>, or
-L<[VersionFromModule]|Dist::Zilla::Plugin::VersionFromModule> with
-L<[ReversionOnRelease]|Dist::Zilla::Plugin::ReversionOnRelease>. Don't mix
-these two methods!
+main module, maintain uniform module versions, and bump the version during or
+after each release. To extract the main module version, use
+L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> (which also rewrites
+your module versions to match the main module version when building) or
+L<[VersionFromMainModule]|Dist::Zilla::Plugin::VersionFromMainModule>. To
+automatically increment module versions in the repository after each release,
+use L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>.
+Alternatively, you can use
+L<[ReversionOnRelease]|Dist::Zilla::Plugin::ReversionOnRelease> to
+automatically increment your versions in the release build, then copy the
+updated modules back to the repository with
+L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease>. Don't mix
+these two version increment methods!
 
 =head2 Changelog
 

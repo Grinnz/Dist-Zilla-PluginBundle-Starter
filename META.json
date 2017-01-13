@@ -134,7 +134,7 @@
                }
             },
             "name" : "Readme_Github",
-            "version" : "0.161170"
+            "version" : "0.163250"
          },
          {
             "class" : "Dist::Zilla::Plugin::CheckChangesHasContent",
@@ -181,11 +181,12 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
+                  "git --version" : "1.7.1",
                   "repo_root" : "."
                }
             },
             "name" : "Git::Check",
-            "version" : "2.039"
+            "version" : "2.041"
          },
          {
             "class" : "Dist::Zilla::Plugin::RewriteVersion",
@@ -245,6 +246,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
+                  "git --version" : "1.7.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -252,7 +254,7 @@
                }
             },
             "name" : "Git::Commit",
-            "version" : "2.039"
+            "version" : "2.041"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Tag",
@@ -266,6 +268,7 @@
                   "tag_message" : "v%v"
                },
                "Dist::Zilla::Role::Git::Repo" : {
+                  "git --version" : "1.7.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -273,7 +276,7 @@
                }
             },
             "name" : "Git::Tag",
-            "version" : "2.039"
+            "version" : "2.041"
          },
          {
             "class" : "Dist::Zilla::Plugin::BumpVersionAfterRelease",
@@ -308,6 +311,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
+                  "git --version" : "1.7.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -315,7 +319,7 @@
                }
             },
             "name" : "Commit_Version_Bump",
-            "version" : "2.039"
+            "version" : "2.041"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Push",
@@ -327,11 +331,12 @@
                   "remotes_must_exist" : 1
                },
                "Dist::Zilla::Role::Git::Repo" : {
+                  "git --version" : "1.7.1",
                   "repo_root" : "."
                }
             },
             "name" : "Git::Push",
-            "version" : "2.039"
+            "version" : "2.041"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::GatherDir",
@@ -354,7 +359,7 @@
                }
             },
             "name" : "Git::GatherDir",
-            "version" : "2.039"
+            "version" : "2.041"
          },
          {
             "class" : "Dist::Zilla::Plugin::Regenerate::AfterReleasers",
@@ -594,6 +599,6 @@
    "x_contributors" : [
       "Dan Book <grinnz@grinnz.com>"
    ],
-   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0222"
+   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0225"
 }
 
