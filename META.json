@@ -121,6 +121,18 @@
       },
       "plugins" : [
          {
+            "class" : "Dist::Zilla::Plugin::lib",
+            "config" : {
+               "Dist::Zilla::Plugin::lib" : {
+                  "lib" : [
+                     "lib"
+                  ]
+               }
+            },
+            "name" : "lib",
+            "version" : "0.001001"
+         },
+         {
             "class" : "Dist::Zilla::Plugin::GithubMeta",
             "name" : "GithubMeta",
             "version" : "0.54"
