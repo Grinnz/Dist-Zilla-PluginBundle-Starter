@@ -227,11 +227,11 @@ L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>.
 
 Revision 2 is similar to Revision 1, but additionally sets the option
 L<"inherit_version" in [MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package/"inherit_version">
-to 0 by default, so that provides metadata will use individual module versions
-if they differ from the distribution version. Also,
+to 0 by default, so that C<provides> metadata will use individual module
+versions if they differ from the distribution version. Also,
 L<[Pod2Readme]|Dist::Zilla::Plugin::Pod2Readme> is used instead of
 L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> to generate the
-plaintext C<README>, as it is a simpler plugin for this purpose.
+plaintext F<README>, as it is a simpler plugin for this purpose.
 
 =head1 CONFIGURING
 
@@ -254,12 +254,12 @@ L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>.
 
 The L<[Pod2Readme]|Dist::Zilla::Plugin::Pod2Readme> or
 L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> plugin (depending
-on bundle revision) generates a plaintext README from the POD text in the
+on bundle revision) generates a plaintext F<README> from the POD text in the
 distribution's L<Dist::Zilla/"main_module"> by default, but can be configured
-to look elsewhere. The standard README should always be plaintext, but in order
-to generate a non-plaintext README in addition, 
+to look elsewhere. The standard F<README> should always be plaintext, but in
+order to generate a non-plaintext README in addition,
 L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> can simply be used
-separately. Note that POD-format READMEs should not be included in the
+separately. Note that POD-format F<README>s should not be included in the
 distribution build because they will get indexed and installed due to an oddity
 in CPAN installation tools.
 
@@ -277,7 +277,7 @@ in CPAN installation tools.
 
 =head2 ExecDir
 
-Some distributions use the C<script> directory instead of C<bin> (the
+Some distributions use the F<script/> directory instead of F<bin/> (the
 L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> default) for executable scripts.
 
   [@Starter]
@@ -298,7 +298,7 @@ subscripts for slicing array attributes.)
 =head2 MetaProvides
 
 The L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
-plugin will use the distribution's version (as set in C<dist.ini> or by a
+plugin will use the distribution's version (as set in F<dist.ini> or by a
 plugin) as the version of each module when populating the C<provides> metadata
 by default. If the distribution does not have uniform module versions, the
 plugin can be configured to use each module's hardcoded version (the default
@@ -319,7 +319,7 @@ that no version will be specified for these modules in the metadata.
 
 This bundle includes a basic set of plugins for releasing a distribution, but
 there are many more common non-intrusive tasks that L<Dist::Zilla> can help
-with simply by using additional plugins in the C<dist.ini>.
+with simply by using additional plugins in the F<dist.ini>.
 
 =head2 Name
 
