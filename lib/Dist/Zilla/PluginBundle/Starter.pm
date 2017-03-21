@@ -44,7 +44,7 @@ my %revisions = (
     'MetaYAML',
     'MetaJSON',
     'License',
-    'ReadmeAnyFromPod',
+    'Pod2Readme',
     'ExecDir',
     'ShareDir',
     'PodSyntaxTests',
