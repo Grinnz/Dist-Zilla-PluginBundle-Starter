@@ -170,7 +170,7 @@ L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> plugin (depending
 on bundle revision) generates a plaintext F<README> from the POD text in the
 distribution's L<Dist::Zilla/"main_module"> by default, but can be configured
 to look elsewhere. The standard F<README> should always be plaintext, but in
-order to generate a non-plaintext README in addition,
+order to generate a non-plaintext F<README> in addition,
 L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> can simply be used
 separately. Note that POD-format F<README>s should not be included in the
 distribution build because they will get indexed and installed due to an oddity
