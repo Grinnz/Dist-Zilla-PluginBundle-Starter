@@ -11,11 +11,11 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   author  = Example Jones <jones@example.com>
   license = Perl_5
   copyright_holder = Example Jones
-  copyright_year   = 2016
+  copyright_year   = 2017
   version = 0.001
   
   [@Starter]           ; all that is needed to start
-  revision = 1         ; always defaults to revision 1
+  revision = 2         ; always defaults to revision 1
   
   ; configuring examples
   -remove = GatherDir  ; to use [Git::GatherDir] instead, for example
@@ -136,6 +136,16 @@ L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
 L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
 L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>.
 
+=head1 Revision 2
+
+Revision 2 is similar to Revision 1, but additionally sets the option
+L<"inherit_version" in [MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package/"inherit_version">
+to 0 by default, so that provides metadata will use individual module versions
+if they differ from the distribution version. Also,
+L<[Pod2Readme]|Dist::Zilla::Plugin::Pod2Readme> is used instead of
+L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> to generate the
+plaintext C<README>, as it is a simpler plugin for this purpose.
+
 =head1 CONFIGURING
 
 By using the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover> or
@@ -155,17 +165,20 @@ L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>.
 
 =head2 Readme
 
-The L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> plugin
-generates a plaintext README from the POD text in the distribution's
-L<Dist::Zilla/"main_module"> by default, but can be configured to look
-elsewhere. The standard README should always be plaintext, but in order to
-generate a non-plaintext README in addition, the plugin can simply be used a
-second time. Note that POD-format READMEs should not be included in the
+The L<[Pod2Readme]|Dist::Zilla::Plugin::Pod2Readme> or
+L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> plugin (depending
+on bundle revision) generates a plaintext README from the POD text in the
+distribution's L<Dist::Zilla/"main_module"> by default, but can be configured
+to look elsewhere. The standard README should always be plaintext, but in order
+to generate a non-plaintext README in addition, 
+L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> can simply be used
+separately. Note that POD-format READMEs should not be included in the
 distribution build because they will get indexed and installed due to an oddity
 in CPAN installation tools.
 
   [@Starter]
-  ReadmeAnyFromPod.source_filename = bin/foobar
+  revision = 2
+  Pod2Readme.source_filename = bin/foobar
   
   [ReadmeAnyFromPod / Markdown_Readme]
   type = markdown
