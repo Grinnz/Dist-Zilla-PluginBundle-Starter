@@ -223,7 +223,7 @@ L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
 L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
 L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>.
 
-=head1 Revision 2
+=head2 Revision 2
 
 Revision 2 is similar to Revision 1, but additionally sets the option
 L<"inherit_version" in [MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package/"inherit_version">
@@ -301,10 +301,11 @@ The L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
 plugin will use the distribution's version (as set in C<dist.ini> or by a
 plugin) as the version of each module when populating the C<provides> metadata
 by default. If the distribution does not have uniform module versions, the
-plugin can be configured to use each module's hardcoded version.
+plugin can be configured to use each module's hardcoded version (the default
+in bundle L</"Revision 2">).
 
   [@Starter]
-  MetaProvides::Package.inherit_version = 0
+  MetaProvides::Package.inherit_version = 0 ; default in revision 2
 
 With this option set, it will use the main distribution version as a fallback
 for any module where a version is not found. This can also be overridden, so
