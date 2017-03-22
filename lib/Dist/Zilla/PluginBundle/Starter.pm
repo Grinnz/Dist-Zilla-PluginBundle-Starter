@@ -301,15 +301,17 @@ The L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
 plugin will use the distribution's version (as set in F<dist.ini> or by a
 plugin) as the version of each module when populating the C<provides> metadata
 by default. If the distribution does not have uniform module versions, the
-plugin can be configured to use each module's hardcoded version (the default
-in bundle L</"Revision 2">).
+plugin can be configured to reflect each module's hardcoded version where
+available, by setting the C<inherit_version> option to 0 (the default in bundle
+L</"Revision 2">).
 
   [@Starter]
   MetaProvides::Package.inherit_version = 0 ; default in revision 2
 
-With this option set, it will use the main distribution version as a fallback
-for any module where a version is not found. This can also be overridden, so
-that no version will be specified for these modules in the metadata.
+With this option set to 0, it will use the main distribution version as a
+fallback for any module where a version is not found. This can also be
+overridden, so that if no version is found for a module, no version will be
+specified for it in metadata, by setting C<inherit_missing> to 0 as well.
 
   [@Starter]
   MetaProvides::Package.inherit_version = 0
