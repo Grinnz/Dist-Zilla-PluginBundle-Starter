@@ -250,6 +250,16 @@ L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>.
   [@Starter]
   -remove = GatherDir
 
+The included L<[GatherDir]|Dist::Zilla::Plugin::GatherDir> plugin can
+alternatively be configured directly. (See
+L<Config::MVP::Slicer/"CONFIGURATION SYNTAX"> for an explanation of the
+subscripts for slicing array attributes.)
+
+  [@Starter]
+  GatherDir.include_dotfiles = 1
+  GatherDir.exclude_filename[0] = foo_bar.txt
+  GatherDir.prune_directory[] = ^temp
+
 =head2 Readme
 
 The L<[Pod2Readme]|Dist::Zilla::Plugin::Pod2Readme> or
