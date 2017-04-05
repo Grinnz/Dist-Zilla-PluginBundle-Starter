@@ -144,7 +144,9 @@ to 0 by default, so that C<provides> metadata will use individual module
 versions if they differ from the distribution version. Also,
 L<[Pod2Readme]|Dist::Zilla::Plugin::Pod2Readme> is used instead of
 L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> to generate the
-plaintext F<README>, as it is a simpler plugin for this purpose.
+plaintext F<README>, as it is a simpler plugin for this purpose. It takes the
+same C<filename> and C<source_filename> options, but does not allow further
+configuration, and does not automatically use a C<.pod> file as the source.
 
 =head1 CONFIGURING
 
