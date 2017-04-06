@@ -7,6 +7,7 @@ requires 'Dist::Zilla::Plugin::FakeRelease';
 requires 'Dist::Zilla::Plugin::GatherDir';
 requires 'Dist::Zilla::Plugin::License';
 requires 'Dist::Zilla::Plugin::MakeMaker';
+requires 'Dist::Zilla::Plugin::MakeMaker::Awesome';
 requires 'Dist::Zilla::Plugin::Manifest';
 requires 'Dist::Zilla::Plugin::ManifestSkip';
 requires 'Dist::Zilla::Plugin::MetaConfig';
@@ -14,6 +15,8 @@ requires 'Dist::Zilla::Plugin::MetaJSON';
 requires 'Dist::Zilla::Plugin::MetaNoIndex';
 requires 'Dist::Zilla::Plugin::MetaProvides::Package';
 requires 'Dist::Zilla::Plugin::MetaYAML';
+requires 'Dist::Zilla::Plugin::ModuleBuildTiny';
+requires 'Dist::Zilla::Plugin::ModuleBuildTiny::Fallback';
 requires 'Dist::Zilla::Plugin::Pod2Readme' => '0.004'; # source_filename attribute
 requires 'Dist::Zilla::Plugin::PodSyntaxTests' => '5.040'; # moved to author tests
 requires 'Dist::Zilla::Plugin::PruneCruft';

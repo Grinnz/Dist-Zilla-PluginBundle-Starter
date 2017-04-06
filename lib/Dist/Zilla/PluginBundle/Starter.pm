@@ -59,21 +59,35 @@ my %revisions = (
   ],
 );
 
+my %allowed_installers = (
+  MakeMaker => 1,
+  'MakeMaker::Awesome' => 1,
+  ModuleBuildTiny => 1,
+  'ModuleBuildTiny::Fallback' => 1,
+);
+
 sub configure {
   my $self = shift;
   my $revision = $self->payload->{revision};
   $revision = '1' unless defined $revision;
   my @plugins = @{$self->get_revision($revision)};
+  
   foreach my $plugin (@plugins) {
     $plugin = $plugin->($self) if ref $plugin eq 'CODE';
-    if ($ENV{FAKE_RELEASE}) {
-      if (ref $plugin eq 'ARRAY' and @$plugin and $plugin->[0] eq 'UploadToCPAN') {
-        $plugin = ['FakeRelease', @$plugin[1..$#$plugin]];
-      } elsif (!ref $plugin and $plugin eq 'UploadToCPAN') {
-        $plugin = 'FakeRelease';
-      }
-    }
   }
+  
+  _replace_plugin(\@plugins, 'UploadToCPAN' => 'FakeRelease')
+    if $ENV{FAKE_RELEASE};
+  
+  my $installer = $self->payload->{installer};
+  if (defined $installer) {
+    die "Unsupported installer $installer\n"
+      unless $allowed_installers{$installer};
+    _replace_plugin(\@plugins, 'MakeMaker' => $installer);
+    push @plugins, ['ExecDir' => 'ScriptDir' => {dir => 'script'}]
+      if $installer =~ m/^ModuleBuildTiny/;
+  }
+  
   $self->add_plugins(@plugins);
 }
 
@@ -82,6 +96,17 @@ sub get_revision {
   die "Unknown [\@Starter] revision specified: $revision\n"
     unless exists $revisions{$revision};
   return $revisions{$revision};
+}
+
+sub _replace_plugin {
+  my ($plugins, $old_plugin, $new_plugin) = @_;
+  foreach my $plugin (@$plugins) {
+    if (ref $plugin eq 'ARRAY' and @$plugin and $plugin->[0] eq $old_plugin) {
+      $plugin = [$new_plugin, @$plugin[1..$#$plugin]];
+    } elsif (!ref $plugin and $plugin eq $old_plugin) {
+      $plugin = $new_plugin;
+    }
+  }
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -328,6 +353,32 @@ specified for it in metadata, by setting C<inherit_missing> to 0 as well.
   [@Starter]
   MetaProvides::Package.inherit_version = 0
   MetaProvides::Package.inherit_missing = 0
+
+=head2 Installer
+
+The default installer is L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>. The
+C<installer> option can be used to replace it with a different supported
+installer. L<[MakeMaker::Awesome]|Dist::Zilla::Plugin::MakeMaker::Awesome> is
+useful if you need to customize the generated F<Makefile.PL>.
+L<[ModuleBuildTiny]|Dist::Zilla::Plugin::ModuleBuildTiny> will generate a
+simple F<Build.PL> using L<Module::Build::Tiny>, but this may not work
+correctly with old versions of the L<CPAN>.pm installer or if you use features
+incompatible with L<Module::Build::Tiny>.
+L<[ModuleBuildTiny::Fallback]|Dist::Zilla::Plugin::ModuleBuildTiny::Fallback>
+generates a more complex F<Build.PL> that uses L<Module::Build::Tiny> by
+default, but falls back to L<Module::Build> on old versions of the L<CPAN>.pm
+installer that don't understand configure dependencies.
+
+  [@Starter]
+  installer = ModuleBuildTiny
+
+  [@Starter]
+  installer = MakeMaker::Awesome
+  MakeMaker::Awesome.WriteMakefile_arg[0] = (clean => { FILES => 't/generated/*' })
+
+When using a L<Module::Build::Tiny>-based installer, the
+L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin will be used an additional
+time to mark the F<script> directory for executables.
 
 =head1 EXTENDING
 
