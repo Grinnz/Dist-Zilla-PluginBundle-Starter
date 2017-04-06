@@ -9,7 +9,7 @@ my $tzil = Builder->from_config(
   {
     add_files => {
       path('source', 'dist.ini') => simple_ini({},
-        ['@Starter' => { revision => 1, installer => 'ModuleBuildTiny' }],
+        ['@Starter' => { revision => 2, installer => 'ModuleBuildTiny' }],
         [Prereqs => { 'perl' => '5.006' }],
       ),
       path('source', 'lib', 'DZT', 'Sample.pm') => "package DZT::Sample;\nour \$VERSION = '0.001';\n1",
@@ -54,7 +54,7 @@ is $meta->{version}, '0.001', 'right dist version';
 is_deeply $meta->{prereqs}{runtime}{requires}, { 'perl' => '5.006' }, 'right prereqs metadata';
 is_deeply $meta->{provides}, {
   'DZT::Sample' => { file => 'lib/DZT/Sample.pm', version => '0.001' },
-  'DZT::Sample2' => { file => 'lib/DZT/Sample2.pm', version => '0.001' },
+  'DZT::Sample2' => { file => 'lib/DZT/Sample2.pm', version => '0.050' },
   'DZT::Sample3' => { file => 'lib/DZT/Sample3.pm', version => '0.001' },
 }, 'right provides metadata';
 my @expected_no_index = sort qw(eg examples inc share t xt);

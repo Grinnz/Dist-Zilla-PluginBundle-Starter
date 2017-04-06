@@ -50,7 +50,7 @@ my %revisions = (
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
-    'MakeMaker',
+    \&_installer,
     'Manifest',
     'TestRelease',
     'RunExtraTests',
@@ -66,36 +66,51 @@ my %allowed_installers = (
   'ModuleBuildTiny::Fallback' => 1,
 );
 
+my %option_requires = (
+  installer => 2,
+);
+
 sub configure {
   my $self = shift;
   my $revision = $self->payload->{revision};
   $revision = '1' unless defined $revision;
-  my @plugins = @{$self->get_revision($revision)};
+  die "Unknown [\@Starter] revision specified: $revision\n"
+    unless exists $revisions{$revision};
+  my @revision_plugins = @{$revisions{$revision}};
   
-  foreach my $plugin (@plugins) {
-    $plugin = $plugin->($self) if ref $plugin eq 'CODE';
+  my @plugins;
+  foreach my $plugin (@revision_plugins) {
+    if (ref $plugin eq 'CODE') {
+      push @plugins, $plugin->($self);
+    } else {
+      push @plugins, $plugin;
+    }
   }
   
   _replace_plugin(\@plugins, 'UploadToCPAN' => 'FakeRelease')
     if $ENV{FAKE_RELEASE};
   
-  my $installer = $self->payload->{installer};
-  if (defined $installer) {
-    die "Unsupported installer $installer\n"
-      unless $allowed_installers{$installer};
-    _replace_plugin(\@plugins, 'MakeMaker' => $installer);
-    push @plugins, ['ExecDir' => 'ScriptDir' => {dir => 'script'}]
-      if $installer =~ m/^ModuleBuildTiny/;
+  foreach my $option (keys %option_requires) {
+    my $required = $option_requires{$option};
+    my $value = $self->payload->{$option};
+    die "Option $option requires revision $required\n"
+      if defined $value and $required > $revision;
   }
   
   $self->add_plugins(@plugins);
 }
 
-sub get_revision {
-  my ($self, $revision) = @_;
-  die "Unknown [\@Starter] revision specified: $revision\n"
-    unless exists $revisions{$revision};
-  return $revisions{$revision};
+sub _installer {
+  my ($self) = @_;
+  my $installer = $self->payload->{installer};
+  return ('MakeMaker') unless defined $installer;
+  die "Unsupported installer $installer\n"
+    unless $allowed_installers{$installer};
+  if ($installer =~ m/^ModuleBuildTiny/) {
+    return (['ExecDir' => 'ExecScriptDir' => {dir => 'script'}], $installer);
+  } else {
+    return ($installer);
+  }
 }
 
 sub _replace_plugin {
@@ -186,10 +201,14 @@ Selects the revision to use, from L</"REVISIONS">. Defaults to revision 1.
 
 =head2 installer
 
+Requires revision 2 or higher.
+
   [@Starter]
+  revision = 2
   installer = ModuleBuildTiny
 
   [@Starter]
+  revision = 2
   installer = MakeMaker::Awesome
   MakeMaker::Awesome.WriteMakefile_arg[0] = (clean => { FILES => 't/generated/*' })
 
@@ -293,15 +312,30 @@ L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>.
 
 =head2 Revision 2
 
-Revision 2 is similar to Revision 1, but additionally sets the option
+Revision 2 is similar to Revision 1, with these differences:
+
+=over
+
+=item *
+
+Sets the option
 L<"inherit_version" in [MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package/"inherit_version">
 to 0 by default, so that C<provides> metadata will use individual module
-versions if they differ from the distribution version. Also,
+versions if they differ from the distribution version.
+
+=item *
+
 L<[Pod2Readme]|Dist::Zilla::Plugin::Pod2Readme> is used instead of
 L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> to generate the
 plaintext F<README>, as it is a simpler plugin for this purpose. It takes the
 same C<filename> and C<source_filename> options, but does not allow further
 configuration, and does not automatically use a C<.pod> file as the source.
+
+=item *
+
+The L</"installer"> option is now supported to change the installer plugin.
+
+=back
 
 =head1 CONFIGURING
 
