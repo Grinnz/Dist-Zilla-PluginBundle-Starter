@@ -298,11 +298,24 @@ Revision 1 is the default and is equivalent to using the following plugins:
 =back
 
 This revision differs from L<[@Basic]|Dist::Zilla::PluginBundle::Basic> as
-follows: using L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod>
-instead of L<[Readme]|Dist::Zilla::Plugin::Readme>; using
-L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests> instead of
-L<[ExtraTests]|Dist::Zilla::Plugin::ExtraTests>; and including the following
-additional plugins: L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>,
+follows:
+
+=over 2
+
+=item *
+
+Uses L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod>
+instead of L<[Readme]|Dist::Zilla::Plugin::Readme>.
+
+=item *
+
+Uses L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests> instead of
+L<[ExtraTests]|Dist::Zilla::Plugin::ExtraTests>.
+
+=item *
+
+Includes the following additional plugins:
+L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>,
 L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>,
 L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>,
 L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>,
@@ -310,11 +323,13 @@ L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
 L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
 L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>.
 
+=back
+
 =head2 Revision 2
 
 Revision 2 is similar to Revision 1, with these differences:
 
-=over
+=over 2
 
 =item *
 
