@@ -217,7 +217,7 @@ time to mark the F<script> directory for executables.
 
 =head1 REVISIONS
 
-The C<[@Starter]> plugin bundle currently includes only one revision.
+The C<[@Starter]> plugin bundle supports the following revisions.
 
 =head2 Revision 1
 
