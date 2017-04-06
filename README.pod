@@ -60,6 +60,49 @@ Another simple way to use L<Dist::Zilla> is with L<Dist::Milla>, an opinionated
 bundle that requires no configuration and performs all of the tasks in
 L</"EXTENDING"> by default.
 
+=head1 OPTIONS
+
+C<[@Starter]> currently only has a few direct options; it can be further
+configured by the composed roles, as in L</"CONFIGURING">.
+
+=head2 revision
+
+  [@Starter]
+  revision = 2
+
+Selects the revision to use, from L</"REVISIONS">. Defaults to revision 1.
+
+=head2 installer
+
+  [@Starter]
+  installer = ModuleBuildTiny
+
+  [@Starter]
+  installer = MakeMaker::Awesome
+  MakeMaker::Awesome.WriteMakefile_arg[0] = (clean => { FILES => 't/generated/*' })
+
+The default installer is L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>, which
+works with no extra configuration for most cases. The C<installer> option can
+be used to replace it with one of the following supported installers, which can
+then be configured in the same way as shown in L</"CONFIGURING">.
+
+L<[MakeMaker::Awesome]|Dist::Zilla::Plugin::MakeMaker::Awesome> is useful if
+you need to customize the generated F<Makefile.PL>.
+
+L<[ModuleBuildTiny]|Dist::Zilla::Plugin::ModuleBuildTiny> will generate a
+simple F<Build.PL> using L<Module::Build::Tiny>, but this may not work
+correctly with old versions of the L<CPAN>.pm installer or if you use features
+incompatible with L<Module::Build::Tiny>.
+
+L<[ModuleBuildTiny::Fallback]|Dist::Zilla::Plugin::ModuleBuildTiny::Fallback>
+generates a more complex F<Build.PL> that uses L<Module::Build::Tiny> by
+default, but falls back to L<Module::Build> on old versions of the L<CPAN>.pm
+installer that don't understand configure dependencies.
+
+When using a L<Module::Build::Tiny>-based installer, the
+L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin will be used an additional
+time to mark the F<script> directory for executables.
+
 =head1 REVISIONS
 
 The C<[@Starter]> plugin bundle currently includes only one revision.
@@ -241,32 +284,6 @@ specified for it in metadata, by setting C<inherit_missing> to 0 as well.
   [@Starter]
   MetaProvides::Package.inherit_version = 0
   MetaProvides::Package.inherit_missing = 0
-
-=head2 Installer
-
-The default installer is L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>. The
-C<installer> option can be used to replace it with a different supported
-installer. L<[MakeMaker::Awesome]|Dist::Zilla::Plugin::MakeMaker::Awesome> is
-useful if you need to customize the generated F<Makefile.PL>.
-L<[ModuleBuildTiny]|Dist::Zilla::Plugin::ModuleBuildTiny> will generate a
-simple F<Build.PL> using L<Module::Build::Tiny>, but this may not work
-correctly with old versions of the L<CPAN>.pm installer or if you use features
-incompatible with L<Module::Build::Tiny>.
-L<[ModuleBuildTiny::Fallback]|Dist::Zilla::Plugin::ModuleBuildTiny::Fallback>
-generates a more complex F<Build.PL> that uses L<Module::Build::Tiny> by
-default, but falls back to L<Module::Build> on old versions of the L<CPAN>.pm
-installer that don't understand configure dependencies.
-
-  [@Starter]
-  installer = ModuleBuildTiny
-
-  [@Starter]
-  installer = MakeMaker::Awesome
-  MakeMaker::Awesome.WriteMakefile_arg[0] = (clean => { FILES => 't/generated/*' })
-
-When using a L<Module::Build::Tiny>-based installer, the
-L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin will be used an additional
-time to mark the F<script> directory for executables.
 
 =head1 EXTENDING
 

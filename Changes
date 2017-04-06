@@ -1,5 +1,7 @@
 {{$NEXT}}
   - Revision 2 added. Please check documentation for differences when setting revision = 2.
+    - [Pod2Readme] used to generate standard README instead of [ReadmeAnyFromPod].
+    - inherit_version defaulted to 0 in [MetaProvides::Package].
   - Added installer option to support different installer plugins.
 
 0.004     2016-04-22 14:24:43 EDT
