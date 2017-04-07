@@ -104,8 +104,8 @@ default, but falls back to L<Module::Build> on old versions of the L<CPAN>.pm
 installer that don't understand configure dependencies.
 
 When using a L<Module::Build::Tiny>-based installer, the
-L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin will be used an additional
-time to mark the F<script> directory for executables.
+L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin will be set to mark the
+F<script/> directory for executables instead of the default F<bin/>.
 
 =head1 REVISIONS
 
