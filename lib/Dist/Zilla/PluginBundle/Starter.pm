@@ -9,7 +9,7 @@ use namespace::clean;
 our $VERSION = '0.005';
 
 # Revisions can include entries with the standard plugin name, array ref of plugin/name/config,
-# or coderefs which are passed the pluginbundle object and return one of these formats.
+# or coderefs which are passed the pluginbundle object and return a list of plugins in one of these formats.
 my %revisions = (
   1 => [
     'GatherDir',
@@ -45,7 +45,7 @@ my %revisions = (
     'MetaJSON',
     'License',
     'Pod2Readme',
-    'ExecDir',
+    \&_execdir,
     'ShareDir',
     'PodSyntaxTests',
     'Test::ReportPrereqs',
@@ -78,6 +78,13 @@ sub configure {
     unless exists $revisions{$revision};
   my @revision_plugins = @{$revisions{$revision}};
   
+  foreach my $option (keys %option_requires) {
+    my $required = $option_requires{$option};
+    my $value = $self->payload->{$option};
+    die "Option $option requires revision $required\n"
+      if defined $value and $required > $revision;
+  }
+  
   my @plugins;
   foreach my $plugin (@revision_plugins) {
     if (ref $plugin eq 'CODE') {
@@ -87,43 +94,31 @@ sub configure {
     }
   }
   
-  foreach my $option (keys %option_requires) {
-    my $required = $option_requires{$option};
-    my $value = $self->payload->{$option};
-    die "Option $option requires revision $required\n"
-      if defined $value and $required > $revision;
-  }
-  
   $self->add_plugins(@plugins);
+}
+
+sub _execdir {
+  my ($self) = @_;
+  my $installer = $self->payload->{installer};
+  if (defined $installer and $installer =~ m/^ModuleBuildTiny/) {
+    return ['ExecDir' => {dir => 'script'}];
+  } else {
+    return 'ExecDir';
+  }
 }
 
 sub _installer {
   my ($self) = @_;
   my $installer = $self->payload->{installer};
-  return ('MakeMaker') unless defined $installer;
+  return 'MakeMaker' unless defined $installer;
   die "Unsupported installer $installer\n"
     unless $allowed_installers{$installer};
-  if ($installer =~ m/^ModuleBuildTiny/) {
-    return (['ExecDir' => 'ExecScriptDir' => {dir => 'script'}], $installer);
-  } else {
-    return ($installer);
-  }
+  return $installer;
 }
 
 sub _releaser {
   my ($self) = @_;
-  return $ENV{FAKE_RELEASE} ? ('FakeRelease') : ('UploadToCPAN');
-}
-
-sub _replace_plugin {
-  my ($plugins, $old_plugin, $new_plugin) = @_;
-  foreach my $plugin (@$plugins) {
-    if (ref $plugin eq 'ARRAY' and @$plugin and $plugin->[0] eq $old_plugin) {
-      $plugin = [$new_plugin, @$plugin[1..$#$plugin]];
-    } elsif (!ref $plugin and $plugin eq $old_plugin) {
-      $plugin = $new_plugin;
-    }
-  }
+  return $ENV{FAKE_RELEASE} ? 'FakeRelease' : 'UploadToCPAN';
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -233,8 +228,8 @@ default, but falls back to L<Module::Build> on old versions of the L<CPAN>.pm
 installer that don't understand configure dependencies.
 
 When using a L<Module::Build::Tiny>-based installer, the
-L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin will be used an additional
-time to mark the F<script> directory for executables.
+L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin will be set to mark the
+F<script/> directory for executables instead of the default F<bin/>.
 
 =head1 REVISIONS
 
