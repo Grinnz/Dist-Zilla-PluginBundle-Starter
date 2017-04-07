@@ -32,7 +32,7 @@ my %revisions = (
     'TestRelease',
     'RunExtraTests',
     'ConfirmRelease',
-    'UploadToCPAN',
+    \&_releaser,
   ],
   2 => [
     'GatherDir',
@@ -55,7 +55,7 @@ my %revisions = (
     'TestRelease',
     'RunExtraTests',
     'ConfirmRelease',
-    'UploadToCPAN',
+    \&_releaser,
   ],
 );
 
@@ -87,9 +87,6 @@ sub configure {
     }
   }
   
-  _replace_plugin(\@plugins, 'UploadToCPAN' => 'FakeRelease')
-    if $ENV{FAKE_RELEASE};
-  
   foreach my $option (keys %option_requires) {
     my $required = $option_requires{$option};
     my $value = $self->payload->{$option};
@@ -111,6 +108,11 @@ sub _installer {
   } else {
     return ($installer);
   }
+}
+
+sub _releaser {
+  my ($self) = @_;
+  return $ENV{FAKE_RELEASE} ? ('FakeRelease') : ('UploadToCPAN');
 }
 
 sub _replace_plugin {
