@@ -76,7 +76,7 @@ sub configure {
   $revision = '1' unless defined $revision;
   die "Unknown [\@Starter] revision specified: $revision\n"
     unless exists $revisions{$revision};
-  my @revision_plugins = @{$revisions{$revision}};
+  my @plugins = @{$revisions{$revision}};
   
   foreach my $option (keys %option_requires) {
     my $required = $option_requires{$option};
@@ -85,16 +85,13 @@ sub configure {
       if defined $value and $required > $revision;
   }
   
-  my @plugins;
-  foreach my $plugin (@revision_plugins) {
+  foreach my $plugin (@plugins) {
     if (ref $plugin eq 'CODE') {
-      push @plugins, $plugin->($self);
+      $self->add_plugins($plugin->($self));
     } else {
-      push @plugins, $plugin;
+      $self->add_plugins($plugin);
     }
   }
-  
-  $self->add_plugins(@plugins);
 }
 
 sub _execdir {
