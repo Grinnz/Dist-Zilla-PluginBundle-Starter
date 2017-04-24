@@ -578,7 +578,11 @@ L<[ManifestSkip]|Dist::Zilla::Plugin::ManifestSkip>.
 In the L<-FileMunger|Dist::Zilla::Role::FileMunger> phase, files in the
 distribution may be modified. In C<[@Starter]> the plugin
 L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile> runs during this phase
-in order to update its test file to test all gathered modules and scripts.
+in order to update its test file to test all gathered modules and scripts. When
+using the L</"managed_versions"> option, the
+L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> and
+L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> plugins also operate during
+this phase.
 
 =head2 PrereqSource
 
@@ -637,7 +641,10 @@ L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>) handles this phase.
 
 The L<-AfterRelease|Dist::Zilla::Plugin::AfterRelease> phase concludes the
 distribution release process. No plugins in this bundle execute during this
-phase by default.
+phase by default. When using the L</"managed_versions"> option, the
+L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> and
+L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>
+plugins operate during this phase.
 
 =head2 MetaProvider
 
@@ -652,7 +659,9 @@ this phase.
 
 The L<-VersionProvider|Dist::Zilla::Role::VersionProvider> phase executes when
 required rather than at a specific time. No plugins in this bundle execute
-during this phase by default.
+during this phase by default. When using the L</"managed_versions"> option, the
+L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> plugin acts as version
+provider.
 
 =head2 ShareDir
 
