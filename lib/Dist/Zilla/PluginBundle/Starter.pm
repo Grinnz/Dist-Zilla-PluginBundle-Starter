@@ -27,7 +27,7 @@ my %revisions = (
     'RunExtraTests',
     'TestRelease',
     'ConfirmRelease',
-    \&_releaser,
+    sub { $_[0]->pluginset_releaser },
     'MetaConfig',
     ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
     'MetaProvides::Package',
@@ -43,19 +43,45 @@ my %revisions = (
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
-    \&_installer,
+    sub { $_[0]->pluginset_installer },
     'Manifest',
     'PruneCruft',
     'ManifestSkip',
     'RunExtraTests',
     'TestRelease',
     'ConfirmRelease',
-    \&_releaser,
+    sub { $_[0]->pluginset_releaser },
     'MetaConfig',
     ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
     ['MetaProvides::Package' => { inherit_version => 0 }],
     'ShareDir',
-    \&_execdir,
+    sub { $_[0]->pluginset_execdir },
+  ],
+  3 => [
+    sub { $_[0]->pluginset_start },
+    sub { $_[0]->pluginset_gatherer },
+    'MetaYAML',
+    'MetaJSON',
+    'License',
+    'Pod2Readme',
+    'PodSyntaxTests',
+    'Test::ReportPrereqs',
+    ['Test::Compile' => { xt_mode => 1 }],
+    sub { $_[0]->pluginset_installer },
+    'Manifest',
+    'PruneCruft',
+    'ManifestSkip',
+    'RunExtraTests',
+    sub { $_[0]->pluginset_managed_versions }, # before test/confirm for before-release verification
+    'TestRelease',
+    'ConfirmRelease',
+    sub { $_[0]->pluginset_releaser },
+    'MetaConfig',
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    ['MetaProvides::Package' => { inherit_version => 0 }],
+    'ShareDir',
+    sub { $_[0]->pluginset_execdir },
+    sub { $_[0]->pluginset_end },
   ],
 );
 
@@ -68,6 +94,7 @@ my %allowed_installers = (
 
 my %option_requires = (
   installer => 2,
+  managed_versions => 3,
 );
 
 sub configure {
@@ -94,7 +121,36 @@ sub configure {
   }
 }
 
-sub _execdir {
+sub pluginset_start { () }
+
+sub pluginset_gatherer { 'GatherDir' }
+
+sub pluginset_installer {
+  my ($self) = @_;
+  my $installer = $self->payload->{installer};
+  return 'MakeMaker' unless defined $installer;
+  die "Unsupported installer $installer\n"
+    unless $allowed_installers{$installer};
+  return "$installer";
+}
+
+sub pluginset_managed_versions {
+  my ($self) = @_;
+  my $is_managed = $self->payload->{managed_versions};
+  return () unless $is_managed;
+  return (
+    'RewriteVersion',
+    [NextRelease => { format => '%-9v %{yyyy-MM-dd HH:mm:ss VVV}d%{ (TRIAL RELEASE)}T' }],
+    'BumpVersionAfterRelease',
+  );
+}
+
+sub pluginset_releaser {
+  my ($self) = @_;
+  return $ENV{FAKE_RELEASE} ? 'FakeRelease' : 'UploadToCPAN';
+}
+
+sub pluginset_execdir {
   my ($self) = @_;
   my $installer = $self->payload->{installer};
   if (defined $installer and $installer =~ m/^ModuleBuildTiny/) {
@@ -104,19 +160,7 @@ sub _execdir {
   }
 }
 
-sub _installer {
-  my ($self) = @_;
-  my $installer = $self->payload->{installer};
-  return 'MakeMaker' unless defined $installer;
-  die "Unsupported installer $installer\n"
-    unless $allowed_installers{$installer};
-  return $installer;
-}
-
-sub _releaser {
-  my ($self) = @_;
-  return $ENV{FAKE_RELEASE} ? 'FakeRelease' : 'UploadToCPAN';
-}
+sub pluginset_end { () }
 
 __PACKAGE__->meta->make_immutable;
 1;
@@ -136,11 +180,13 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   version = 0.001
   
   [@Starter]           ; all that is needed to start
-  revision = 2         ; always defaults to revision 1
+  revision = 3         ; always defaults to revision 1
   
   ; configuring examples
+  installer = ModuleBuildTiny
   -remove = GatherDir  ; to use [Git::GatherDir] instead, for example
   ExecDir.dir = script ; change the directory used by [ExecDir]
+  managed_version = 1  ; uses the main module version, and bumps module versions after release
 
 =head1 DESCRIPTION
 
@@ -229,6 +275,29 @@ installer that don't understand configure dependencies.
 When using a L<Module::Build::Tiny>-based installer, the
 L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin will be set to mark the
 F<script/> directory for executables instead of the default F<bin/>.
+
+=head2 managed_version
+
+Requires revision 3 or higher.
+
+  [@Starter]
+  revision = 3
+  managed_version = 1
+
+With C<managed_version> set, C<[@Starter]> will use an additional set of
+plugins to manage your module versions.
+
+L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> will set the
+distribution version from the main module and make sure all module versions
+match. L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> replaces C<{{$NEXT}}>
+in your F<Changes> file with a line containing the distribution version and
+build date/time. Finally,
+L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease> will
+bump the versions in your module files after a release.
+
+When using this option, you can set your distribution's version by changing the
+version of your main module, instead of in F<dist.ini>. The added plugins can
+be configured in the usual way as shown in L</"CONFIGURING">.
 
 =head1 REVISIONS
 
@@ -348,6 +417,11 @@ The L</"installer"> option is now supported to change the installer plugin.
 
 =back
 
+=head2 Revision 3
+
+Revision 3 is similar to Revision 2, but additionally supports the
+L</"managed_versions"> option.
+
 =head1 CONFIGURING
 
 By using the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover> or
@@ -441,6 +515,21 @@ L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> default) for executable scripts.
 
   [@Starter]
   ExecDir.dir = script
+
+=head2 Versions
+
+When using the L</"managed_versions"> option, the added plugins can be directly
+configured in various ways to suit your versioning needs.
+
+  [@Starter]
+  revision = 3
+  managed_versions = 1
+  
+  ; configuration examples
+  RewriteVersion.global = 1
+  BumpVersionAfterRelease.munge_makefile_pl = 0
+  NextRelease.filename = ChangeLog
+  NextRelease.format = %-5v %{yyyy-MM-dd}d
 
 =head1 PHASES
 
@@ -594,24 +683,6 @@ L<[NameFromDirectory]|Dist::Zilla::Plugin::NameFromDirectory>.
 To extract the license and copyright information from the main module, and
 optionally set the author as well, use
 L<[LicenseFromModule]|Dist::Zilla::Plugin::LicenseFromModule>.
-
-=head2 Versions
-
-A common approach to maintaining versions in L<Dist::Zilla>-managed
-distributions is to automatically extract the distribution's version from the
-main module, maintain uniform module versions, and bump the version during or
-after each release. To extract the main module version, use
-L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> (which also rewrites
-your module versions to match the main module version when building) or
-L<[VersionFromMainModule]|Dist::Zilla::Plugin::VersionFromMainModule>. To
-automatically increment module versions in the repository after each release,
-use L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>.
-Alternatively, you can use
-L<[ReversionOnRelease]|Dist::Zilla::Plugin::ReversionOnRelease> to
-automatically increment your versions in the release build, then copy the
-updated modules back to the repository with
-L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease>. Don't mix
-these two version increment methods!
 
 =head2 Changelog
 

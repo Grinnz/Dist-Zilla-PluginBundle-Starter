@@ -1,4 +1,7 @@
 {{$NEXT}}
+  - Revision 3 added.
+    - Added managed_versions option. Check documentation for details.
+    - Added support for subclassing bundle.
 
 0.005     2017-04-06 21:36:59 EDT
   - Revision 2 added. Please check documentation for details.
