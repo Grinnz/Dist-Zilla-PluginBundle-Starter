@@ -319,6 +319,142 @@ specified for it in metadata, by setting C<inherit_missing> to 0 as well.
   MetaProvides::Package.inherit_version = 0
   MetaProvides::Package.inherit_missing = 0
 
+=head1 PHASES
+
+The plugins in this bundle, and any additional plugins you include in
+F<dist.ini>, each execute code within one or more phases when a L<Dist::Zilla>
+command such as L<dzil test|Dist::Zilla::App::Command::test> is run. You can
+see a full listing of the phases run by your F<dist.ini> using
+L<dzil dumpphases|Dist::Zilla::App::Command::dumpphases>.
+
+=head2 BeforeBuild
+
+The distribution build consists of several phases, starting with
+L<-BeforeBuild|Dist::Zilla::Role::BeforeBuild>. No plugins in this bundle
+execute during this phase by default.
+
+=head2 FileGatherer
+
+In the L<-FileGatherer|Dist::Zilla::Role::FileGatherer> phase, many plugins add
+files to the distribution; in C<[@Starter]> this includes the plugins
+L<[GatherDir]|Dist::Zilla::Plugin::GatherDir>,
+L<[MetaYAML]|Dist::Zilla::Plugin::MetaYAML>, 
+L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>,
+L<[License]|Dist::Zilla::Plugin::License>,
+L<[Pod2Readme]|Dist::Zilla::Plugin::Pod2Readme>,
+L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
+L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
+L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>,
+L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> (or the configured installer
+plugin), and L<[Manifest]|Dist::Zilla::Plugin::Manifest>.
+
+=head2 EncodingProvider
+
+In the L<-EncodingProvider|Dist::Zilla::Role::EncodingProvider> phase, a plugin
+may set the encoding for gathered files. No plugins in this bundle execute
+during this phase by default.
+
+=head2 FilePruner
+
+In the L<-FilePruner|Dist::Zilla::Role::FilePruner> phase, gathered files may
+be excluded from the distribution. In C<[@Starter]> this is handled by the
+plugins L<[PruneCruft]|Dist::Zilla::Plugin::PruneCruft> and
+L<[ManifestSkip]|Dist::Zilla::Plugin::ManifestSkip>.
+
+=head2 FileMunger
+
+In the L<-FileMunger|Dist::Zilla::Role::FileMunger> phase, files in the
+distribution may be modified. In C<[@Starter]> the plugin
+L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile> runs during this phase
+in order to update its test file to test all gathered modules and scripts.
+
+=head2 PrereqSource
+
+In the L<-PrereqSource|Dist::Zilla::Role::PrereqSource> phase, plugins can add
+prerequisites to the distribution. In C<[@Starter] the plugins
+L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
+L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
+L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>, and
+L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> (or the configured installer
+plugin) add prereqs during this phase.
+
+=head2 InstallTool
+
+In the L<-InstallTool|Dist::Zilla::Role::InstallTool> phase, the installer's
+F<Makefile.PL> or F<Build.PL> is generated in the distribution. In
+C<[@Starter]>, L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> or the configured
+installer plugin handles this phase.
+
+=head2 AfterBuild
+
+The L<-AfterBuild|Dist::Zilla::Role::AfterBuild> phase concludes the
+distribution build. No plugins in this bundle execute during this phase by
+default.
+
+=head2 BuildRunner
+
+The L<-BuildRunner|Dist::Zilla::Role::BuildRunner> phase executes the configure
+and build phases of the L<CPAN::Meta::Spec/"Phases"> in a built distribution.
+In C<[@Starter]>, L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> or the
+configured installer plugin handles this phase.
+
+=head2 TestRunner
+
+The L<-TestRunner|Dist::Zilla::Role::TestRunner> phase executes the test phase
+of the L<CPAN::Meta::Spec/"Phases">. In C<[@Starter]>,
+L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> (or the configured installer
+plugin) and L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests> handle this
+phase.
+
+=head2 BeforeRelease
+
+The L<-BeforeRelease|Dist::Zilla::Role::BeforeRelease> phase prepares a built
+distribution for release. In C<[@Starter]>, the plugins
+L<[TestRelease]|Dist::Zilla::Plugin::TestRelease>,
+L<[ConfirmRelease]|Dist::Zilla::Plugin::ConfirmRelease>, and
+L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN> (to ensure PAUSE username
+and password are available) execute during this phase.
+
+=head2 Releaser
+
+The L<-Releaser|Dist::Zilla::Role::Releaser> phase releases the distribution to
+CPAN. In C<[@Starter]>, L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN> (or
+L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>) handles this phase.
+
+=head2 AfterRelease
+
+The L<-AfterRelease|Dist::Zilla::Plugin::AfterRelease> phase concludes the
+distribution release process. No plugins in this bundle execute during this
+phase by default.
+
+=head2 MetaProvider
+
+The L<-MetaProvider|Dist::Zilla::Role::MetaProvider> phase executes when
+required rather than at a specific time. In C<[@Starter]>, the
+L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>,
+L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>, and
+L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex]> plugins provide metadata in
+this phase.
+
+=head2 VersionProvider
+
+The L<-VersionProvider|Dist::Zilla::Role::VersionProvider> phase executes when
+required rather than at a specific time. No plugins in this bundle execute
+during this phase by default.
+
+=head2 ShareDir
+
+The L<-ShareDir|Dist::Zilla::Role::ShareDir> phase executes when required
+rather than at a specific time. In C<[@Starter]>, the
+L<[ShareDir]|Dist::Zilla::Plugin::ShareDir> plugin handles this phase.
+
+=head2 Other
+
+The operation of some plugins may not neatly fit into a particular phase. In
+C<[@Starter]>, the L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin marks a
+directory as containing executables, which can be used by installer plugins
+such as L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>.
+
 =head1 EXTENDING
 
 This bundle includes a basic set of plugins for releasing a distribution, but
