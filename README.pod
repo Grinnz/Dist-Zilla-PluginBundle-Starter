@@ -21,7 +21,7 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   installer = ModuleBuildTiny
   -remove = GatherDir  ; to use [Git::GatherDir] instead, for example
   ExecDir.dir = script ; change the directory used by [ExecDir]
-  managed_version = 1  ; uses the main module version, and bumps module versions after release
+  managed_versions = 1 ; uses the main module version, and bumps module versions after release
 
 =head1 DESCRIPTION
 
@@ -111,15 +111,15 @@ When using a L<Module::Build::Tiny>-based installer, the
 L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin will be set to mark the
 F<script/> directory for executables instead of the default F<bin/>.
 
-=head2 managed_version
+=head2 managed_versions
 
 Requires revision 3 or higher.
 
   [@Starter]
   revision = 3
-  managed_version = 1
+  managed_versions = 1
 
-With C<managed_version> set, C<[@Starter]> will use an additional set of
+With C<managed_versions> set, C<[@Starter]> will use an additional set of
 plugins to manage your module versions.
 
 L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> will set the
