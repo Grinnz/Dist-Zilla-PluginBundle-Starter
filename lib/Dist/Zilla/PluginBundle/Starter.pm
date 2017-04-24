@@ -174,6 +174,8 @@ uploading to CPAN.
 
   $ FAKE_RELEASE=1 dzil release
 
+For a detailed overview of how this plugin bundle works, see L</"PHASES">.
+
 For one-line initialization of a new C<[@Starter]>-based distribution, try
 L<Dist::Zilla::MintingProfile::Starter>.
 
@@ -445,8 +447,8 @@ specified for it in metadata, by setting C<inherit_missing> to 0 as well.
 The plugins in this bundle, and any additional plugins you include in
 F<dist.ini>, each execute code within one or more phases when a L<Dist::Zilla>
 command such as L<dzil test|Dist::Zilla::App::Command::test> is run. You can
-see a full listing of the phases run by your F<dist.ini> using
-L<dzil dumpphases|Dist::Zilla::App::Command::dumpphases>.
+see a full listing of the phases used by the plugins in your F<dist.ini> with
+the command L<dzil dumpphases|Dist::Zilla::App::Command::dumpphases>.
 
 =head2 BeforeBuild
 
