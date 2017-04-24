@@ -371,7 +371,7 @@ in order to update its test file to test all gathered modules and scripts.
 =head2 PrereqSource
 
 In the L<-PrereqSource|Dist::Zilla::Role::PrereqSource> phase, plugins can add
-prerequisites to the distribution. In C<[@Starter] the plugins
+prerequisites to the distribution. In C<[@Starter]> the plugins
 L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
 L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
 L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>, and
