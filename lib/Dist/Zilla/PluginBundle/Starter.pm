@@ -13,49 +13,49 @@ our $VERSION = '0.006';
 my %revisions = (
   1 => [
     'GatherDir',
-    'PruneCruft',
-    'ManifestSkip',
-    'MetaConfig',
-    'MetaProvides::Package',
-    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
     'MetaYAML',
     'MetaJSON',
     'License',
     'ReadmeAnyFromPod',
-    'ExecDir',
-    'ShareDir',
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
     'MakeMaker',
     'Manifest',
-    'TestRelease',
+    'PruneCruft',
+    'ManifestSkip',
     'RunExtraTests',
+    'TestRelease',
     'ConfirmRelease',
     \&_releaser,
+    'MetaConfig',
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    'MetaProvides::Package',
+    'ShareDir',
+    'ExecDir',
   ],
   2 => [
     'GatherDir',
-    'PruneCruft',
-    'ManifestSkip',
-    'MetaConfig',
-    ['MetaProvides::Package' => { inherit_version => 0 }],
-    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
     'MetaYAML',
     'MetaJSON',
     'License',
     'Pod2Readme',
-    \&_execdir,
-    'ShareDir',
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
     \&_installer,
     'Manifest',
-    'TestRelease',
+    'PruneCruft',
+    'ManifestSkip',
     'RunExtraTests',
+    'TestRelease',
     'ConfirmRelease',
     \&_releaser,
+    'MetaConfig',
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    ['MetaProvides::Package' => { inherit_version => 0 }],
+    'ShareDir',
+    \&_execdir,
   ],
 );
 
@@ -242,23 +242,6 @@ Revision 1 is the default and is equivalent to using the following plugins:
 
 =item L<[GatherDir]|Dist::Zilla::Plugin::GatherDir>
 
-=item L<[PruneCruft]|Dist::Zilla::Plugin::PruneCruft>
-
-=item L<[ManifestSkip]|Dist::Zilla::Plugin::ManifestSkip>
-
-=item L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>
-
-=item L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
-
-=item L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>
-
-  directory = t
-  directory = xt
-  directory = inc
-  directory = share
-  directory = eg
-  directory = examples
-
 =item L<[MetaYAML]|Dist::Zilla::Plugin::MetaYAML>
 
 =item L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>
@@ -266,10 +249,6 @@ Revision 1 is the default and is equivalent to using the following plugins:
 =item L<[License]|Dist::Zilla::Plugin::License>
 
 =item L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod>
-
-=item L<[ExecDir]|Dist::Zilla::Plugin::ExecDir>
-
-=item L<[ShareDir]|Dist::Zilla::Plugin::ShareDir>
 
 =item L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>
 
@@ -283,13 +262,34 @@ Revision 1 is the default and is equivalent to using the following plugins:
 
 =item L<[Manifest]|Dist::Zilla::Plugin::Manifest>
 
-=item L<[TestRelease]|Dist::Zilla::Plugin::TestRelease>
+=item L<[PruneCruft]|Dist::Zilla::Plugin::PruneCruft>
+
+=item L<[ManifestSkip]|Dist::Zilla::Plugin::ManifestSkip>
 
 =item L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests>
+
+=item L<[TestRelease]|Dist::Zilla::Plugin::TestRelease>
 
 =item L<[ConfirmRelease]|Dist::Zilla::Plugin::ConfirmRelease>
 
 =item L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
+
+=item L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>
+
+=item L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>
+
+  directory = t
+  directory = xt
+  directory = inc
+  directory = share
+  directory = eg
+  directory = examples
+
+=item L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
+
+=item L<[ShareDir]|Dist::Zilla::Plugin::ShareDir>
+
+=item L<[ExecDir]|Dist::Zilla::Plugin::ExecDir>
 
 =back
 
@@ -312,12 +312,12 @@ L<[ExtraTests]|Dist::Zilla::Plugin::ExtraTests>.
 
 Includes the following additional plugins:
 L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>,
-L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>,
-L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>,
-L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>,
 L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
 L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
-L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>.
+L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>,
+L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>,
+L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>,
+L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>.
 
 =back
 
@@ -400,14 +400,6 @@ in CPAN installation tools.
   type = pod
   location = root ; do not include pod readmes in the build!
 
-=head2 ExecDir
-
-Some distributions use the F<script/> directory instead of F<bin/> (the
-L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> default) for executable scripts.
-
-  [@Starter]
-  ExecDir.dir = script
-
 =head2 MetaNoIndex
 
 The distribution may include additional files or directories that should not
@@ -441,6 +433,14 @@ specified for it in metadata, by setting C<inherit_missing> to 0 as well.
   [@Starter]
   MetaProvides::Package.inherit_version = 0
   MetaProvides::Package.inherit_missing = 0
+
+=head2 ExecDir
+
+Some distributions use the F<script/> directory instead of F<bin/> (the
+L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> default) for executable scripts.
+
+  [@Starter]
+  ExecDir.dir = script
 
 =head1 PHASES
 
