@@ -120,19 +120,25 @@ Requires revision 3 or higher.
   managed_versions = 1
 
 With C<managed_versions> set, C<[@Starter]> will use an additional set of
-plugins to manage your module versions.
+plugins to manage your module versions while leaving them in place in the
+source files.
 
 L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> will set the
 distribution version from the main module and make sure all module versions
-match. L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> replaces C<{{$NEXT}}>
-in your F<Changes> file with a line containing the distribution version and
-build date/time. Finally,
+match in the build. L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> replaces
+C<{{$NEXT}}> in your F<Changes> file with a line containing the distribution
+version and build date/time. Finally,
 L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease> will
 bump the versions in your module files after a release.
 
-When using this option, you can set your distribution's version by changing the
-version of your main module, instead of in F<dist.ini>. The added plugins can
-be configured in the usual way as shown in L</"CONFIGURING">.
+When using this option, you B<must> have the distribution version set in your
+main module in a form like C<our $VERSION = '1.234';>, rather than in
+F<dist.ini>. Only modules and scripts which have similar version declarations
+will be versioned in the build. You can set your distribution's version
+manually by changing the version of your main module, or by setting the C<V>
+environment variable when building or releasing. See the documentation for each
+plugin mentioned above for details on configuring them, which can be done in
+the usual config-slicing way as shown in L</"CONFIGURING">.
 
 =head1 REVISIONS
 
