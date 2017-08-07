@@ -71,7 +71,7 @@
             "Dist::Zilla::Plugin::ShareDir" : "0",
             "Dist::Zilla::Plugin::TemplateModule" : "0",
             "Dist::Zilla::Plugin::Test::Compile" : "0",
-            "Dist::Zilla::Plugin::Test::ReportPrereqs" : "0.014",
+            "Dist::Zilla::Plugin::Test::ReportPrereqs" : "0.027",
             "Dist::Zilla::Plugin::TestRelease" : "0",
             "Dist::Zilla::Plugin::UploadToCPAN" : "0",
             "Dist::Zilla::Role::MintingProfile::ShareDir" : "0",
@@ -617,6 +617,6 @@
    "x_contributors" : [
       "Dan Book <grinnz@grinnz.com>"
    ],
-   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0233"
+   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0237"
 }
 

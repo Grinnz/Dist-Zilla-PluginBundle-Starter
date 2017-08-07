@@ -29,7 +29,7 @@ requires 'Dist::Zilla::Plugin::ShareDir';
 requires 'Dist::Zilla::Plugin::TemplateModule';
 requires 'Dist::Zilla::Plugin::TestRelease';
 requires 'Dist::Zilla::Plugin::Test::Compile';
-requires 'Dist::Zilla::Plugin::Test::ReportPrereqs' => '0.014'; # .dd file added
+requires 'Dist::Zilla::Plugin::Test::ReportPrereqs' => '0.027'; # .dd file not pruned
 requires 'Dist::Zilla::Plugin::UploadToCPAN';
 requires 'Dist::Zilla::Role::MintingProfile::ShareDir';
 requires 'Dist::Zilla::Role::PluginBundle::Config::Slicer';

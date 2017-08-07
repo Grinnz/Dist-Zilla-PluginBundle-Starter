@@ -1,4 +1,6 @@
 {{$NEXT}}
+  - Bump [Test::ReportPrereqs] dependency to 0.027 to prevent
+    t/00-report-prereqs.dd from being pruned.
   - Revision 3 added.
     - Added managed_versions option. Check documentation for details.
     - Added support for subclassing bundle.
