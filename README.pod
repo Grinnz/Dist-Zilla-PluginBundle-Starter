@@ -498,7 +498,9 @@ distribution for release. In C<[@Starter]>, the plugins
 L<[TestRelease]|Dist::Zilla::Plugin::TestRelease>,
 L<[ConfirmRelease]|Dist::Zilla::Plugin::ConfirmRelease>, and
 L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN> (to ensure PAUSE username
-and password are available) execute during this phase.
+and password are available) execute during this phase. In
+L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>, the plugin
+L<[Git::Check]|Dist::Zilla::Plugin::Git::Check> executes during this phase.
 
 =head2 Releaser
 
@@ -513,7 +515,13 @@ distribution release process. No plugins in this bundle execute during this
 phase by default. When using the L</"managed_versions"> option, the
 L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> and
 L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>
-plugins operate during this phase.
+plugins execute during this phase. When using the L</"copy_from_release">
+option, the L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease>
+plugin executes during this phase. In
+L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>, the plugins
+L<[Git::Commit]|Dist::Zilla::Plugin::Git::Commit>,
+L<[Git::Tag]|Dist::Zilla::Plugin::Git::Tag>, and
+L<[Git::Push]|Dist::Zilla::Plugin::Git::Push> execute during this phase.
 
 =head2 MetaProvider
 
@@ -537,6 +545,15 @@ provider.
 The L<-ShareDir|Dist::Zilla::Role::ShareDir> phase executes when required
 rather than at a specific time. In C<[@Starter]>, the
 L<[ShareDir]|Dist::Zilla::Plugin::ShareDir> plugin handles this phase.
+
+=head2 Regenerator
+
+The L<-Regenerator|Dist::Zilla::Role::Regenerator> phase is a quasi-phase which
+executes when L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>
+is run. When using the L</"copy_from_release"> option, the
+L<[Regenerate::AfterReleasers]|Dist::Zilla::Plugin::Regenerate::AfterReleasers>
+plugin promotes L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease>
+to also execute during this phase.
 
 =head2 Other
 
