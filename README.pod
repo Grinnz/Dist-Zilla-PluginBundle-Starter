@@ -144,6 +144,10 @@ environment variable when building or releasing. See the documentation for each
 plugin mentioned above for details on configuring them, which can be done in
 the usual config-slicing way as shown in L</"CONFIGURING">.
 
+This option also enables the C<inherit_version> option for
+L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package> since all
+module versions are matched to the main module in this configuration.
+
 =head2 regenerate
 
 Requires revision 3 or higher.

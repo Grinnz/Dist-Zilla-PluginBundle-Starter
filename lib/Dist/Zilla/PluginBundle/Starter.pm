@@ -77,7 +77,7 @@ my %revisions = (
     sub { $_[0]->pluginset_releaser },
     'MetaConfig',
     ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
-    ['MetaProvides::Package' => { inherit_version => 0 }],
+    sub { $_[0]->pluginset_metaprovides },
     'ShareDir',
     sub { $_[0]->pluginset_execdir },
   ],
@@ -181,6 +181,15 @@ sub pluginset_release_management {
 sub pluginset_releaser {
   my ($self) = @_;
   return $ENV{FAKE_RELEASE} ? 'FakeRelease' : 'UploadToCPAN';
+}
+
+sub pluginset_metaprovides {
+  my ($self) = @_;
+  if ($self->managed_versions) {
+    return 'MetaProvides::Package';
+  } else {
+    return ['MetaProvides::Package' => { inherit_version => 0 }];
+  }
 }
 
 sub pluginset_execdir {
@@ -339,6 +348,10 @@ manually by changing the version of your main module, or by setting the C<V>
 environment variable when building or releasing. See the documentation for each
 plugin mentioned above for details on configuring them, which can be done in
 the usual config-slicing way as shown in L</"CONFIGURING">.
+
+This option also enables the C<inherit_version> option for
+L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package> since all
+module versions are matched to the main module in this configuration.
 
 =head2 regenerate
 
