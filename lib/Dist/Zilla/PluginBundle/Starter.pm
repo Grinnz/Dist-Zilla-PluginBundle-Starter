@@ -93,7 +93,7 @@ my %allowed_installers = (
 my %option_requires = (
   installer => 2,
   managed_versions => 3,
-  copy_from_release => 3,
+  regenerate => 3,
 );
 
 has revision => (
@@ -114,13 +114,13 @@ has managed_versions => (
   default => sub { $_[0]->payload->{managed_versions} // 0 },
 );
 
-has copy_from_release => (
+has regenerate => (
   is => 'ro',
   lazy => 1,
-  default => sub { $_[0]->payload->{copy_from_release} // [] },
+  default => sub { $_[0]->payload->{regenerate} // [] },
 );
 
-sub mvp_multivalue_args { qw(copy_from_release) }
+sub mvp_multivalue_args { qw(regenerate) }
 
 sub configure {
   my $self = shift;
@@ -149,8 +149,8 @@ sub gather_plugin { 'GatherDir' }
 
 sub pluginset_gatherer {
   my ($self) = @_;
-  my $copy = $self->copy_from_release;
-  return [$self->gather_plugin => { exclude_filename => $copy }] if @$copy;
+  my @copy = @{$self->regenerate};
+  return [$self->gather_plugin => { exclude_filename => [@copy] }] if @copy;
   return $self->gather_plugin;
 }
 
@@ -165,7 +165,7 @@ sub pluginset_installer {
 sub pluginset_release_management {
   my ($self) = @_;
   my $versions = $self->managed_versions;
-  my @copy_files = @{$self->copy_from_release};
+  my @copy_files = @{$self->regenerate};
   my @plugins;
   push @plugins, 'RewriteVersion',
     [NextRelease => { format => '%-9v %{yyyy-MM-dd HH:mm:ss VVV}d%{ (TRIAL RELEASE)}T' }]
@@ -218,6 +218,7 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   -remove = GatherDir  ; to use [Git::GatherDir] instead, for example
   ExecDir.dir = script ; change the directory used by [ExecDir]
   managed_versions = 1 ; uses the main module version, and bumps module versions after release
+  regenerate = LICENSE ; copy LICENSE to root after release or dzil regenerate
 
 =head1 DESCRIPTION
 
@@ -339,14 +340,14 @@ environment variable when building or releasing. See the documentation for each
 plugin mentioned above for details on configuring them, which can be done in
 the usual config-slicing way as shown in L</"CONFIGURING">.
 
-=head2 copy_from_release
+=head2 regenerate
 
 Requires revision 3 or higher.
 
   [@Starter]
   revision = 3
-  copy_from_release = INSTALL
-  copy_from_release = README
+  regenerate = INSTALL
+  regenerate = README
 
 The specified generated files will be copied to the root directory upon
 release using L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease>,
@@ -479,8 +480,8 @@ The L</"installer"> option is now supported to change the installer plugin.
 =head2 Revision 3
 
 Revision 3 is similar to Revision 2, but additionally supports the
-L</"managed_versions"> and L</"copy_from_release"> options, and variant bundles
-like L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
+L</"managed_versions"> and L</"regenerate"> options, and variant bundles like
+L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 
 =head1 CONFIGURING
 
@@ -711,9 +712,9 @@ distribution release process. No plugins in this bundle execute during this
 phase by default. When using the L</"managed_versions"> option, the
 L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> and
 L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>
-plugins execute during this phase. When using the L</"copy_from_release">
-option, the L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease>
-plugin executes during this phase. In
+plugins execute during this phase. When using the L</"regenerate"> option, the
+L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease> plugin
+executes during this phase. In
 L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>, the plugins
 L<[Git::Commit]|Dist::Zilla::Plugin::Git::Commit>,
 L<[Git::Tag]|Dist::Zilla::Plugin::Git::Tag>, and
@@ -746,7 +747,7 @@ L<[ShareDir]|Dist::Zilla::Plugin::ShareDir> plugin handles this phase.
 
 The L<-Regenerator|Dist::Zilla::Role::Regenerator> phase is a quasi-phase which
 executes when L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>
-is run. When using the L</"copy_from_release"> option, the
+is run. When using the L</"regenerate"> option, the
 L<[Regenerate::AfterReleasers]|Dist::Zilla::Plugin::Regenerate::AfterReleasers>
 plugin promotes L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease>
 to also execute during this phase.
