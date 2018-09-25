@@ -156,7 +156,7 @@ The specified generated files will be copied to the root directory upon
 release and excluded from the C<[GatherDir]> plugin in use. Additionally,
 L<[Regenerate::AfterReleasers]|Dist::Zilla::Plugin::Regenerate::AfterReleasers>
 allows these files to be generated and copied on demand using
-C<dzil regenerate>.
+L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>.
 
 =head1 REVISIONS
 
@@ -400,9 +400,9 @@ configured in various ways to suit your versioning needs.
 
 The plugins in this bundle, and any additional plugins you include in
 F<dist.ini>, each execute code within one or more phases when a L<Dist::Zilla>
-command such as L<dzil test|Dist::Zilla::App::Command::test> is run. You can
-see a full listing of the phases used by the plugins in your F<dist.ini> with
-the command L<dzil dumpphases|Dist::Zilla::App::Command::dumpphases>.
+command such as L<< C<dzil test>|Dist::Zilla::App::Command::test >> is run. You
+can see a full listing of the phases used by the plugins in your F<dist.ini>
+with the command L<< C<dzil dumpphases>|Dist::Zilla::App::Command::dumpphases >>.
 
 =head2 BeforeBuild
 
@@ -548,7 +548,7 @@ there are many more common non-intrusive tasks that L<Dist::Zilla> can help
 with simply by using additional plugins in the F<dist.ini>. You can install all
 plugins required by a F<dist.ini> by running
 C<dzil authordeps --missing | cpanm> or with
-L<dzil installdeps|Dist::Zilla::App::Command::installdeps>.
+L<< C<dzil installdeps>|Dist::Zilla::App::Command::installdeps >>.
 
 =head2 Name
 
