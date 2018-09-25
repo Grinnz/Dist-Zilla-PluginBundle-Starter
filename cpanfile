@@ -2,6 +2,7 @@ requires 'perl' => '5.008005';
 requires 'Dist::Zilla';
 requires 'Dist::Zilla::Plugin::BumpVersionAfterRelease';
 requires 'Dist::Zilla::Plugin::ConfirmRelease';
+requires 'Dist::Zilla::Plugin::CopyFilesFromRelease';
 requires 'Dist::Zilla::Plugin::DistINI';
 requires 'Dist::Zilla::Plugin::ExecDir';
 requires 'Dist::Zilla::Plugin::FakeRelease';
@@ -23,6 +24,7 @@ requires 'Dist::Zilla::Plugin::Pod2Readme' => '0.004'; # source_filename attribu
 requires 'Dist::Zilla::Plugin::PodSyntaxTests' => '5.040'; # moved to author tests
 requires 'Dist::Zilla::Plugin::PruneCruft';
 requires 'Dist::Zilla::Plugin::ReadmeAnyFromPod';
+requires 'Dist::Zilla::Plugin::Regenerate::AfterReleasers';
 requires 'Dist::Zilla::Plugin::RewriteVersion';
 requires 'Dist::Zilla::Plugin::RunExtraTests';
 requires 'Dist::Zilla::Plugin::ShareDir';

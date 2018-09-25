@@ -58,7 +58,6 @@ my %revisions = (
     sub { $_[0]->pluginset_execdir },
   ],
   3 => [
-    sub { $_[0]->pluginset_start },
     sub { $_[0]->pluginset_gatherer },
     'MetaYAML',
     'MetaJSON',
@@ -72,7 +71,7 @@ my %revisions = (
     'PruneCruft',
     'ManifestSkip',
     'RunExtraTests',
-    sub { $_[0]->pluginset_managed_versions }, # before test/confirm for before-release verification
+    sub { $_[0]->pluginset_release_management }, # before test/confirm for before-release verification
     'TestRelease',
     'ConfirmRelease',
     sub { $_[0]->pluginset_releaser },
@@ -81,7 +80,6 @@ my %revisions = (
     ['MetaProvides::Package' => { inherit_version => 0 }],
     'ShareDir',
     sub { $_[0]->pluginset_execdir },
-    sub { $_[0]->pluginset_end },
   ],
 );
 
@@ -95,21 +93,47 @@ my %allowed_installers = (
 my %option_requires = (
   installer => 2,
   managed_versions => 3,
+  copy_from_release => 3,
 );
+
+has revision => (
+  is => 'ro',
+  lazy => 1,
+  default => sub { $_[0]->payload->{revision} // 1 },
+);
+
+has installer => (
+  is => 'ro',
+  lazy => 1,
+  default => sub { $_[0]->payload->{installer} // 'MakeMaker' },
+);
+
+has managed_versions => (
+  is => 'ro',
+  lazy => 1,
+  default => sub { $_[0]->payload->{managed_versions} // 0 },
+);
+
+has copy_from_release => (
+  is => 'ro',
+  lazy => 1,
+  default => sub { $_[0]->payload->{copy_from_release} // [] },
+);
+
+sub mvp_multivalue_args { qw(copy_from_release) }
 
 sub configure {
   my $self = shift;
-  my $revision = $self->payload->{revision};
-  $revision = '1' unless defined $revision;
-  die "Unknown [\@Starter] revision specified: $revision\n"
+  my $name = $self->name;
+  my $revision = $self->revision;
+  die "Unknown [$name] revision specified: $revision\n"
     unless exists $revisions{$revision};
   my @plugins = @{$revisions{$revision}};
   
   foreach my $option (keys %option_requires) {
     my $required = $option_requires{$option};
-    my $value = $self->payload->{$option};
     die "Option $option requires revision $required\n"
-      if defined $value and $required > $revision;
+      if exists $self->payload->{$option} and $required > $revision;
   }
   
   foreach my $plugin (@plugins) {
@@ -121,28 +145,37 @@ sub configure {
   }
 }
 
-sub pluginset_start { () }
+sub gather_plugin { 'GatherDir' }
 
-sub pluginset_gatherer { 'GatherDir' }
+sub pluginset_gatherer {
+  my ($self) = @_;
+  my $copy = $self->copy_from_release;
+  return [$self->gather_plugin => { exclude_filename => $copy }] if @$copy;
+  return $self->gather_plugin;
+}
 
 sub pluginset_installer {
   my ($self) = @_;
-  my $installer = $self->payload->{installer};
-  return 'MakeMaker' unless defined $installer;
+  my $installer = $self->installer;
   die "Unsupported installer $installer\n"
     unless $allowed_installers{$installer};
   return "$installer";
 }
 
-sub pluginset_managed_versions {
+sub pluginset_release_management {
   my ($self) = @_;
-  my $is_managed = $self->payload->{managed_versions};
-  return () unless $is_managed;
-  return (
-    'RewriteVersion',
-    [NextRelease => { format => '%-9v %{yyyy-MM-dd HH:mm:ss VVV}d%{ (TRIAL RELEASE)}T' }],
-    'BumpVersionAfterRelease',
-  );
+  my $versions = $self->managed_versions;
+  my @copy_files = @{$self->copy_from_release};
+  my @plugins;
+  push @plugins, 'RewriteVersion',
+    [NextRelease => { format => '%-9v %{yyyy-MM-dd HH:mm:ss VVV}d%{ (TRIAL RELEASE)}T' }]
+    if $versions;
+  push @plugins,
+    [CopyFilesFromRelease => { filename => [@copy_files] }],
+    ['Regenerate::AfterReleasers' => { plugin => $self->name . '/CopyFilesFromRelease' }],
+    if @copy_files;
+  push @plugins, 'BumpVersionAfterRelease' if $versions;
+  return @plugins;
 }
 
 sub pluginset_releaser {
@@ -152,15 +185,13 @@ sub pluginset_releaser {
 
 sub pluginset_execdir {
   my ($self) = @_;
-  my $installer = $self->payload->{installer};
-  if (defined $installer and $installer =~ m/^ModuleBuildTiny/) {
+  my $installer = $self->installer;
+  if ($installer =~ m/^ModuleBuildTiny/) {
     return ['ExecDir' => {dir => 'script'}];
   } else {
     return 'ExecDir';
   }
 }
-
-sub pluginset_end { () }
 
 __PACKAGE__->meta->make_immutable;
 1;
@@ -224,6 +255,9 @@ For a detailed overview of how this plugin bundle works, see L</"PHASES">.
 
 For one-line initialization of a new C<[@Starter]>-based distribution, try
 L<Dist::Zilla::MintingProfile::Starter>.
+
+For a variant of this bundle with built-in support for a git-based workflow,
+see L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 
 Another simple way to use L<Dist::Zilla> is with L<Dist::Milla>, an opinionated
 bundle that requires no configuration and performs all of the tasks in
@@ -304,6 +338,21 @@ manually by changing the version of your main module, or by setting the C<V>
 environment variable when building or releasing. See the documentation for each
 plugin mentioned above for details on configuring them, which can be done in
 the usual config-slicing way as shown in L</"CONFIGURING">.
+
+=head2 copy_from_release
+
+Requires revision 3 or higher.
+
+  [@Starter]
+  revision = 3
+  copy_from_release = INSTALL
+  copy_from_release = README
+
+The specified generated files will be copied to the root directory upon
+release and excluded from the C<[GatherDir]> plugin in use. Additionally,
+L<[Regenerate::AfterReleasers]|Dist::Zilla::Plugin::Regenerate::AfterReleasers>
+allows these files to be generated and copied on demand using
+C<dzil regenerate>.
 
 =head1 REVISIONS
 
@@ -426,7 +475,8 @@ The L</"installer"> option is now supported to change the installer plugin.
 =head2 Revision 3
 
 Revision 3 is similar to Revision 2, but additionally supports the
-L</"managed_versions"> option.
+L</"managed_versions"> and L</"copy_from_release"> options, and the variant
+bundle L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 
 =head1 CONFIGURING
 
@@ -439,7 +489,9 @@ are some examples:
 
 If the distribution is using git source control, it is often helpful to replace
 the default L<[GatherDir]|Dist::Zilla::Plugin::GatherDir> plugin with
-L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>.
+L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>. (Note: The
+L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git> variant of this
+bundle uses C<[Git::GatherDir]> by default.)
 
   [Git::GatherDir]
   [@Starter]
@@ -479,6 +531,9 @@ in CPAN installation tools.
   [ReadmeAnyFromPod / Pod_Readme]
   type = pod
   location = root ; do not include pod readmes in the build!
+  phase = release ; avoid changing files in the root with dzil build or dzil test
+  [Regenerate::AfterReleasers] ; allows regenerating with dzil regenerate
+  plugin = Pod_Readme
 
 =head2 MetaNoIndex
 
@@ -686,7 +741,10 @@ such as L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>.
 
 This bundle includes a basic set of plugins for releasing a distribution, but
 there are many more common non-intrusive tasks that L<Dist::Zilla> can help
-with simply by using additional plugins in the F<dist.ini>.
+with simply by using additional plugins in the F<dist.ini>. You can install all
+plugins required by a F<dist.ini> by running
+C<dzil authordeps --missing | cpanm> or with
+L<dzil installdeps|Dist::Zilla::App::Command::installdeps>.
 
 =head2 Name
 
@@ -709,8 +767,10 @@ L<[CheckChangesHasContent]|Dist::Zilla::Plugin::CheckChangesHasContent>.
 =head2 Git
 
 To better integrate with a git workflow, use the plugins from
-L<[@Git]|Dist::Zilla::PluginBundle::Git>. To automatically add contributors to
-metadata from git commits, use L<[Git::Contributors]|Dist::Zilla::Plugin::Git::Contributors>.
+L<[@Git]|Dist::Zilla::PluginBundle::Git>, as the
+L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git> variant of this
+bundle does. To automatically add contributors to metadata from git commits,
+use L<[Git::Contributors]|Dist::Zilla::Plugin::Git::Contributors>.
 
 =head2 Resources
 
