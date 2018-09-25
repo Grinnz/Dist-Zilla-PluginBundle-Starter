@@ -137,12 +137,12 @@ bump the versions in your module files after a release.
 
 When using this option, you B<must> have the distribution version set in your
 main module in a form like C<our $VERSION = '1.234';>, rather than in
-F<dist.ini>. Only modules and scripts which have similar version declarations
-will be versioned in the build. You can set your distribution's version
-manually by changing the version of your main module, or by setting the C<V>
-environment variable when building or releasing. See the documentation for each
-plugin mentioned above for details on configuring them, which can be done in
-the usual config-slicing way as shown in L</"CONFIGURING">.
+F<dist.ini>. Other modules and scripts must also have similar version
+declarations to be updated appropriately. You can set your distribution's
+version manually by changing the version of your main module, or by setting the
+C<V> environment variable when building or releasing. See the documentation for
+each plugin mentioned above for details on configuring them, which can be done
+in the usual config-slicing way as shown in L</"CONFIGURING">.
 
 This option also enables the C<inherit_version> option for
 L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package> since all
