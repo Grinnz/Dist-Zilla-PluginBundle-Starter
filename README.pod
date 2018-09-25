@@ -123,11 +123,11 @@ Requires revision 3 or higher.
   managed_versions = 1
 
 With C<managed_versions> set, C<[@Starter]> will use an additional set of
-plugins to manage your module versions while leaving them in place in the
-source files.
+plugins to manage your module versions when releasing, while leaving them in
+place in the source files.
 
-L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> will set the
-distribution version from the main module and make sure all module versions
+L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> will read the
+distribution version from the main module, and set all other module versions to
 match in the build. L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> replaces
 C<{{$NEXT}}> in your F<Changes> file with a line containing the distribution
 version and build date/time. Finally,
@@ -153,9 +153,13 @@ Requires revision 3 or higher.
   copy_from_release = README
 
 The specified generated files will be copied to the root directory upon
-release and excluded from the C<[GatherDir]> plugin in use. Additionally,
+release using L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease>,
+and excluded from the C<[GatherDir]> plugin in use. Note: if you remove the
+built-in C<[GatherDir]> plugin to use one separately, you must exclude copied
+files from that plugin yourself. Additionally,
 L<[Regenerate::AfterReleasers]|Dist::Zilla::Plugin::Regenerate::AfterReleasers>
-allows these files to be generated and copied on demand using
+is applied to C<[CopyFilesFromRelease]> to allow these files to be generated
+and copied on demand outside of a release using
 L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>.
 
 =head1 REVISIONS
@@ -279,8 +283,8 @@ The L</"installer"> option is now supported to change the installer plugin.
 =head2 Revision 3
 
 Revision 3 is similar to Revision 2, but additionally supports the
-L</"managed_versions"> and L</"copy_from_release"> options, and the variant
-bundle L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
+L</"managed_versions"> and L</"copy_from_release"> options, and variant bundles
+like L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 
 =head1 CONFIGURING
 
@@ -606,7 +610,8 @@ This is free software, licensed under:
 
 =head1 SEE ALSO
 
-L<Dist::Zilla>, L<Dist::Zilla::PluginBundle::Basic>, L<Dist::Milla>,
+L<Dist::Zilla>, L<Dist::Zilla::PluginBundle::Basic>,
+L<Dist::Zilla::PluginBundle::Starter::Git>, L<Dist::Milla>,
 L<Dist::Zilla::MintingProfile::Starter>
 
 =cut
