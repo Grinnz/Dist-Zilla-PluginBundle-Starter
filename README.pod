@@ -60,6 +60,9 @@ For a detailed overview of how this plugin bundle works, see L</"PHASES">.
 For one-line initialization of a new C<[@Starter]>-based distribution, try
 L<Dist::Zilla::MintingProfile::Starter>.
 
+For a variant of this bundle with built-in support for a git-based workflow,
+see L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
+
 Another simple way to use L<Dist::Zilla> is with L<Dist::Milla>, an opinionated
 bundle that requires no configuration and performs all of the tasks in
 L</"EXTENDING"> by default.
@@ -139,6 +142,21 @@ manually by changing the version of your main module, or by setting the C<V>
 environment variable when building or releasing. See the documentation for each
 plugin mentioned above for details on configuring them, which can be done in
 the usual config-slicing way as shown in L</"CONFIGURING">.
+
+=head2 copy_from_release
+
+Requires revision 3 or higher.
+
+  [@Starter]
+  revision = 3
+  copy_from_release = INSTALL
+  copy_from_release = README
+
+The specified generated files will be copied to the root directory upon
+release and excluded from the C<[GatherDir]> plugin in use. Additionally,
+L<[Regenerate::AfterReleasers]|Dist::Zilla::Plugin::Regenerate::AfterReleasers>
+allows these files to be generated and copied on demand using
+C<dzil regenerate>.
 
 =head1 REVISIONS
 
@@ -261,7 +279,8 @@ The L</"installer"> option is now supported to change the installer plugin.
 =head2 Revision 3
 
 Revision 3 is similar to Revision 2, but additionally supports the
-L</"managed_versions"> option.
+L</"managed_versions"> and L</"copy_from_release"> options, and the variant
+bundle L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 
 =head1 CONFIGURING
 
@@ -274,7 +293,9 @@ are some examples:
 
 If the distribution is using git source control, it is often helpful to replace
 the default L<[GatherDir]|Dist::Zilla::Plugin::GatherDir> plugin with
-L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>.
+L<[Git::GatherDir]|Dist::Zilla::Plugin::Git::GatherDir>. (Note: The
+L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git> variant of this
+bundle uses C<[Git::GatherDir]> by default.)
 
   [Git::GatherDir]
   [@Starter]
@@ -314,6 +335,9 @@ in CPAN installation tools.
   [ReadmeAnyFromPod / Pod_Readme]
   type = pod
   location = root ; do not include pod readmes in the build!
+  phase = release ; avoid changing files in the root with dzil build or dzil test
+  [Regenerate::AfterReleasers] ; allows regenerating with dzil regenerate
+  plugin = Pod_Readme
 
 =head2 MetaNoIndex
 
@@ -521,7 +545,10 @@ such as L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>.
 
 This bundle includes a basic set of plugins for releasing a distribution, but
 there are many more common non-intrusive tasks that L<Dist::Zilla> can help
-with simply by using additional plugins in the F<dist.ini>.
+with simply by using additional plugins in the F<dist.ini>. You can install all
+plugins required by a F<dist.ini> by running
+C<dzil authordeps --missing | cpanm> or with
+L<dzil installdeps|Dist::Zilla::App::Command::installdeps>.
 
 =head2 Name
 
@@ -544,8 +571,10 @@ L<[CheckChangesHasContent]|Dist::Zilla::Plugin::CheckChangesHasContent>.
 =head2 Git
 
 To better integrate with a git workflow, use the plugins from
-L<[@Git]|Dist::Zilla::PluginBundle::Git>. To automatically add contributors to
-metadata from git commits, use L<[Git::Contributors]|Dist::Zilla::Plugin::Git::Contributors>.
+L<[@Git]|Dist::Zilla::PluginBundle::Git>, as the
+L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git> variant of this
+bundle does. To automatically add contributors to metadata from git commits,
+use L<[Git::Contributors]|Dist::Zilla::Plugin::Git::Contributors>.
 
 =head2 Resources
 
