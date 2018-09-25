@@ -1,4 +1,4 @@
-requires 'perl' => '5.008005';
+requires 'perl' => '5.010001';
 requires 'Dist::Zilla';
 requires 'Dist::Zilla::Plugin::BumpVersionAfterRelease';
 requires 'Dist::Zilla::Plugin::ConfirmRelease';

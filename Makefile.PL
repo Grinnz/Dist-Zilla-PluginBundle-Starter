@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use 5.008005;
+use 5.010001;
 
 use ExtUtils::MakeMaker;
 
@@ -21,7 +21,7 @@ my %WriteMakefileArgs = (
   },
   "DISTNAME" => "Dist-Zilla-PluginBundle-Starter",
   "LICENSE" => "artistic_2",
-  "MIN_PERL_VERSION" => "5.008005",
+  "MIN_PERL_VERSION" => "5.010001",
   "NAME" => "Dist::Zilla::PluginBundle::Starter",
   "PREREQ_PM" => {
     "Dist::Zilla" => 0,

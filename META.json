@@ -83,7 +83,7 @@
             "Moose" : "0",
             "Test::Pod" : "1.41",
             "namespace::clean" : "0",
-            "perl" : "5.008005"
+            "perl" : "5.010001"
          }
       },
       "test" : {
