@@ -251,7 +251,7 @@
                   "add_files_in" : [
                      "/"
                   ],
-                  "commit_msg" : "v%v%n%n%c"
+                  "commit_msg" : "%v%n%n%c"
                },
                "Dist::Zilla::Role::Git::DirtyFiles" : {
                   "allow_dirty" : [
