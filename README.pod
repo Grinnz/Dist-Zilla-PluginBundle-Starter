@@ -133,7 +133,7 @@ match in the build. L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> replaces
 C<{{$NEXT}}> in your F<Changes> file with a line containing the distribution
 version and build date/time. Finally,
 L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease> will
-bump the versions in your module files after a release.
+bump the versions in your source module files after a release.
 
 When using this option, you B<must> have the distribution version set in your
 main module in a form like C<our $VERSION = '1.234';>, rather than in
@@ -392,8 +392,8 @@ L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> default) for executable scripts.
 
 =head2 Versions
 
-When using the L</"managed_versions"> option, the added plugins can be directly
-configured in various ways to suit your versioning needs.
+When using the L</"managed_versions"> option, the additional plugins can be
+directly configured in various ways to suit your versioning needs.
 
   [@Starter]
   revision = 3
@@ -590,8 +590,8 @@ L<[LicenseFromModule]|Dist::Zilla::Plugin::LicenseFromModule>.
 =head2 Changelog
 
 To automatically add the new release version to the distribution changelog,
-use L<[NextRelease]|Dist::Zilla::Plugin::NextRelease>. To ensure the release
-has changelog entries, use
+use L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> as the L</"managed_versions">
+option does. To ensure the release has changelog entries, use
 L<[CheckChangesHasContent]|Dist::Zilla::Plugin::CheckChangesHasContent>.
 
 =head2 Git
@@ -610,9 +610,11 @@ manually, use L<[MetaResources]|Dist::Zilla::Plugin::MetaResources>.
 
 =head2 Prereqs
 
-To automatically set distribution prereqs from a L<cpanfile>, use
+To specify distribution prereqs in a L<cpanfile>, use
 L<[Prereqs::FromCPANfile]|Dist::Zilla::Plugin::Prereqs::FromCPANfile>. To
-specify prereqs manually, use L<[Prereqs]|Dist::Zilla::Plugin::Prereqs>.
+specify prereqs in F<dist.ini>, use L<[Prereqs]|Dist::Zilla::Plugin::Prereqs>.
+To automatically guess the distribution's prereqs by parsing the code, use
+L<[AutoPrereqs]|Dist::Zilla::Plugin::AutoPrereqs>.
 
 =head1 BUGS
 
