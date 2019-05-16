@@ -22,21 +22,20 @@ Before getting into how Dist::Zilla manages CPAN distributions, it's important
 to understand what a CPAN distribution is. If you are here, you probably know
 that L<CPAN|https://www.cpan.org> is a repository of Perl modules that can
 easily be downloaded, installed, and updated. But for all of that to work
-smoothly, these modules must be uploaded with certain structure; you can't just
-upload a tarball of your GitHub repository and expect the toolchain to
+smoothly, these modules must be uploaded with certain structure; one can't just
+upload a tarball of a GitHub repository and expect the CPAN toolchain to
 understand it.
 
 Each tarball uploaded to CPAN is a B<release> of a B<distribution> containing
 one or more B<modules>. Modules are declared by the L<package|perlfunc/package>
 statement, and loaded from the filesystem by the L<use|perlfunc/use> statement.
-You I<can> declare packages that don't match the name of the file, but for
-the file and package to work together effectively as a module, they should
-match, with the namespace separators (C<::>) represented by directory
-separators in the filesystem, and the module file itself having the C<.pm> file
-extension.
+Package names don't necessarily need to match the name of the file, but for the
+file and package to work together effectively as a module, they should match,
+with the namespace separators (C<::>) represented by directory separators in
+the filesystem, and the module file itself having the C<.pm> file extension.
 
 These module names are the basis of CPAN's module index, which is maintained by
-a system called L<PAUSE|https://pause.perl.org>. When you upload a new release
+a system called L<PAUSE|https://pause.perl.org>. When a new release is uploaded
 to PAUSE, it discovers all packages declared in the distribution, and
 determines whether they are intended to be indexed, whether the uploader
 has permissions for each package name, and whether it has a newer version than
@@ -61,7 +60,7 @@ provided which generates a perl script named F<Build> to perform these tasks
 instead. While both methods have been extended and improved using different
 modules, for Dist::Zilla authors the details of user-side installation are
 largely unimportant unless custom configuration or installation tasks are
-required. As such, Dist::Zilla generates this install script for you via
+required. As such, Dist::Zilla generates this install script itself via
 InstallTool plugins such as L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> or
 L<[ModuleBuildTiny]|Dist::Zilla::Plugin::ModuleBuildTiny>.
 
@@ -74,7 +73,7 @@ the legacy format. In either format, this metadata describes aspects of the
 distribution as a whole such as name, author(s), prerequisites, repository and
 bugtracking resources, and optionally the name and version of each included
 package (which if provided will be trusted over PAUSE's own manual scan).
-Well-formed metadata is important to both ensuring your module can be correctly
+Well-formed metadata is important to both ensuring the modules can be correctly
 and painlessly installed, and to provide important ancillary information to
 tools such as L<MetaCPAN|https://metacpan.org> when it displays the
 distribution. Dist::Zilla generates these files as well via the
@@ -91,7 +90,7 @@ primary authoring tool, though its close-to-metal nature and extreme backcompat
 requirement has led many to develop more author-friendly wrappers.
 
 One such wrapper is L<Module::Install>. This differed from many attempts in
-that it was designed to bundle itself with your distribution, so the end user
+that it was designed to bundle itself with the distribution, so the end user
 would install using the bundled code rather than relying on the interface of
 their possibly outdated ExtUtils::MakeMaker. This was a revolutionary idea and
 the wrapper interface was well liked, but it introduced other problems. Due to
@@ -102,11 +101,11 @@ This was notably a significant issue when Perl 5.26 stopped loading modules
 from the current working directory by default, a mechanism which the
 Module::Install code bundled with hundreds of distributions relied upon to load
 itself. Additionally, it had a rudimentary plugin system but no way to formally
-declare what plugins you were using, meaning that given a Module::Install-based
-Makefile.PL, you would have to guess what plugins needed to be installed or
-bundled for the end user to make it work. On top of (or perhaps due to) these
-problems, it has become mostly unmaintained and thus has fallen far behind the
-progress of the CPAN toolchain.
+declare what plugins a distribution was using, meaning that given a
+Module::Install-based Makefile.PL, the author or contributor would have to
+guess what plugins needed to be installed or bundled for the end user to make
+it work. On top of (or perhaps due to) these problems, it has become mostly
+unmaintained and thus has fallen far behind the progress of the CPAN toolchain.
 
 L<Module::Build> was created to provide a C<make>-free alternative to
 L<ExtUtils::MakeMaker>, with the additional goal of being more modern and
@@ -144,8 +143,8 @@ the C<dzil authordeps> command.
 
 Dist::Zilla is a CPAN distribution authoring framework. At its core, it only
 organizes tasks; it requires plugins to implement the specifics of building,
-testing, and releasing the distribution. You can manually specify in
-F<dist.ini> the set of plugins that suits your needs, or even write your own
+testing, and releasing the distribution. The author can manually specify in
+F<dist.ini> the set of plugins that suits their needs, or even write new
 plugins, but there are also ready-made tools built upon it that require very
 little study to use effectively.
 
@@ -178,8 +177,7 @@ workflow. I will be referencing these bundles throughout this document.
 =head1 HOW IT WORKS
 
 Dist::Zilla relies almost entirely on its plugin and command system to provide
-all functionality, but to understand how these are utilized, you must first
-understand how the core operates.
+all functionality, but it is tied together by a few core systems.
 
 The L<Dist::Zilla> object itself is at the basis of the whole operation. It
 contains the basic properties of the distribution, such as name, version, and
@@ -236,8 +234,8 @@ plugin to load. If the section name ends in C</> followed by other text, that
 will be the alias for that instance of the plugin; otherwise, the alias is the
 same as the section name. This is important because each section in an INI file
 is unique, and because plugins are looked up by this name, so to include the
-same plugin twice you must give at least one of them an alias. Additionally,
-some plugins use the alias to set configuration, but this a bit overly magical.
+same plugin twice, at least one of them must have an alias. Additionally, some
+plugins use the alias to set configuration, but this a bit overly magical.
 
   [MyPlugin / FirstPlugin]
   [MyPlugin / SecondPlugin]
@@ -476,13 +474,13 @@ such as L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>.
 =head1 MINTING
 
 Dist::Zilla is primarily a distribution management tool, but it leverages the
-same command and plugin system to provide a minting tool. This allows you to
-use or provide a minting profile which defines how to create a new project
-and set up the basic framework automatically to your preferences. The
+same command and plugin system to provide a minting tool. This allows authors
+to use or provide a minting profile which defines how to create a new project
+and set up the basic framework automatically to their preferences. The
 L<Starter|Dist::Zilla::MintingProfile::Starter> and
 L<Starter::Git|Dist::Zilla::MintingProfile::Starter::Git> minting profiles
-provide a starting point and instructions for customizing your own profiles,
-as does L<dzil.org|http://dzil.org/tutorial/minting-profile.html>.
+provide a starting point and instructions for customizing profiles, as does
+L<dzil.org|http://dzil.org/tutorial/minting-profile.html>.
 
 =head1 AUTHOR
 
