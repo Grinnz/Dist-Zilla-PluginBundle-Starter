@@ -64,9 +64,9 @@ required. As such, Dist::Zilla generates this install script itself via
 InstallTool plugins such as L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> or
 L<[ModuleBuildTiny]|Dist::Zilla::Plugin::ModuleBuildTiny>.
 
-In addition to the install script, the other important component of a well-
-formed CPAN distribution is the metadata. This was originally contained in a
-file called F<META.yml>, which implemented the CPAN meta spec versions 1.0
+In addition to the install script, the other important component of a
+well-formed CPAN distribution is the metadata. This was originally contained in
+a file called F<META.yml>, which implemented the CPAN meta spec versions 1.0
 through 1.4. When L<CPAN meta spec version 2|CPAN::Meta::Spec> was conceived,
 it was implemented using a new file called F<META.json> that can coexist with
 the legacy format. In either format, this metadata describes aspects of the
