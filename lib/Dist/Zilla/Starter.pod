@@ -86,7 +86,7 @@ L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON> plugins.
 Originally, the same tool which allows end users to install the distribution
 could also be used by the author to manage it and create a release.
 L<ExtUtils::MakeMaker> contains author-side configuration and commands such as
-C<make test> and C<make dist>. Indeed, many authors still use this as their
+C<make manifest> and C<make dist>. Indeed, many authors still use this as their
 primary authoring tool, though its close-to-metal nature and extreme backcompat
 requirement has led many to develop more author-friendly wrappers.
 
@@ -104,7 +104,9 @@ Module::Install code bundled with hundreds of distributions relied upon to load
 itself. Additionally, it had a rudimentary plugin system but no way to formally
 declare what plugins you were using, meaning that given a Module::Install-based
 Makefile.PL, you would have to guess what plugins needed to be installed or
-bundled for the end user to make it work.
+bundled for the end user to make it work. On top of (or perhaps due to) these
+problems, it has become mostly unmaintained and thus has fallen far behind the
+progress of the CPAN toolchain.
 
 L<Module::Build> was created to provide a C<make>-free alternative to
 L<ExtUtils::MakeMaker>, with the additional goal of being more modern and
@@ -195,7 +197,7 @@ of the plugins in the minting profile, and write out the resulting build to the
 filesystem. It also utilizes a few L</PHASES> to order the execution of
 plugins.
 
-L<Dist::Zilla::MVP::Assember> is a <Config::MVP>-based configuration parser
+L<Dist::Zilla::MVP::Assember> is a L<Config::MVP>-based configuration parser
 that is the core of how Dist::Zilla's plugin L</CONFIGURATION> works. It reads
 a F<dist.ini> (or F<profile.ini>) and constructs the requested set of plugins
 and configuration, and stores them in the Dist::Zilla object.
