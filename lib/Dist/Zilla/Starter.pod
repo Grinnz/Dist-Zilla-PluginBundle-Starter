@@ -9,12 +9,12 @@ Dist::Zilla::Starter - Get started with Dist::Zilla
 =head1 DESCRIPTION
 
 This is a tutorial and guide for using L<Dist::Zilla> effectively to manage and
-release CPAN distributions with C<[@Starter]>.
+release CPAN distributions with C<[@Starter]> and C<[@Starter::Git]>.
 
-See L<Dist::Zilla::PluginBundle::Starter> and
-L<Dist::Zilla::PluginBundle::Starter::Git> for the plugin bundle, and
-L<Dist::Zilla::MintingProfile::Starter> and
-L<Dist::Zilla::MintingProfile::Starter::Git> for the minting profile.
+See L<Dist::Zilla::PluginBundle::Starter>
+(L<::Git|Dist::Zilla::PluginBundle::Starter::Git>) for the plugin bundle, and
+L<Dist::Zilla::MintingProfile::Starter>
+(L<::Git|Dist::Zilla::MintingProfile::Starter::Git>) for the minting profile.
 
 =head1 CPAN DISTRIBUTIONS
 
@@ -154,30 +154,31 @@ perform the most common authoring tasks, and is used throughout most tutorials
 including L<dzil.org|http://dzil.org>, but it has unfortunately become outdated
 in practice and, as of this writing, cannot be fixed without breaking changes.
 
-The prolific creator of L<cpanm>, L<Carton>, L<cpanfile>, and other wonderful
-convenience tools created a "convention over configuration" tool called
-L<Dist::Milla>. Dist::Milla is a bundle, minting profile, and command-line
-wrapper of Dist::Zilla which provides a complete opinionated authoring tool.
-It requires a certain modernized structure, and in return removes all of the
-guesswork in managing and releasing distributions. Its sister project
-L<Minilla> is also notable for being able to achieve almost the same tasks
-without a dependency on Dist::Zilla, though as a result it cannot be extended
-with arbitrary plugins from the Dist::Zilla ecosystem.
+The L<prolific creator|https://metacpan.org/author/MIYAGAWA> of L<cpanm>,
+L<Carton>, L<cpanfile>, and other wonderful convenience tools created a
+"convention over configuration" tool called L<Dist::Milla>. Dist::Milla is a
+bundle, minting profile, and command-line wrapper of Dist::Zilla which provides
+a complete opinionated authoring tool. It requires a certain modernized
+structure, and in return removes all of the guesswork in managing and releasing
+distributions. Its sister project L<Minilla> is also notable for being able to
+achieve almost the same tasks without a dependency on Dist::Zilla, though as a
+result it cannot be extended with arbitrary plugins from the Dist::Zilla
+ecosystem.
 
 The L<[@Starter]|Dist::Zilla::PluginBundle::Starter> bundle and minting profile
 is a middle ground. The intention is to provide an unopinionated tool which can
 be used effectively in almost any distribution similarly to C<[@Basic]>, but
 that can be updated at the author's request to newer conventions, and can also
-optionally provide further modern convenience at the expense of stricter and
-more opinionated structural requirements. The
+optionally provide further modern convenience with slightly stricter and more
+opinionated structural requirements. The
 L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git> bundle and minting
 profile are variants that provide some extra functionality for a git-based
-workflow. I will be referencing these bundles throughout this document.
+workflow.
 
 =head1 THE DIST::ZILLA CORE
 
 Dist::Zilla relies almost entirely on its plugin and command system to provide
-all functionality, but it is tied together by a few core systems.
+specific functionality, but these are tied together by a few core systems.
 
 The L<Dist::Zilla> object itself is at the basis of the whole operation. It
 contains the basic properties of the distribution, such as name, version, and
@@ -273,8 +274,10 @@ version of the plugin or bundle.
   [MyPlugin]
   :version = 0.005
 
-Of additional note is that the C<[@Starter]> bundle composes the
-L<-PluginBundle::PluginRemover|https://metacpan.org/pod/Dist::Zilla::Role::PluginBundle::PluginRemover> and
+Of additional note is that the C<[@Starter]> bundles (as well as L<Dist::Milla>)
+compose the
+L<-PluginBundle::PluginRemover|https://metacpan.org/pod/Dist::Zilla::Role::PluginBundle::PluginRemover>
+and
 L<-PluginBundle::Config::Slicer|https://metacpan.org/pod/Dist::Zilla::Role::PluginBundle::Config::Slicer>
 roles, which allow plugins within a bundle to be configured directly in
 F<dist.ini>. The PluginRemover role recognizes the C<-remove> option and omits
@@ -296,7 +299,7 @@ slicing.
 =head1 PHASES
 
 Plugins included in F<dist.ini> are ordered, but they do not necessarily
-execute in order. A L<Dist::Zilla> command such as
+execute in order. A Dist::Zilla command such as
 L<< C<dzil test>|Dist::Zilla::App::Command::test >> will run one or more
 B<phases>, which will execute any code that plugins have registered for that
 phase, in the order those plugins were used. The command
@@ -379,10 +382,10 @@ execute during this phase by default.
 
 The L<-BuildRunner|Dist::Zilla::Role::BuildRunner> phase executes the configure
 and build phases of the L<CPAN::Meta::Spec/Phases> in a built distribution (not
-to be confused with the L<Dist::Zilla> build that creates this distribution).
-This is primarily used to prepare the distribution for testing. In
-C<[@Starter]>, L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> or the configured
-installer plugin handles this phase.
+to be confused with the Dist::Zilla build that creates this distribution). This
+is primarily used to prepare the distribution for testing. In C<[@Starter]>,
+L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> or the configured installer
+plugin handles this phase.
 
 =head2 TestRunner
 
@@ -401,7 +404,9 @@ L<[ConfirmRelease]|Dist::Zilla::Plugin::ConfirmRelease>, and
 L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN> (to ensure PAUSE username
 and password are available) execute during this phase. In C<[@Starter::Git]>,
 the plugin L<[Git::Check]|Dist::Zilla::Plugin::Git::Check> executes during this
-phase.
+phase. Other pre-release checks like
+L<[CheckChangesHasContent]|Dist::Zilla::Plugin::CheckChangesHasContent> also
+execute in this phase.
 
 =head2 Releaser
 
@@ -425,15 +430,14 @@ L<[Git::Commit]|Dist::Zilla::Plugin::Git::Commit>,
 L<[Git::Tag]|Dist::Zilla::Plugin::Git::Tag>, and
 L<[Git::Push]|Dist::Zilla::Plugin::Git::Push> execute during this phase.
 
-=head2 MetaProvider
+=head2 NameProvider
 
-The L<-MetaProvider|Dist::Zilla::Role::MetaProvider> phase executes when
-required rather than at a specific time, to generate the distribution's
-metadata such as for generating F<META.yml> and F<META.json>. In C<[@Starter]>,
-the L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>,
-L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>, and
-L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex]> plugins provide metadata in
-this phase.
+The L<-NameProvider|Dist::Zilla::Role::NameProvider> phase executes when
+required rather than at a specific time, to determine the name of the
+distribution. No plugins in C<[@Starter]> execute during this phase by default,
+and the name can be provided directly by setting C<name> in F<dist.ini>. The
+L<[NameFromDirectory]|Dist::Zilla::Plugin::NameFromDirectory> plugin can act as
+a name provider.
 
 =head2 VersionProvider
 
@@ -445,6 +449,35 @@ With the
 L<managed_versions|Dist::Zilla::PluginBundle::Starter/managed_versions> option,
 the L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> plugin acts as the
 version provider.
+
+=head2 ReleaseStatusProvider
+
+The L<-ReleaseStatusProvider|Dist::Zilla::Role::ReleaseStatusProvider> phase
+executes when required rather than at a specific time, to determine the
+L<CPAN::Meta::Spec/release_status> of the distribution. It defaults to
+C<stable> and is usually set to another value by passing the C<--trial> option
+to L<dzil release|Dist::Zilla::App::Command::release> or using a version
+containing an underscore, but can also be set by a plugin in this phase.
+
+=head2 LicenseProvider
+
+The L<-LicenseProvider|Dist::Zilla::Role::LicenseProvider> phase executes when
+required rather than at a specific time, to determine the license of the
+distribution. No plugins in C<[@Starter]> execute during this phase by default,
+and the license can be provided directly by setting C<license> in F<dist.ini>,
+or otherwise guessed from the main module's POD.
+
+=head2 MetaProvider
+
+The L<-MetaProvider|Dist::Zilla::Role::MetaProvider> phase executes when
+required rather than at a specific time, to generate the distribution's
+L<CPAN metadata|CPAN::Meta::Spec>. In C<[@Starter]>, the
+L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>,
+L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>, and
+L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex]> plugins provide metadata in
+this phase. Other metadata providers like
+L<[MetaResources]|Dist::Zilla::Plugin::MetaResources> also execute in this
+phase.
 
 =head2 ShareDir
 
