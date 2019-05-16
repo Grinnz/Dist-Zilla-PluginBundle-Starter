@@ -1,11 +1,6 @@
-package Dist::Zilla::Starter;
+=pod
 
-use strict;
-use warnings;
-
-our $VERSION = 'v3.0.2';
-
-1;
+=encoding UTF-8
 
 =head1 NAME
 
