@@ -80,6 +80,19 @@ distribution. Dist::Zilla generates these files as well via the
 L<[MetaYAML]|Dist::Zilla::Plugin::MetaYAML> and
 L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON> plugins.
 
+The meat of the CPAN distribution, the code, tests, and documentation, are
+generally expected to be in a certain structure. Modules (F<.pm>) and
+documentation (F<.pod>) are placed in the F<lib/> directory, with a file path
+corresponding to the module name, as they will be ultimately installed. Tests
+(F<.t>) are placed in the F<t/> directory, and do not get installed.
+Executables to install have no strict convention but are usually put in F<bin/>
+or F<script/>. You may see distributions with these important files in other
+places, usually because they predate these conventions or for compatibility
+with old versions of ExtUtils::MakeMaker that required F<.xs> files to be in
+the distribution root. Other directories may be included in the CPAN
+distribution, but have no specific meaning by default to the standard
+installers.
+
 =head1 A BRIEF HISTORY OF AUTHORING
 
 Originally, the same tool which allows end users to install the distribution
