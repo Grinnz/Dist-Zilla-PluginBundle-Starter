@@ -108,6 +108,10 @@
       "Dist::Zilla::PluginBundle::Starter" : {
          "file" : "lib/Dist/Zilla/PluginBundle/Starter.pm",
          "version" : "v3.0.2"
+      },
+      "Dist::Zilla::Starter" : {
+         "file" : "lib/Dist/Zilla/Starter.pm",
+         "version" : "v3.0.2"
       }
    },
    "release_status" : "stable",
