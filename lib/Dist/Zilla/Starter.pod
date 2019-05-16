@@ -140,7 +140,7 @@ Module::Install, it has a formal plugin configuration system, and can
 deterministically find what plugins are needed to build the distribution, using
 the C<dzil authordeps> command.
 
-=head1 WHAT IS DIST::ZILLA
+=head1 DIST::ZILLA AND BUNDLES
 
 Dist::Zilla is a CPAN distribution authoring framework. At its core, it only
 organizes tasks; it requires plugins to implement the specifics of building,
