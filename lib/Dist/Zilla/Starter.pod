@@ -235,8 +235,7 @@ will be the alias for that instance of the plugin; otherwise, the alias is the
 same as the section name. This is important because each section in an INI file
 is unique, and because plugins are looked up by this name, so to include the
 same plugin twice you must give at least one of them an alias. Additionally,
-some plugins use the alias to set configuration, but this a bit overly magical
-and falling out of favor.
+some plugins use the alias to set configuration, but this a bit overly magical.
 
   [MyPlugin / FirstPlugin]
   [MyPlugin / SecondPlugin]
@@ -271,8 +270,8 @@ version of the plugin or bundle.
   :version = 0.005
 
 Of additional note is that the C<[@Starter]> bundle composes the
-L<[-PluginRemover]|https://metacpan.org/pod/Dist::Zilla::Role::PluginBundle::PluginRemover> and
-L<[-Config::Slicer]|https://metacpan.org/pod/Dist::Zilla::Role::PluginBundle::Config::Slicer>
+L<-PluginBundle::PluginRemover|https://metacpan.org/pod/Dist::Zilla::Role::PluginBundle::PluginRemover> and
+L<-PluginBundle::Config::Slicer|https://metacpan.org/pod/Dist::Zilla::Role::PluginBundle::Config::Slicer>
 roles, which allow plugins within a bundle to be configured directly in
 F<dist.ini>. The PluginRemover role recognizes the C<-remove> option and omits
 those plugins by name, and the Config::Slicer role recognizes options in the
