@@ -298,8 +298,8 @@ slicing.
 Plugins included in F<dist.ini> are ordered, but they do not necessarily
 execute in order. A L<Dist::Zilla> command such as
 L<< C<dzil test>|Dist::Zilla::App::Command::test >> will run one or more
-B<phases>, which will execute any code plugins have registered for that phase,
-in the order those plugins were used. The command
+B<phases>, which will execute any code that plugins have registered for that
+phase, in the order those plugins were used. The command
 L<< C<dzil dumpphases>|Dist::Zilla::App::Command::dumpphases >> can be used to
 see a full listing of the phases that the plugins in a F<dist.ini> will run in.
 
@@ -343,7 +343,7 @@ In the L<-FileMunger|Dist::Zilla::Role::FileMunger> phase, files in the
 distribution may be modified. In C<[@Starter]> the plugin
 L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile> runs during this phase
 in order to update its test file to test all gathered modules and scripts. With
-the L<managed_versions|Dist::Zilla::PluginBundle::Stater/"managed_versions">
+the L<managed_versions|Dist::Zilla::PluginBundle::Stater/managed_versions>
 option, the L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> and
 L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> plugins also operate during
 this phase.
@@ -378,16 +378,16 @@ execute during this phase by default.
 =head2 BuildRunner
 
 The L<-BuildRunner|Dist::Zilla::Role::BuildRunner> phase executes the configure
-and build phases of the L<CPAN::Meta::Spec/"Phases"> in a built distribution
-(not to be confused with the L<Dist::Zilla> build that creates this
-distribution). This is primarily used to prepare the distribution for testing.
-In C<[@Starter]>, L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> or the
-configured installer plugin handles this phase.
+and build phases of the L<CPAN::Meta::Spec/Phases> in a built distribution (not
+to be confused with the L<Dist::Zilla> build that creates this distribution).
+This is primarily used to prepare the distribution for testing. In
+C<[@Starter]>, L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> or the configured
+installer plugin handles this phase.
 
 =head2 TestRunner
 
 The L<-TestRunner|Dist::Zilla::Role::TestRunner> phase executes the test phase
-of the L<CPAN::Meta::Spec/"Phases"> and runs any author-side testing. In
+of the L<CPAN::Meta::Spec/Phases> and runs any author-side testing. In
 C<[@Starter]>, L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> (or the configured
 installer plugin) and L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests>
 handle this phase.
@@ -414,11 +414,11 @@ L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>) handles this phase.
 The L<-AfterRelease|Dist::Zilla::Plugin::AfterRelease> phase concludes the
 distribution release process, performing any post-release cleanup or tagging.
 No plugins in C<[@Starter]> execute during this phase by default. With the
-L<managed_versions|Dist::Zilla::PluginBundle::Stater/"managed_versions">
-option, the L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> and
+L<managed_versions|Dist::Zilla::PluginBundle::Stater/managed_versions> option,
+the L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> and
 L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>
 plugins execute during this phase. With the
-L<regenerate|Dist::Zilla::PluginBundle::Starter/"regenerate"> option, the
+L<regenerate|Dist::Zilla::PluginBundle::Starter/regenerate> option, the
 L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease> plugin
 executes during this phase. In C<[@Starter::Git]>, the plugins
 L<[Git::Commit]|Dist::Zilla::Plugin::Git::Commit>,
@@ -442,9 +442,9 @@ required rather than at a specific time, to determine the version of the
 distribution. No plugins in C<[@Starter]> execute during this phase by default,
 and the version can be provided directly by setting C<version> in F<dist.ini>.
 With the
-L<managed_versions|Dist::Zilla::PluginBundle::Starter/"managed_versions">
-option, the L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> plugin acts
-as the version provider.
+L<managed_versions|Dist::Zilla::PluginBundle::Starter/managed_versions> option,
+the L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> plugin acts as the
+version provider.
 
 =head2 ShareDir
 
@@ -457,7 +457,7 @@ configures a distribution sharedir if present.
 
 The L<-Regenerator|Dist::Zilla::Role::Regenerator> phase is a quasi-phase which
 executes when L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>
-is run. With the L<regenerate|Dist::Zilla::PluginBundle::Starter/"regenerate">
+is run. With the L<regenerate|Dist::Zilla::PluginBundle::Starter/regenerate>
 option for C<[@Starter]>, the
 L<[Regenerate::AfterReleasers]|Dist::Zilla::Plugin::Regenerate::AfterReleasers>
 plugin promotes
