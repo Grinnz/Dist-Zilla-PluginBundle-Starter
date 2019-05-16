@@ -296,6 +296,17 @@ slicing.
   GatherDir.exclude_filename[a] = foo
   GatherDir.exclude_filename[b] = bar
 
+=head1 MINTING
+
+Dist::Zilla is primarily a distribution management tool, but it leverages the
+same command and plugin system to provide a minting tool. This allows authors
+to use or provide a minting profile which defines how to create a new project
+and set up the basic framework automatically to their preferences. The
+L<Starter|Dist::Zilla::MintingProfile::Starter> and
+L<Starter::Git|Dist::Zilla::MintingProfile::Starter::Git> minting profiles
+provide a starting point and instructions for customizing profiles, as does
+L<dzil.org|http://dzil.org/tutorial/minting-profile.html>.
+
 =head1 PHASES
 
 Plugins included in F<dist.ini> are ordered, but they do not necessarily
@@ -528,17 +539,6 @@ L<[Regenerate::AfterReleasers]|Dist::Zilla::Plugin::Regenerate::AfterReleasers>
 plugin promotes
 L<[CopyFilesFromRelease]|Dist::Zilla::Plugin::CopyFilesFromRelease> to also
 execute during this phase.
-
-=head1 MINTING
-
-Dist::Zilla is primarily a distribution management tool, but it leverages the
-same command and plugin system to provide a minting tool. This allows authors
-to use or provide a minting profile which defines how to create a new project
-and set up the basic framework automatically to their preferences. The
-L<Starter|Dist::Zilla::MintingProfile::Starter> and
-L<Starter::Git|Dist::Zilla::MintingProfile::Starter::Git> minting profiles
-provide a starting point and instructions for customizing profiles, as does
-L<dzil.org|http://dzil.org/tutorial/minting-profile.html>.
 
 =head1 AUTHOR
 
