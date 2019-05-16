@@ -325,20 +325,23 @@ L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
 L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
 L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>,
 L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> (or the configured installer
-plugin), and L<[Manifest]|Dist::Zilla::Plugin::Manifest>.
+plugin), and L<[Manifest]|Dist::Zilla::Plugin::Manifest>. This phase is also
+executed by the minting process to add files to a new distribution source tree.
 
 =head2 EncodingProvider
 
 In the L<-EncodingProvider|Dist::Zilla::Role::EncodingProvider> phase, a plugin
 may set the encoding for gathered files. No plugins in C<[@Starter]> execute
-during this phase by default.
+during this phase by default. This phase is also executed by the minting
+process.
 
 =head2 FilePruner
 
 In the L<-FilePruner|Dist::Zilla::Role::FilePruner> phase, gathered files may
 be removed from the distribution. In C<[@Starter]> this is handled by the
 plugins L<[PruneCruft]|Dist::Zilla::Plugin::PruneCruft> and
-L<[ManifestSkip]|Dist::Zilla::Plugin::ManifestSkip>.
+L<[ManifestSkip]|Dist::Zilla::Plugin::ManifestSkip>. This phase is also
+executed by the minting process.
 
 =head2 FileMunger
 
@@ -349,7 +352,7 @@ in order to update its test file to test all gathered modules and scripts. With
 the L<managed_versions|Dist::Zilla::PluginBundle::Stater/managed_versions>
 option, the L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> and
 L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> plugins also operate during
-this phase.
+this phase. This phase is also executed by the minting process.
 
 =head2 PrereqSource
 
@@ -395,6 +398,13 @@ C<[@Starter]>, L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> (or the configured
 installer plugin) and L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests>
 handle this phase.
 
+=head2 BeforeArchive
+
+The L<-BeforeArchive|Dist::Zilla::Role::BeforeArchive> phase is executed after
+building the distribution and before packaging it into an archive, such as for
+the L<dzil build|Dist::Zilla::App::Command::build> command or before releasing.
+No plugins in C<[@Starter]> execute during this phase by default.
+
 =head2 BeforeRelease
 
 The L<-BeforeRelease|Dist::Zilla::Role::BeforeRelease> phase prepares a built
@@ -416,7 +426,7 @@ L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>) handles this phase.
 
 =head2 AfterRelease
 
-The L<-AfterRelease|Dist::Zilla::Plugin::AfterRelease> phase concludes the
+The L<-AfterRelease|Dist::Zilla::Role::AfterRelease> phase concludes the
 distribution release process, performing any post-release cleanup or tagging.
 No plugins in C<[@Starter]> execute during this phase by default. With the
 L<managed_versions|Dist::Zilla::PluginBundle::Stater/managed_versions> option,
@@ -429,6 +439,16 @@ executes during this phase. In C<[@Starter::Git]>, the plugins
 L<[Git::Commit]|Dist::Zilla::Plugin::Git::Commit>,
 L<[Git::Tag]|Dist::Zilla::Plugin::Git::Tag>, and
 L<[Git::Push]|Dist::Zilla::Plugin::Git::Push> execute during this phase.
+
+=head2 BeforeMint
+
+The L<-BeforeMint|Dist::Zilla::Role::BeforeMint> phase is executed at the
+beginning of the minting process for a new distribution source tree.
+
+=head2 AfterMint
+
+The L<-AfterMint|Dist::Zilla::Role::AfterMint> phase is executed at the end of
+the minting process for a new distribution source tree.
 
 =head2 NameProvider
 
@@ -454,9 +474,10 @@ version provider.
 
 The L<-ReleaseStatusProvider|Dist::Zilla::Role::ReleaseStatusProvider> phase
 executes when required rather than at a specific time, to determine the
-L<CPAN::Meta::Spec/release_status> of the distribution. It defaults to
-C<stable> and is usually set to another value by passing the C<--trial> option
-to L<dzil release|Dist::Zilla::App::Command::release> or using a version
+L<CPAN::Meta::Spec/release_status> of the distribution. No plugins in
+C<[@Starter]> execute during this phase by default. It defaults to C<stable>
+and is usually set to another value by passing the C<--trial> option to
+L<dzil release|Dist::Zilla::App::Command::release> or using a version
 containing an underscore, but can also be set by a plugin in this phase.
 
 =head2 LicenseProvider
