@@ -298,9 +298,8 @@ slicing.
 Plugins included in F<dist.ini> are ordered, but they do not necessarily
 execute in order. A L<Dist::Zilla> command such as
 L<< C<dzil test>|Dist::Zilla::App::Command::test >> will run one or more
-B<phases>, which will execute any code plugins have registered for that phase.
-Within the phase, code registered by plugins is run in the order the plugins
-were used. The command
+B<phases>, which will execute any code plugins have registered for that phase,
+in the order those plugins were used. The command
 L<< C<dzil dumpphases>|Dist::Zilla::App::Command::dumpphases >> can be used to
 see a full listing of the phases that the plugins in a F<dist.ini> will run in.
 
