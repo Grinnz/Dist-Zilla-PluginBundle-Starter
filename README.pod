@@ -24,6 +24,8 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   managed_versions = 1 ; uses the main module version, and bumps module versions after release
   regenerate = LICENSE ; copy LICENSE to root after release or dzil regenerate
 
+  [@Starter::Git]      ; variant bundle for git workflows
+
 =head1 DESCRIPTION
 
 The C<[@Starter]> plugin bundle for L<Dist::Zilla> is designed to do the
@@ -34,6 +36,9 @@ selection of included plugins is intended to be unopinionated and unobtrusive,
 so that it is usable for any well-formed CPAN distribution. If you're just
 getting started with L<Dist::Zilla>, check out the tutorials at
 L<http://dzil.org>.
+
+For a variant of this bundle with built-in support for a git-based workflow,
+see L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 
 Migrating from C<[@Basic]> is easy for most cases. Most of the bundle is the
 same, so just make sure to remove any extra plugins that C<[@Starter]> already
@@ -60,9 +65,6 @@ For a detailed overview of how this plugin bundle works, see L</"PHASES">.
 
 For one-line initialization of a new C<[@Starter]>-based distribution, try
 L<Dist::Zilla::MintingProfile::Starter>.
-
-For a variant of this bundle with built-in support for a git-based workflow,
-see L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 
 Another simple way to use L<Dist::Zilla> is with L<Dist::Milla>, an opinionated
 bundle that requires no configuration and performs all of the tasks in
