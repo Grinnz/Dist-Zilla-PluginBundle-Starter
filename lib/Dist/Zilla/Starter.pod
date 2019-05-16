@@ -248,6 +248,10 @@ than taking action in any build phases.
   [@MyBundle]
   configuration = for the bundle
 
+Plugins loaded by the bundle will be given an alias in the form
+C<@BundleName/PluginName> and so will not conflict if the same plugin is loaded
+elsewhere.
+
 A similar convention with the prefix of C<-> indicates a role to be prefixed
 with C<Dist::Zilla::Role::>, but these are not configured directly in
 F<dist.ini>; roles implement both general interfaces of Dist::Zilla as well as
