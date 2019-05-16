@@ -174,7 +174,7 @@ L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git> bundle and minting
 profile are variants that provide some extra functionality for a git-based
 workflow. I will be referencing these bundles throughout this document.
 
-=head1 HOW IT WORKS
+=head1 THE DIST::ZILLA CORE
 
 Dist::Zilla relies almost entirely on its plugin and command system to provide
 all functionality, but it is tied together by a few core systems.
