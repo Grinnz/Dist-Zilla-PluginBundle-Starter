@@ -399,8 +399,8 @@ L<< C<dzil new>|Dist::Zilla::App::Command::new >> command, invoked with the
 name of the module or distribution to create. By default, the local profile in
 C<~/.dzil/profiles/default> will be used if present, and otherwise a default
 C<[@Basic]> profile. The C<-p> option can be used to specify the profile name
-to use, and the C<-P> option can specify an installed minting profile as the
-provider. The default profile or provider can be set in the
+to use, and the C<-P> option can specify an installed minting profile module as
+the provider. The default profile or provider can be set in the
 C<~/.dzil/config.ini> configuration as documented for C<dzil new>.
 
 =head1 PHASES
