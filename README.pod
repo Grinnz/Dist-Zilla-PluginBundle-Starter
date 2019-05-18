@@ -14,7 +14,7 @@ L<[@Starter]|Dist::Zilla::PluginBundle::Starter> and
 L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 
 If you already understand general CPAN distribution authoring, skip ahead to
-L</"DIST::ZILLA AND BUNDLES">.
+L</"DZIL AND BUNDLES">.
 
 =head1 CPAN DISTRIBUTIONS
 
@@ -152,7 +152,7 @@ Module::Install, it has a formal plugin configuration system, and can
 deterministically find what plugins are needed to build the distribution, using
 the C<dzil authordeps> command.
 
-=head1 DIST::ZILLA AND BUNDLES
+=head1 DZIL AND BUNDLES
 
 Dist::Zilla is a CPAN distribution authoring framework. At its core, it only
 organizes tasks; it requires plugins to implement the specifics of building,
@@ -188,7 +188,7 @@ L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git> bundle and minting
 profile are variants that provide some extra functionality for a git-based
 workflow.
 
-=head1 THE DIST::ZILLA CORE
+=head1 THE DZIL CORE
 
 Dist::Zilla relies almost entirely on its plugin and command system to provide
 specific functionality, but these are tied together by a few core systems.
