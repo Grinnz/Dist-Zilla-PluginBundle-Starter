@@ -337,7 +337,7 @@ test phases of the L<CPAN::Meta::Spec/Phases>. It will also execute any other
 C<-TestRunner> phase plugins such as
 L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests>, which runs any
 author-side tests from the C<xt/> directory. The C<--release> option can be
-passed to run release tests in addition to author tests.
+passed to run release tests in addition to standard and author tests.
 
 The second most important command is
 L<< C<dzil release>|Dist::Zilla::App::Command::release >>. This will build the
