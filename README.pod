@@ -342,7 +342,7 @@ distribution for the first time are
 L<< C<dzil authordeps>|Dist::Zilla::App::Command::authordeps >> and
 L<< C<dzil listdeps>|Dist::Zilla::App::Command::listdeps >>. C<authordeps>
 lists the Dist::Zilla plugins required by the F<dist.ini>, and C<listdeps>
-lists the dependencies of the distribution itself. The output of both can be
+lists the dependencies of the distribution itself. The output of each can be
 piped into L<cpanm> to install any modules needed for working on the
 distribution. Note that the C<authordeps> requirements must be installed for
 most other C<dzil> commands to succeed, including C<listdeps>. The non-core
