@@ -219,8 +219,8 @@ and configuration, and stores them in the Dist::Zilla object.
 L<Dist::Zilla::App> is an L<App::Cmd>-based command system that allows the
 L<dzil> script to load and execute any installed commands in the
 C<Dist::Zilla::App::Command> namespace, such as
-L<dzil test|Dist::Zilla::App::Command::test> or
-L<dzil regenerate|Dist::Zilla::App::Command::regenerate>.
+L<< C<dzil test>|Dist::Zilla::App::Command::test >> or
+L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>.
 
 L<Test::DZil> is a framework that facilitates testing of Dist::Zilla builds and
 minting profiles. It contains constructors for test-appropriate subclasses of
@@ -309,6 +309,70 @@ slicing.
   GatherDir.exclude_filename[a] = foo
   GatherDir.exclude_filename[b] = bar
 
+Occasionally you may need to specify an authordep (module required for using
+the F<dist.ini> itself) that is not explicitly listed as a plugin. For this
+purpose, authordeps can additionally be specified as comments.
+
+  ; authordep Pod::Weaver::PluginBundle::DAGOLDEN
+
+=head1 COMMANDS
+
+After setting up the configuration, Dist::Zilla operations are executed by
+running commands. Dist::Zilla has a pluggable command system with many core
+commands and many more available from CPAN. There are only a few needed for the
+basic operation of creating and releasing a distribution. Most commands operate
+by executing one or more L</PHASES>.
+
+One of the most common commands is
+L<< C<dzil test>|Dist::Zilla::App::Command::test >>. This will build the
+distribution in a temporary directory, and then run the configure, build, and
+test phases of the L<CPAN::Meta::Spec/Phases>. It will also execute any other
+C<-TestRunner> phase plugins such as
+L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests>, which runs any
+author-side tests from the C<xt/> directory. The C<--release> option can be
+passed to run release tests in addition to author tests.
+
+The second most important command is
+L<< C<dzil release>|Dist::Zilla::App::Command::release >>. This will build the
+distribution, and then upload the archive to PAUSE. The C<--trial> option will
+mark the upload as a trial release, so it will not be indexed as stable.
+
+Two commands that are important when starting work on a Dist::Zilla
+distribution for the first time are
+L<< C<dzil authordeps>|Dist::Zilla::App::Command::authordeps >> and
+L<< C<dzil listdeps>|Dist::Zilla::App::Command::listdeps >>. C<authordeps>
+lists the Dist::Zilla plugins required by the F<dist.ini>, and C<listdeps>
+lists the dependencies of the distribution itself. The output of both can be
+piped into L<cpanm> to install any modules needed for working on the
+distribution. Note that the C<authordeps> requirements must be installed for
+most other C<dzil> commands to succeed, including C<listdeps>. The non-core
+command L<< C<dzil installdeps>|Dist::Zilla::App::Command::installdeps >> wraps
+this process into a single command.
+
+Some other core commands for distribution management are
+L<< C<dzil build>|Dist::Zilla::App::Command::build >>, which builds the
+distribution and stores the tarball and extracted directory locally;
+L<< C<dzil run>|Dist::Zilla::App::Command::run >>, which builds the
+distribution temporarily like C<dzil test> but runs the supplied command
+instead; L<< C<dzil install>|Dist::Zilla::App::Command::install >>, which
+builds the distribution temporarily and then installs it with a CPAN installer;
+and L<< C<dzil clean>|Dist::Zilla::App::Command::clean >> which cleans up the
+Dist::Zilla F<.build> directory and any built distribution directories or
+archives.
+
+One more common task is to copy updated versions of generated files from the
+distribution build to the source tree, such as generated F<README> files or the
+F<Makefile.PL>/F<Build.PL> and F<META.json> so the source tree can be
+installed. Often this is done whenever the distribution is built with
+L<[CopyFilesFromBuild]|Dist::Zilla::Plugin::CopyFilesFromBuild>, but this can
+be disruptive when trying to run tests or other operations. By using the
+L<regenerate|Dist::Zilla::PluginBundle::Starter/regenerate> option for
+C<[@Starter]>, or the L<[Regenerate]|Dist::Zilla::Plugin::Regenerate> or
+L<[Regenerate::AfterReleasers]|Dist::Zilla::Plugin::Regenerate::AfterReleasers>
+plugins, the L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>
+command can be used for this purpose instead, so the distribution can be built
+without modifying the source tree, and the files can be regenerated separately.
+
 =head1 MINTING
 
 Dist::Zilla is primarily a distribution management tool, but it leverages the
@@ -319,6 +383,19 @@ L<Starter|Dist::Zilla::MintingProfile::Starter> and
 L<Starter::Git|Dist::Zilla::MintingProfile::Starter::Git> minting profiles
 provide a starting point and instructions for customizing profiles, as does
 L<dzil.org|http://dzil.org/tutorial/minting-profile.html>.
+
+Some metadata such as author, license, and copyright needs to be configured to
+be set up properly in minted distributions. This configuration is stored in
+C<~/.dzil/config.ini>, which can be initialized using the
+L<< C<dzil setup>|Dist::Zilla::App::Command::setup >> command.
+
+The process of minting a distribution primarily involves the
+L<< C<dzil new>|Dist::Zilla::App::Command::new >> command, which defaults to using
+the local default profile in C<~/.dzil/profiles/default> if present and
+otherwise a default C<[@Basic]> profile. The C<-p> option can be used to
+specify the profile name to use, and the C<-P> option can specify an installed
+minting profile as the provider. The default profile or provider can be set in
+the C<~/.dzil/config.ini> configuration as well as documented for C<dzil new>.
 
 =head1 PHASES
 
@@ -438,8 +515,8 @@ handle this phase.
 
 The L<-BeforeArchive|Dist::Zilla::Role::BeforeArchive> phase is executed after
 building the distribution and before packaging it into an archive, such as for
-the L<dzil build|Dist::Zilla::App::Command::build> command or before releasing.
-No plugins in C<[@Starter]> execute during this phase by default.
+the L<< C<dzil build>|Dist::Zilla::App::Command::build >> command or before
+releasing. No plugins in C<[@Starter]> execute during this phase by default.
 
 =head2 BeforeRelease
 
@@ -503,7 +580,7 @@ executes when required rather than at a specific time, to determine the
 L<CPAN::Meta::Spec/release_status> of the distribution. No plugins in
 C<[@Starter]> execute during this phase by default. It defaults to C<stable>
 and is usually set to another value by passing the C<--trial> option to
-L<dzil release|Dist::Zilla::App::Command::release> or using a version
+L<< C<dzil release>|Dist::Zilla::App::Command::release >> or using a version
 containing an underscore, but can also be set by a plugin in this phase.
 
 =head2 LicenseProvider
