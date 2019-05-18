@@ -360,10 +360,9 @@ and L<< C<dzil clean>|Dist::Zilla::App::Command::clean >> which cleans up the
 Dist::Zilla F<.build> directory and any built distribution directories or
 archives.
 
-One more common task is to copy updated versions of generated files from the
-distribution build to the source tree, such as generated F<README> files or the
-F<Makefile.PL>/F<Build.PL> and F<META.json> so the source tree can be
-installed. Often this is done whenever the distribution is built with
+Another common task is to copy updated versions of generated files from the
+distribution build to the source tree, such as generated F<README> files.
+Often this is done whenever the distribution is built with
 L<[CopyFilesFromBuild]|Dist::Zilla::Plugin::CopyFilesFromBuild>, but this can
 be disruptive when trying to run tests or other operations. By using the
 L<regenerate|Dist::Zilla::PluginBundle::Starter/regenerate> option for
