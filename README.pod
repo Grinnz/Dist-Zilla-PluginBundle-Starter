@@ -230,15 +230,18 @@ and minting profile authors, so is out of scope for this document.
 =head1 CONFIGURATION
 
 The Dist::Zilla configuration for a distribution is a standard INI-format file
-called F<dist.ini> in the root of the distribution. The "main section", meaning
-any configuration before the first category, configures the distribution as a
+called F<dist.ini> in the root of the distribution. Section names, which are
+lines in brackets (C<[]>), indicate plugins to be used, and lines in the format
+C<name = value> specify configuration. The "main section", meaning any
+configuration before the first section name, configures the distribution as a
 whole, with directives such as C<name> and C<version>. Each following section
 both adds a plugin to be used, and allows configuration to be passed to that
-plugin.
+plugin. Comments start with a semicolon.
 
-  name = Acme-Dist-Name
+  name = Acme-Dist-Name ; comment
   [MyPlugin]
   configuration = for MyPlugin
+  ; line comment
 
 There are a few conventions in section names that Dist::Zilla recognizes in
 order to determine how plugins are loaded. The standard section name will
