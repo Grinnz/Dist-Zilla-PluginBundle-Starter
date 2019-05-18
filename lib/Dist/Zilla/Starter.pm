@@ -389,8 +389,8 @@ L<Starter::Git|Dist::Zilla::MintingProfile::Starter::Git> minting profiles
 provide a starting point and instructions for customizing profiles, as does
 L<dzil.org|http://dzil.org/tutorial/minting-profile.html>.
 
-Some metadata such as author, license, and copyright needs to be configured to
-be set up properly in minted distributions. This configuration is stored in
+Some metadata such as author, license, and copyright is set from global
+configuration by default for new distributions. This configuration is stored in
 C<~/.dzil/config.ini>, which can be initialized using the
 L<< C<dzil setup>|Dist::Zilla::App::Command::setup >> command.
 
