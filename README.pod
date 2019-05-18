@@ -9,12 +9,12 @@ Dist::Zilla::Starter - Get started with Dist::Zilla
 =head1 DESCRIPTION
 
 This is a tutorial and guide for using L<Dist::Zilla> effectively to manage and
-release CPAN distributions with C<[@Starter]> and C<[@Starter::Git]>.
+release CPAN distributions with
+L<[@Starter]|Dist::Zilla::PluginBundle::Starter> and
+L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 
-See L<Dist::Zilla::PluginBundle::Starter>
-(L<::Git|Dist::Zilla::PluginBundle::Starter::Git>) for the plugin bundle, and
-L<Dist::Zilla::MintingProfile::Starter>
-(L<::Git|Dist::Zilla::MintingProfile::Starter::Git>) for the minting profile.
+If you already understand general CPAN distribution authoring, skip ahead to
+L</"DIST::ZILLA AND BUNDLES">.
 
 =head1 CPAN DISTRIBUTIONS
 
