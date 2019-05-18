@@ -377,7 +377,7 @@ C<[@Starter]>, or the L<[Regenerate]|Dist::Zilla::Plugin::Regenerate> or
 L<[Regenerate::AfterReleasers]|Dist::Zilla::Plugin::Regenerate::AfterReleasers>
 plugins, the L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>
 command can be used for this purpose instead, so the distribution can be built
-without modifying the source tree, and the files can be regenerated separately.
+without modifying the source tree, and the files can be regenerated as needed.
 
 =head1 MINTING
 
