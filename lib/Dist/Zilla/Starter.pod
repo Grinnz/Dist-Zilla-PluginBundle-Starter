@@ -336,6 +336,12 @@ The distribution build consists of several phases, starting with
 L<-BeforeBuild|Dist::Zilla::Role::BeforeBuild>, for any build preparation. No
 plugins in C<[@Starter]> execute during this phase by default.
 
+=head2 BeforeMint
+
+The L<-BeforeMint|Dist::Zilla::Role::BeforeMint> phase is executed at the
+beginning of the minting process for a new distribution source tree instead of
+C<-BeforeBuild>.
+
 =head2 FileGatherer
 
 In the L<-FileGatherer|Dist::Zilla::Role::FileGatherer> phase, many plugins add
@@ -378,6 +384,12 @@ option, the L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> and
 L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> plugins also operate during
 this phase. This phase is also executed by the minting process.
 
+=head2 AfterMint
+
+The L<-AfterMint|Dist::Zilla::Role::AfterMint> phase is executed to conclude
+the minting process for a new distribution source tree. The build process
+instead continues with several more phases.
+
 =head2 PrereqSource
 
 In the L<-PrereqSource|Dist::Zilla::Role::PrereqSource> phase, plugins can add
@@ -408,9 +420,9 @@ execute during this phase by default.
 =head2 BuildRunner
 
 The L<-BuildRunner|Dist::Zilla::Role::BuildRunner> phase executes the configure
-and build phases of the L<CPAN::Meta::Spec/Phases> in a built distribution (not
-to be confused with the Dist::Zilla build that creates this distribution). This
-is primarily used to prepare the distribution for testing. In C<[@Starter]>,
+and build phases of the L<CPAN::Meta::Spec/Phases> (not to be confused with the
+Dist::Zilla build that creates the distribution). This is primarily used to
+prepare the distribution for testing or installing. In C<[@Starter]>,
 L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> or the configured installer
 plugin handles this phase.
 
@@ -463,16 +475,6 @@ executes during this phase. In C<[@Starter::Git]>, the plugins
 L<[Git::Commit]|Dist::Zilla::Plugin::Git::Commit>,
 L<[Git::Tag]|Dist::Zilla::Plugin::Git::Tag>, and
 L<[Git::Push]|Dist::Zilla::Plugin::Git::Push> execute during this phase.
-
-=head2 BeforeMint
-
-The L<-BeforeMint|Dist::Zilla::Role::BeforeMint> phase is executed at the
-beginning of the minting process for a new distribution source tree.
-
-=head2 AfterMint
-
-The L<-AfterMint|Dist::Zilla::Role::AfterMint> phase is executed at the end of
-the minting process for a new distribution source tree.
 
 =head2 NameProvider
 
