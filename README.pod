@@ -210,7 +210,7 @@ of the plugins in the minting profile, and write out the resulting build to the
 filesystem. It also utilizes a few L</PHASES> to order the execution of
 plugins.
 
-L<Dist::Zilla::MVP::Assember> is a L<Config::MVP>-based configuration parser
+L<Dist::Zilla::MVP::Assembler> is a L<Config::MVP>-based configuration parser
 that is the core of how Dist::Zilla's plugin L</CONFIGURATION> works. It reads
 a F<dist.ini> (or F<profile.ini>) and constructs the requested set of plugins
 and configuration, and stores them in the Dist::Zilla object.
