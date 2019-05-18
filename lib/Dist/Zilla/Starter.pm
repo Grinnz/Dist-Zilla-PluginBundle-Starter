@@ -238,8 +238,8 @@ and minting profile authors, so is out of scope for this document.
 
 The Dist::Zilla configuration for a distribution is a standard INI-format file
 called F<dist.ini> in the root of the distribution. Section names, which are
-lines in brackets (C<[]>), indicate plugins to be used, and lines in the format
-C<name = value> specify configuration. The "main section", meaning any
+lines in square brackets (C<[]>), indicate plugins to be used, and lines in the
+format C<name = value> specify configuration. The "main section", meaning any
 configuration before the first section name, configures the distribution as a
 whole, with directives such as C<name> and C<version>. Each following section
 both adds a plugin to be used, and allows configuration to be passed to that
