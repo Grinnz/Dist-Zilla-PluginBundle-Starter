@@ -13,8 +13,8 @@ release CPAN distributions with
 L<[@Starter]|Dist::Zilla::PluginBundle::Starter> and
 L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 
-If you already understand general CPAN distribution authoring, skip ahead to
-L</"DZIL AND BUNDLES">.
+If you are already familiar with general CPAN distribution authoring, skip
+ahead to L</"DZIL AND BUNDLES">.
 
 =head1 CPAN DISTRIBUTIONS
 
