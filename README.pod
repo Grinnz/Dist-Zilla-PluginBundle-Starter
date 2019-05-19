@@ -4,13 +4,14 @@
 
 =head1 NAME
 
-Dist::Zilla::Starter - Get started with Dist::Zilla
+Dist::Zilla::Starter - Guide to getting started with Dist::Zilla
 
 =head1 DESCRIPTION
 
-This is a guide for using L<Dist::Zilla> effectively to manage and release CPAN
-distributions with L<[@Starter]|Dist::Zilla::PluginBundle::Starter> and
-L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
+This is a guide to the inner workings of L<Dist::Zilla> for managing and
+releasing CPAN distributions, in particular with the
+L<[@Starter]|Dist::Zilla::PluginBundle::Starter> and
+L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git> bundles.
 
 If you are already familiar with general CPAN distribution authoring, skip
 ahead to L</"DZIL AND BUNDLES">.
