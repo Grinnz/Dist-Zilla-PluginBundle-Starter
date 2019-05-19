@@ -61,8 +61,8 @@ instead. While both methods have been extended and improved using different
 modules, for Dist::Zilla authors the details of user-side installation are
 largely unimportant unless custom configuration or installation tasks are
 required. As such, Dist::Zilla generates this install script itself via
-InstallTool plugins such as L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker> or
-L<[ModuleBuildTiny]|Dist::Zilla::Plugin::ModuleBuildTiny>.
+C<-InstallTool> plugins such as L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>
+or L<[ModuleBuildTiny]|Dist::Zilla::Plugin::ModuleBuildTiny>.
 
 In addition to the install script, the other important component of a
 well-formed CPAN distribution is the metadata. This was originally contained in
@@ -150,7 +150,7 @@ prerequisites, or implement any author-side commands for convenience, as
 Dist::Zilla does these tasks itself. Learning from the mistakes of
 Module::Install, it has a formal plugin configuration system, and can
 deterministically find what plugins are needed to build the distribution, using
-the C<dzil authordeps> command.
+the L<< C<dzil authordeps>|Dist::Zilla::App::Command::authordeps >> command.
 
 =head1 DZIL AND BUNDLES
 
@@ -199,17 +199,17 @@ the whole set of plugins that will be run. But it doesn't do anything itself;
 it is up to other parts of the system to utilize this information.
 
 The L<Dist::Zilla::Dist::Builder> object is a subclass of the main Dist::Zilla
-object that additionally is able to B<build> the distribution by executing all
-of the relevant plugins. Additionally it can execute the appropriate plugins to
-test, install, and release the distribution. It does this primarily by
-executing L</PHASES> in a certain order for each task.
+object that is able to B<build> the distribution by executing all of the
+relevant plugins. Additionally it can execute the appropriate plugins to test,
+install, or release the built distribution. These functions are generally
+accessed via L</COMMANDS>, and primarily work by executing L</PHASES> in a
+certain order for each task.
 
 The L<Dist::Zilla::Dist::Minter> object is another subclass of the main
 Dist::Zilla object, this time to implement the L</MINTING> of new distributions
 using minting profiles. It is much simpler as it only does one thing: run all
-of the plugins in the minting profile, and write out the resulting build to the
-filesystem. It also utilizes a few L</PHASES> to order the execution of
-plugins.
+of the plugins in the minting profile by executing a few L</PHASES>, and write
+out the resulting build to the filesystem.
 
 L<Dist::Zilla::MVP::Assembler> is a L<Config::MVP>-based configuration parser
 that is the core of how Dist::Zilla's plugin L</CONFIGURATION> works. It reads
@@ -217,7 +217,7 @@ a F<dist.ini> (or F<profile.ini>) and constructs the requested set of plugins
 and configuration, and stores them in the Dist::Zilla object.
 
 L<Dist::Zilla::App> is an L<App::Cmd>-based command system that allows the
-L<dzil> script to load and execute any installed commands in the
+L<dzil> script to load and execute any installed L</COMMANDS> in the
 C<Dist::Zilla::App::Command> namespace, such as
 L<< C<dzil test>|Dist::Zilla::App::Command::test >> or
 L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>.
@@ -323,22 +323,23 @@ purpose, authordeps can additionally be specified as comments.
 After setting up the configuration, Dist::Zilla operations are executed by
 running commands. Dist::Zilla has a pluggable command system with many core
 commands and many more available from CPAN. There are only a few needed for the
-basic operation of creating and releasing a distribution. Most commands operate
-by executing one or more L</PHASES>.
+basic operation of creating and releasing a distribution.
 
 One of the most common commands is
-L<< C<dzil test>|Dist::Zilla::App::Command::test >>. This will build the
-distribution in a temporary directory, and then run the configure, build, and
-test phases of the L<CPAN::Meta::Spec/Phases>. It will also execute any other
-C<-TestRunner> phase plugins such as
-L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests>, which runs any
-author-side tests from the C<xt/> directory. The C<--release> option can be
-passed to run release tests in addition to standard and author tests.
+L<< C<dzil test>|Dist::Zilla::App::Command::test >>, a wrapper of
+L<Dist::Zilla::Dist::Builder/test>. This will build the distribution in a
+temporary directory, and then run the configure, build, and test phases of the
+L<CPAN::Meta::Spec/Phases>. It will also execute any other C<-TestRunner> phase
+plugins such as L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests>, which
+runs any author-side tests from the C<xt/> directory. The C<--release> option
+can be passed to run release tests in addition to standard and author tests.
 
 The second most important command is
-L<< C<dzil release>|Dist::Zilla::App::Command::release >>. This will build the
-distribution, and then upload the archive to PAUSE. The C<--trial> option will
-mark the upload as a trial release, so it will not be indexed as stable.
+L<< C<dzil release>|Dist::Zilla::App::Command::release >>, a wrapper of
+L<Dist::Zilla::Dist::Builder/release>. This will build the distribution, and
+then upload the archive to PAUSE with the C<-Releaser> phase. The C<--trial>
+option will mark the upload as a trial release, so it will not be indexed as
+stable.
 
 Two commands that are important when starting work on a Dist::Zilla
 distribution for the first time are
@@ -402,10 +403,10 @@ C<~/.dzil/config.ini> configuration as documented for C<dzil new>.
 =head1 PHASES
 
 Plugins included in F<dist.ini> are ordered, but they do not necessarily
-execute in order. A Dist::Zilla command such as
-L<< C<dzil test>|Dist::Zilla::App::Command::test >> will run one or more
-B<phases>, which will execute any code that plugins have registered for that
-phase, in the order those plugins were used. The command
+execute in order. L<Dist::Zilla::Dist::Builder> or L<Dist::Zilla::Dist::Minter>
+methods as invoked by L</COMMANDS> will run one or more B<phases>, which will
+execute any code that plugins have registered for that phase, in the order
+those plugins were used. The command
 L<< C<dzil dumpphases>|Dist::Zilla::App::Command::dumpphases >> can be used to
 see a full listing of the phases that the plugins in a F<dist.ini> will run in.
 
