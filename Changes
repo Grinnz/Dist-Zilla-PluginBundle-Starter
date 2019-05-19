@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+v3.0.3    2019-05-19 12:12:06 EDT
+  - Updates and fixes to Dist::Zilla::Starter guide.
+
 v3.0.2    2019-05-17 23:35:46 EDT
   - Added Dist::Zilla::Starter guide.
 
