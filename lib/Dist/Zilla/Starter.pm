@@ -16,7 +16,7 @@ Dist::Zilla::Starter - Guide to getting started with Dist::Zilla
 =head1 DESCRIPTION
 
 This is a guide to the inner workings of L<Dist::Zilla> for managing and
-releasing CPAN distributions, in particular with the
+releasing CPAN distributions effectively, in particular with the
 L<[@Starter]|Dist::Zilla::PluginBundle::Starter> and
 L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git> bundles.
 
