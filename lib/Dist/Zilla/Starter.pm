@@ -466,7 +466,7 @@ In the L<-FileMunger|Dist::Zilla::Role::FileMunger> phase, files in the
 distribution may be modified. In C<[@Starter]> the plugin
 L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile> runs during this phase
 in order to update its test file to test all gathered modules and scripts. With
-the L<managed_versions|Dist::Zilla::PluginBundle::Stater/managed_versions>
+the L<managed_versions|Dist::Zilla::PluginBundle::Starter/managed_versions>
 option, the L<[RewriteVersion]|Dist::Zilla::Plugin::RewriteVersion> and
 L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> plugins also operate during
 this phase. This phase is also executed by the minting process.
@@ -552,7 +552,7 @@ L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>) handles this phase.
 The L<-AfterRelease|Dist::Zilla::Role::AfterRelease> phase concludes the
 distribution release process, performing any post-release cleanup or tagging.
 No plugins in C<[@Starter]> execute during this phase by default. With the
-L<managed_versions|Dist::Zilla::PluginBundle::Stater/managed_versions> option,
+L<managed_versions|Dist::Zilla::PluginBundle::Starter/managed_versions> option,
 the L<[NextRelease]|Dist::Zilla::Plugin::NextRelease> and
 L<[BumpVersionAfterRelease]|Dist::Zilla::Plugin::BumpVersionAfterRelease>
 plugins execute during this phase. With the
