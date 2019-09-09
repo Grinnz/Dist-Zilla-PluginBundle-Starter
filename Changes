@@ -1,4 +1,6 @@
 {{$NEXT}}
+  - Add overview section to Dist::Zilla::Starter guide.
+  - Add example dist.ini configurations to Dist::Zilla::PluginBundle::Starter documentation.
 
 v3.0.3    2019-05-19 12:12:06 EDT
   - Updates and fixes to Dist::Zilla::Starter guide.
