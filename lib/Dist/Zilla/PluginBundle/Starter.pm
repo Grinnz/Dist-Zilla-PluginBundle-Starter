@@ -332,6 +332,7 @@ Some example F<dist.ini> configurations to get started with.
   regenerate = LICENSE
   ExecDir.dir = script
   Release_Commit.allow_dirty[] = README.md
+  BumpVersionAfterRelease.munge_build_pl = 0
 
   [ReadmeAnyFromPod]
   type = markdown
