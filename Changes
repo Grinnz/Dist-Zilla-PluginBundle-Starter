@@ -1,4 +1,5 @@
 {{$NEXT}}
+  - Fix Dist::Zilla::Starter overview to not link to itself.
 
 v3.0.4    2019-09-09 19:17:20 EDT
   - Add overview section to Dist::Zilla::Starter guide.
