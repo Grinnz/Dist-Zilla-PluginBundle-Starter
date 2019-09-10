@@ -323,6 +323,14 @@ Some example F<dist.ini> configurations to get started with.
 
   [CheckChangesHasContent]
 
+  [ReadmeAnyFromPod]
+  type = markdown
+  filename = README.md
+  location = root
+  phase = release
+  [Regenerate::AfterReleasers]
+  plugin = ReadmeAnyFromPod
+
   [@Starter::Git]
   revision = 3
   installer = ModuleBuildTiny
@@ -333,14 +341,6 @@ Some example F<dist.ini> configurations to get started with.
   ExecDir.dir = script
   Release_Commit.allow_dirty[] = README.md
   BumpVersionAfterRelease.munge_build_pl = 0
-
-  [ReadmeAnyFromPod]
-  type = markdown
-  filename = README.md
-  location = root
-  phase = release
-  [Regenerate::AfterReleasers]
-  plugin = ReadmeAnyFromPod
 
   [NameFromDirectory]
   [LicenseFromModule]
