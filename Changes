@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+v3.0.5    2019-09-09 20:34:12 EDT
   - Fix Dist::Zilla::Starter overview to not link to itself.
 
 v3.0.4    2019-09-09 19:17:20 EDT
