@@ -601,9 +601,9 @@ L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
 =head2 Revision 4
 
 Revision 4 is similar to Revision 3, but removes the
-L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig> plugin because it clutters up
-the generated META.json without much benefit. It can easily be added to the
-F<dist.ini> if desired.
+L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig> plugin because it adds
+significant clutter to the generated META files without much benefit. It can
+easily be added to the F<dist.ini> if desired.
 
 =head1 CONFIGURING
 
