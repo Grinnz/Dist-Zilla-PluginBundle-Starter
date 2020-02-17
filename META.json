@@ -103,15 +103,15 @@
    "provides" : {
       "Dist::Zilla::MintingProfile::Starter" : {
          "file" : "lib/Dist/Zilla/MintingProfile/Starter.pm",
-         "version" : "v4.0.0"
+         "version" : "v4.0.1"
       },
       "Dist::Zilla::PluginBundle::Starter" : {
          "file" : "lib/Dist/Zilla/PluginBundle/Starter.pm",
-         "version" : "v4.0.0"
+         "version" : "v4.0.1"
       },
       "Dist::Zilla::Starter" : {
          "file" : "lib/Dist/Zilla/Starter.pm",
-         "version" : "v4.0.0"
+         "version" : "v4.0.1"
       }
    },
    "release_status" : "stable",
@@ -127,7 +127,7 @@
       },
       "x_IRC" : "irc://irc.perl.org/#distzilla"
    },
-   "version" : "v4.0.0",
+   "version" : "v4.0.1",
    "x_contributors" : [
       "Dan Book <grinnz@grinnz.com>"
    ],
