@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+v4.0.0    2020-02-17 16:34:14 EST
   - Revision 4 added.
     - Removed [MetaConfig] to declutter generated META files.
 
