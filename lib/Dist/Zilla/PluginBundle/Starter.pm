@@ -764,8 +764,10 @@ manually, use L<[MetaResources]|Dist::Zilla::Plugin::MetaResources>.
 
 To specify distribution prereqs in a L<cpanfile>, use
 L<[Prereqs::FromCPANfile]|Dist::Zilla::Plugin::Prereqs::FromCPANfile>. To
-specify prereqs in F<dist.ini>, use L<[Prereqs]|Dist::Zilla::Plugin::Prereqs>.
-To automatically guess the distribution's prereqs by parsing the code, use
+specify prereqs in a F<prereqs.json> or F<prereqs.yml>, use
+L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile>. To specify prereqs in
+F<dist.ini>, use L<[Prereqs]|Dist::Zilla::Plugin::Prereqs>. To automatically
+guess the distribution's prereqs by parsing the code, use
 L<[AutoPrereqs]|Dist::Zilla::Plugin::AutoPrereqs>.
 
 =head1 BUGS
