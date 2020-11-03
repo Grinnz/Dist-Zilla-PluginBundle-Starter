@@ -310,7 +310,7 @@ will be the alias for that instance of the plugin; otherwise, the alias is the
 same as the section name. This is important because each section in an INI file
 is unique, and because plugins are looked up by this name, so to include the
 same plugin twice, at least one of them must have an alias. Additionally, some
-plugins use the alias to set configuration, but this a bit overly magical.
+plugins use the alias to set configuration, but this is a bit overly magical.
 
   [MyPlugin / FirstPlugin]
   [MyPlugin / SecondPlugin]
