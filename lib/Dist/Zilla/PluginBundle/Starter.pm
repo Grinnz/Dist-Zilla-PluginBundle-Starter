@@ -6,7 +6,7 @@ with 'Dist::Zilla::Role::PluginBundle::Easy',
   'Dist::Zilla::Role::PluginBundle::PluginRemover';
 use namespace::clean;
 
-our $VERSION = 'v4.0.2';
+our $VERSION = 'v5.0.0';
 
 # Revisions can include entries with the standard plugin name, array ref of plugin/name/config,
 # or coderefs which are passed the pluginbundle object and return a list of plugins in one of these formats.
@@ -93,6 +93,30 @@ my %revisions = (
     sub { $_[0]->pluginset_installer },
     'Manifest',
     'PruneCruft',
+    'ManifestSkip',
+    'RunExtraTests',
+    sub { $_[0]->pluginset_release_management }, # before test/confirm for before-release verification
+    'TestRelease',
+    'ConfirmRelease',
+    sub { $_[0]->pluginset_releaser },
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    sub { $_[0]->pluginset_metaprovides },
+    'ShareDir',
+    sub { $_[0]->pluginset_execdir },
+  ],
+  5 => [
+    sub { $_[0]->pluginset_gatherer },
+    'MetaYAML',
+    'MetaJSON',
+    'License',
+    'Pod2Readme',
+    'PodSyntaxTests',
+    'Test::ReportPrereqs',
+    ['Test::Compile' => { xt_mode => 1 }],
+    sub { $_[0]->pluginset_installer },
+    'Manifest',
+    'PruneCruft',
+    ['PruneFiles' => { filename => ['README.pod'] }],
     'ManifestSkip',
     'RunExtraTests',
     sub { $_[0]->pluginset_release_management }, # before test/confirm for before-release verification
@@ -243,7 +267,7 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   version = 0.001
   
   [@Starter]           ; all that is needed to start
-  revision = 4         ; always defaults to revision 1
+  revision = 5         ; always defaults to revision 1
   
   ; configuring examples
   installer = ModuleBuildTiny
@@ -253,7 +277,7 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   regenerate = LICENSE ; copy LICENSE to root after release and dzil regenerate
 
   [@Starter::Git]      ; drop-in variant bundle for git workflows
-  revision = 4         ; requires/defaults to revision 3
+  revision = 5         ; requires/defaults to revision 3
 
 =head1 DESCRIPTION
 
@@ -315,7 +339,7 @@ Some example F<dist.ini> configurations to get started with.
   version = 1.00
 
   [@Starter]
-  revision = 4
+  revision = 5
 
   [Prereqs / RuntimeRequires]
   perl = 5.010001
@@ -334,7 +358,7 @@ Some example F<dist.ini> configurations to get started with.
   copyright_year   = 2019
 
   [@Starter::Git]
-  revision = 4
+  revision = 5
   managed_versions = 1
   regenerate = Makefile.PL
   regenerate = META.json
@@ -355,7 +379,7 @@ Some example F<dist.ini> configurations to get started with.
   plugin = ReadmeAnyFromPod
 
   [@Starter::Git]
-  revision = 4
+  revision = 5
   installer = ModuleBuildTiny
   managed_versions = 1
   regenerate = Build.PL
@@ -383,7 +407,7 @@ configured by the composed roles, as in L</"CONFIGURING">.
 =head2 revision
 
   [@Starter]
-  revision = 4
+  revision = 5
 
 Selects the revision to use, from L</"REVISIONS">. Defaults to revision 1.
 
@@ -605,6 +629,20 @@ L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig> plugin because it adds
 significant clutter to the generated META files without much benefit. It can
 easily be added to the F<dist.ini> if desired.
 
+=head2 Revision 5
+
+Revision 5 is similar to Revision 4, but adds an instance of the
+L<[PruneFiles]|Dist::Zilla::Plugin::PruneFiles> plugin to remove F<README.pod>
+from the distribution build if present. The CPAN toolchain expects C<.pod>
+files to be documentation and installs them alongside the module files, even
+if they are not within the F<lib/> directory, due to historical distribution
+layouts. But this is not the purpose of F<README.pod>, so it is excluded from
+the build to avoid cluttering users' install locations and confusing MetaCPAN
+and similar documentation indexes. F<README.pod> files generated in the source
+tree using L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> (with
+C<location = root>) are already automatically excluded from the build by that
+plugin.
+
 =head1 CONFIGURING
 
 By using the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover> or
@@ -643,9 +681,7 @@ distribution's L<Dist::Zilla/"main_module"> by default, but can be configured
 to look elsewhere. The standard F<README> should always be plaintext, but in
 order to generate a non-plaintext F<README> in addition,
 L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> can simply be used
-separately. Note that POD-format F<README>s should not be included in the
-distribution build because they will get indexed and installed due to an oddity
-in CPAN installation tools.
+separately.
 
   [@Starter]
   revision = 2
@@ -661,6 +697,15 @@ in CPAN installation tools.
   phase = release ; avoid changing files in the root with dzil build or dzil test
   [Regenerate::AfterReleasers] ; allows regenerating with dzil regenerate
   plugin = Pod_Readme
+
+Alternatively, you can remove the default F<README> plugin to ship a manually
+maintained file, or generate one with another plugin such as
+L<[Readme::Brief]|Dist::Zilla::Plugin::Readme::Brief>.
+
+  [Readme::Brief]
+  [@Starter]
+  revision = 2
+  -remove = Pod2Readme
 
 =head2 MetaNoIndex
 

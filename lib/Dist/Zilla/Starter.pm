@@ -507,7 +507,8 @@ process.
 
 In the L<-FilePruner|Dist::Zilla::Role::FilePruner> phase, gathered files may
 be removed from the distribution. In C<[@Starter]> this is handled by the
-plugins L<[PruneCruft]|Dist::Zilla::Plugin::PruneCruft> and
+plugins L<[PruneCruft]|Dist::Zilla::Plugin::PruneCruft>,
+L<[PruneFiles]|Dist::Zilla::Plugin::PruneFiles>, and
 L<[ManifestSkip]|Dist::Zilla::Plugin::ManifestSkip>. This phase is also
 executed by the minting process.
 

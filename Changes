@@ -1,4 +1,6 @@
 {{$NEXT}}
+  - Revision 5 added.
+    - Added [PruneFiles] to prune README.pod if present in build.
 
 v4.0.1    2020-06-28 14:48:00 EDT
   - Update minting profile to generate revision 4 config.
