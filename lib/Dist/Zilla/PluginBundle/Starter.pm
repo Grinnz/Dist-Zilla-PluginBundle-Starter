@@ -133,6 +133,7 @@ my %revisions = (
 my %allowed_installers = (
   MakeMaker => 1,
   'MakeMaker::Awesome' => 1,
+  ModuleBuild => 1,
   ModuleBuildTiny => 1,
   'ModuleBuildTiny::Fallback' => 1,
 );
@@ -424,6 +425,11 @@ Requires revision 2 or higher.
   installer = MakeMaker::Awesome
   MakeMaker::Awesome.WriteMakefile_arg[0] = (clean => { FILES => 't/generated/*' })
 
+  [@Starter]
+  revision = 5
+  installer = ModuleBuild
+  ModuleBuild.mb_class = My::Module::Builder
+
 The default installer is L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>, which
 works with no extra configuration for most cases. The C<installer> option can
 be used to replace it with one of the following supported installers, which can
@@ -445,6 +451,11 @@ installer that don't understand configure dependencies.
 When using a L<Module::Build::Tiny>-based installer, the
 L<[ExecDir]|Dist::Zilla::Plugin::ExecDir> plugin will be set to mark the
 F<script/> directory for executables instead of the default F<bin/>.
+
+Since revision 5, L<[ModuleBuild]|Dist::Zilla::Plugin::ModuleBuild> is
+supported as an installer, and will generate a F<Build.PL> that uses
+L<Module::Build>. This is not generally recommended unless converting a
+distribution that is already using a L<Module::Build> subclass.
 
 =head2 managed_versions
 
@@ -631,17 +642,29 @@ easily be added to the F<dist.ini> if desired.
 
 =head2 Revision 5
 
-Revision 5 is similar to Revision 4, but adds an instance of the
-L<[PruneFiles]|Dist::Zilla::Plugin::PruneFiles> plugin to remove F<README.pod>
-from the distribution build if present. The CPAN toolchain expects C<.pod>
-files to be documentation and installs them alongside the module files, even
-if they are not within the F<lib/> directory, due to historical distribution
-layouts. But this is not the purpose of F<README.pod>, so it is excluded from
-the build to avoid cluttering users' install locations and confusing MetaCPAN
-and similar documentation indexes. F<README.pod> files generated in the source
-tree using L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> (with
+Revision 5 is similar to Revision 4, with these differences:
+
+=over 2
+
+=item *
+
+Includes an instance of the L<[PruneFiles]|Dist::Zilla::Plugin::PruneFiles>
+plugin to remove F<README.pod> from the distribution build if present. The CPAN
+toolchain expects C<.pod> files to be documentation and installs them alongside
+the module files, even if they are not within the F<lib/> directory, due to
+historical distribution layouts. But this is not the purpose of F<README.pod>,
+so it is excluded from the build to avoid cluttering users' install locations
+and confusing MetaCPAN and similar documentation indexes. F<README.pod> files
+generated in the source tree using
+L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> (with
 C<location = root>) are already automatically excluded from the build by that
 plugin.
+
+=item *
+
+The L</"installer"> option now supports C<ModuleBuild>.
+
+=back
 
 =head1 CONFIGURING
 
