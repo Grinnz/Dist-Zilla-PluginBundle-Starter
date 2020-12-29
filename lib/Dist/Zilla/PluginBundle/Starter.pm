@@ -289,116 +289,39 @@ additional features to stay up to date and allow greater customization. The
 selection of included plugins is intended to be unopinionated and unobtrusive,
 so that it is usable for any well-formed CPAN distribution.
 
-The L<Dist::Zilla::Starter> guide is a starting point if you are new to
-L<Dist::Zilla> or CPAN distribution building. See L</"EXAMPLES"> for example
-configurations of this bundle.
+C<[@Starter]> supports bundle revisions specified as an option, in order to
+allow authors to opt-in to future changes to distribution packaging and
+releasing practices. Existing revisions and the default revision number will
+not be changed, to preserve consistent functionality in existing F<dist.ini>
+configurations.
 
-For a variant of this bundle with built-in support for a git-based workflow,
-see L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
+You probably want L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>,
+an extension of this bundle, if you are using a git-based workflow.
+
+=head1 GETTING STARTED
+
+The L<Dist::Zilla::Starter> guide is a starting point if you are new to
+L<Dist::Zilla> or CPAN distribution building.
 
 For one-line initialization of a new C<[@Starter]>-based distribution, try
 L<Dist::Zilla::MintingProfile::Starter> (or
 L<Dist::Zilla::MintingProfile::Starter::Git>).
 
-Migrating from C<[@Basic]> is easy for most cases. Most of the bundle is the
-same, so just make sure to remove any extra plugins that C<[@Starter]> already
-includes, and configure the included plugins if needed (see L</"CONFIGURING">).
-Migrating a more complex set of plugins, including some that interact with the
-additional generated files, may require more careful consideration.
+Migrating from C<[@Basic]> is easy for most cases. The core of the bundle is
+the same, so just make sure to remove any extra plugins that C<[@Starter]>
+already includes, and configure the included plugins if needed. Migrating a
+more complex set of plugins, including some that interact with the additional
+generated files, may require more careful consideration.
 
-C<[@Starter]> composes the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover>
-and L<Config::Slicer|Dist::Zilla::Role::PluginBundle::Config::Slicer> roles to
-make it easier to customize and extend. Also, it supports bundle revisions
-specified as an option, in order to incorporate future changes to distribution
-packaging and releasing practices. Existing revisions will not be changed to
-preserve backwards compatibility.
-
-The C<FAKE_RELEASE> environment variable is supported as in L<Dist::Milla> and
-L<Minilla>. It replaces the L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
-plugin with L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>, to test the
-release process (including any version bumping and commits!) without actually
-uploading to CPAN.
-
-  $ FAKE_RELEASE=1 dzil release
+See L</"EXAMPLES"> for example configurations of this bundle, L</"CONFIGURING">
+for suggestions to customize the bundle to your needs, and L</"EXTENDING"> for
+examples of other common tasks L<Dist::Zilla> can facilitate.
 
 Another simple way to use L<Dist::Zilla> is with L<Dist::Milla>, an opinionated
 bundle that requires no configuration and performs all of the tasks in
-L</"EXTENDING"> by default. This bundle can also be configured to operate much
-like L<Dist::Milla>, as in the L</"Dist::Milla equivalent"> example.
-
-=head1 EXAMPLES
-
-Some example F<dist.ini> configurations to get started with.
-
-=head2 Just the basics
-
-  name    = Acme-Foo
-  author  = Jane Doe <example@example.com>
-  license = Artistic_2_0
-  copyright_holder = Jane Doe
-  copyright_year   = 2019
-  version = 1.00
-
-  [@Starter]
-  revision = 5
-
-  [Prereqs / RuntimeRequires]
-  perl = 5.010001
-  Exporter = 5.57
-  Path::Tiny = 0
-
-  [Prereqs / TestRequires]
-  Test::More = 0.88
-
-=head2 Managed boilerplate
-
-  name    = Acme-Foo
-  author  = Jane Doe <example@example.com>
-  license = Artistic_2_0
-  copyright_holder = Jane Doe
-  copyright_year   = 2019
-
-  [@Starter::Git]
-  revision = 5
-  managed_versions = 1
-  regenerate = Makefile.PL
-  regenerate = META.json
-  regenerate = LICENSE
-
-  [AutoPrereqs]
-
-=head2 Dist::Milla equivalent
-
-  [CheckChangesHasContent]
-
-  [ReadmeAnyFromPod]
-  type = markdown
-  filename = README.md
-  location = root
-  phase = release
-  [Regenerate::AfterReleasers]
-  plugin = ReadmeAnyFromPod
-
-  [@Starter::Git]
-  revision = 5
-  installer = ModuleBuildTiny
-  managed_versions = 1
-  regenerate = Build.PL
-  regenerate = META.json
-  regenerate = LICENSE
-  ExecDir.dir = script
-  Release_Commit.allow_dirty[] = README.md
-  BumpVersionAfterRelease.munge_build_pl = 0
-
-  [NameFromDirectory]
-  [LicenseFromModule]
-  override_author = 1
-  [Prereqs::FromCPANfile]
-  [StaticInstall]
-  mode = auto
-  [GithubMeta]
-  issues = 1
-  [Git::Contributors]
+L</"EXTENDING"> by default. The C<[@Starter]> bundle can also be configured to
+operate much like L<Dist::Milla>, as in the L</"Dist::Milla equivalent">
+example.
 
 =head1 OPTIONS
 
@@ -666,6 +589,80 @@ The L</"installer"> option now supports C<ModuleBuild>.
 
 =back
 
+=head1 EXAMPLES
+
+Some example F<dist.ini> configurations to get started with.
+
+=head2 Just the basics
+
+  name    = Acme-Foo
+  author  = Jane Doe <example@example.com>
+  license = Artistic_2_0
+  copyright_holder = Jane Doe
+  copyright_year   = 2019
+  version = 1.00
+
+  [@Starter]
+  revision = 5
+
+  [Prereqs / RuntimeRequires]
+  perl = 5.010001
+  Exporter = 5.57
+  Path::Tiny = 0
+
+  [Prereqs / TestRequires]
+  Test::More = 0.88
+
+=head2 Managed boilerplate
+
+  name    = Acme-Foo
+  author  = Jane Doe <example@example.com>
+  license = Artistic_2_0
+  copyright_holder = Jane Doe
+  copyright_year   = 2019
+
+  [@Starter::Git]
+  revision = 5
+  managed_versions = 1
+  regenerate = Makefile.PL
+  regenerate = META.json
+  regenerate = LICENSE
+
+  [AutoPrereqs]
+
+=head2 Dist::Milla equivalent
+
+  [CheckChangesHasContent]
+
+  [ReadmeAnyFromPod]
+  type = markdown
+  filename = README.md
+  location = root
+  phase = release
+  [Regenerate::AfterReleasers]
+  plugin = ReadmeAnyFromPod
+
+  [@Starter::Git]
+  revision = 5
+  installer = ModuleBuildTiny
+  managed_versions = 1
+  regenerate = Build.PL
+  regenerate = META.json
+  regenerate = LICENSE
+  ExecDir.dir = script
+  Release_Commit.allow_dirty[] = README.md
+  BumpVersionAfterRelease.munge_build_pl = 0
+
+  [NameFromDirectory]
+  [LicenseFromModule]
+  override_author = 1
+  [Prereqs::FromCPANfile]
+  [StaticInstall]
+  mode = auto
+  [GithubMeta]
+  issues = 1
+  [Git::Contributors]
+
 =head1 CONFIGURING
 
 By using the L<PluginRemover|Dist::Zilla::Role::PluginBundle::PluginRemover> or
@@ -798,13 +795,13 @@ L<< C<dzil installdeps>|Dist::Zilla::App::Command::installdeps >>.
 
 =head2 Name
 
-To automatically set the distribution name from the current directory, use
+To automatically set the distribution name from the project directory name, use
 L<[NameFromDirectory]|Dist::Zilla::Plugin::NameFromDirectory>.
 
 =head2 License and Copyright
 
-To extract the license and copyright information from the main module, and
-optionally set the author as well, use
+To extract the license and copyright information from the main module
+documentation, and optionally set the author as well, use
 L<[LicenseFromModule]|Dist::Zilla::Plugin::LicenseFromModule>.
 
 =head2 Changelog
@@ -837,6 +834,16 @@ L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile>. To specify prereqs in
 F<dist.ini>, use L<[Prereqs]|Dist::Zilla::Plugin::Prereqs>. To automatically
 guess the distribution's prereqs by parsing the code, use
 L<[AutoPrereqs]|Dist::Zilla::Plugin::AutoPrereqs>.
+
+=head1 ENVIRONMENT
+
+The C<FAKE_RELEASE> environment variable is supported as in L<Dist::Milla> and
+L<Minilla>. It replaces the L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
+plugin with L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>, to test the
+release process (including any version bumping and commits!) without actually
+uploading to CPAN.
+
+  $ FAKE_RELEASE=1 dzil release
 
 =head1 BUGS
 
