@@ -298,6 +298,12 @@ configurations.
 You probably want L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>,
 an extension of this bundle, if you are using a git-based workflow.
 
+L<Dist::Milla> is another simple, if opinionated, way to use L<Dist::Zilla>
+without requiring any configuration ("convention over configuration"), and
+performing all of the tasks in L</"EXTENDING"> by default. The C<[@Starter]>
+bundle can also be configured to operate much like L<Dist::Milla>, as in the
+L</"Dist::Milla equivalent"> example.
+
 =head1 GETTING STARTED
 
 The L<Dist::Zilla::Starter> guide is a starting point if you are new to
@@ -316,12 +322,6 @@ generated files, may require more careful consideration.
 See L</"EXAMPLES"> for example configurations of this bundle, L</"CONFIGURING">
 for suggestions to customize the bundle to your needs, and L</"EXTENDING"> for
 examples of other common tasks L<Dist::Zilla> can facilitate.
-
-Another simple way to use L<Dist::Zilla> is with L<Dist::Milla>, an opinionated
-bundle that requires no configuration and performs all of the tasks in
-L</"EXTENDING"> by default. The C<[@Starter]> bundle can also be configured to
-operate much like L<Dist::Milla>, as in the L</"Dist::Milla equivalent">
-example.
 
 =head1 OPTIONS
 
