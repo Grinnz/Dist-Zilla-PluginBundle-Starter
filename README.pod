@@ -26,7 +26,7 @@ distribution authoring, skip ahead to L</"DZIL AND BUNDLES">.
 
 =over
 
-=item * L</"CPAN DISTRIBUTIONS">
+=item L</"CPAN DISTRIBUTIONS">
 
 A modern CPAN distribution should have a basic well-defined structure so its
 contents and attributes can be recognized by CPAN infrastructure and tooling.
