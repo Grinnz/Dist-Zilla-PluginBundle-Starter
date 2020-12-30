@@ -38,36 +38,36 @@ distribution authoring, skip ahead to L</"DZIL AND BUNDLES">.
 A modern CPAN distribution should have a basic well-defined structure so its
 contents and attributes can be recognized by CPAN infrastructure and tooling.
 
-=item * L</"A BRIEF HISTORY OF AUTHORING">
+=item L</"A BRIEF HISTORY OF AUTHORING">
 
 The historical progression of CPAN distribution authoring tools that led to the
 development of Dist::Zilla.
 
-=item * L</"DZIL AND BUNDLES">
+=item L</"DZIL AND BUNDLES">
 
 Dist::Zilla plugin bundles that can provide a starting point or a ready-made
 complete distribution management tool.
 
-=item * L</"THE DZIL CORE">
+=item L</"THE DZIL CORE">
 
 The infrastructure of Dist::Zilla provides the framework for plugins and
 commands to define specific behavior in a configurable and extensible way.
 
-=item * L</"CONFIGURATION">
+=item L</"CONFIGURATION">
 
 Configuring a Dist::Zilla project and the plugins for it to use in F<dist.ini>.
 
-=item * L</"COMMANDS">
+=item L</"COMMANDS">
 
 Taking action with a configured Dist::Zilla project via built-in and
 installable commands.
 
-=item * L</"MINTING">
+=item L</"MINTING">
 
 Dist::Zilla provides the ability to generate new distribution skeletons using
 the same core infrastructure and a minting profile.
 
-=item * L</"PHASES">
+=item L</"PHASES">
 
 Commands execute a series of phases, which each execute any actions registered
 by plugins for that phase. The known phases and their usage are listed here.
