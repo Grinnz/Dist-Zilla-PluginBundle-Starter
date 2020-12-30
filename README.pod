@@ -532,22 +532,22 @@ this process into a single command.
 
 =over
 
-=item build
+=item *
 
 L<C<dzil build>|Dist::Zilla::App::Command::build> builds the distribution and
 stores the tarball and extracted directory locally.
 
-=item run
+=item *
 
 L<C<dzil run>|Dist::Zilla::App::Command::run> builds the distribution
 temporarily like C<dzil test> but runs the supplied command instead.
 
-=item install
+=item *
 
 L<C<dzil install>|Dist::Zilla::App::Command::install> builds the distribution
 temporarily and then installs it with a CPAN installer.
 
-=item clean
+=item *
 
 L<C<dzil clean>|Dist::Zilla::App::Command::clean> cleans up the Dist::Zilla
 F<.build> directory and any built distribution directories or archives.
