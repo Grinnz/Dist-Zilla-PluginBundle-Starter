@@ -205,16 +205,18 @@ One such wrapper is L<Module::Install>. This differed from many attempts in
 that it was designed to bundle itself with the distribution, so the end user
 would install using the bundled code rather than relying on the interface of
 their possibly outdated ExtUtils::MakeMaker. This was a revolutionary idea and
-the wrapper interface was well liked, but it introduced other problems. Due to
-being bundled with the release, it too became outdated when the author did not
-regularly release new versions of the distribution, so bugs would linger
-forever that the end user could not workaround by updating their own toolchain.
+the wrapper interface was well liked, but it introduced other problems.
 
-This was notably a significant issue when Perl 5.26 stopped loading modules
-from the current working directory by default, a mechanism which the
+Due to being bundled with the release, it too became outdated when the author
+did not regularly release new versions of the distribution, so bugs would
+linger forever that the end user could not workaround by updating their own
+toolchain. This was notably a significant issue when Perl 5.26 stopped loading
+modules from the current working directory by default, a mechanism which the
 Module::Install code bundled with hundreds of distributions relied upon to load
-itself. Additionally, it had a rudimentary plugin system but no way to formally
-declare what plugins a distribution was using, meaning that given a
+itself.
+
+Additionally, it had a rudimentary plugin system but no way to formally declare
+what plugins a distribution was using, meaning that given a
 Module::Install-based Makefile.PL, the author or contributor would have to
 guess what plugins needed to be installed or bundled for the end user to make
 it work. On top of (or perhaps due to) these problems, it has become mostly
