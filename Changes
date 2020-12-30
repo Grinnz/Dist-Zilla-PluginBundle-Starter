@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+v5.0.0    2020-12-29 19:32:18 EST
   - Revision 5 added.
     - Added [PruneFiles] to prune README.pod if present in build.
     - Support [ModuleBuild] as optional installer.
