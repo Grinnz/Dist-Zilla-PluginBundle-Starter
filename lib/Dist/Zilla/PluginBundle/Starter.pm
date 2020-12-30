@@ -574,11 +574,11 @@ Revision 5 is similar to Revision 4, with these differences:
 Includes an instance of the L<[PruneFiles]|Dist::Zilla::Plugin::PruneFiles>
 plugin to remove F<README.pod> from the distribution build if present. The CPAN
 toolchain expects C<.pod> files to be documentation and installs them alongside
-the module files, even if they are not within the F<lib/> directory, due to
-historical distribution layouts. But this is not the purpose of F<README.pod>,
-so it is excluded from the build to avoid cluttering users' install locations
-and confusing MetaCPAN and similar documentation indexes. F<README.pod> files
-generated in the source tree using
+the module files, sometimes even if they are outside the F<lib/> subdirectory,
+due to historical distribution layouts. But this is not the purpose of
+F<README.pod>, so it is excluded from the build to avoid cluttering users'
+install locations and confusing MetaCPAN and similar documentation indexes.
+F<README.pod> files generated in the source tree using
 L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> (with
 C<location = root>) are already automatically excluded from the build by that
 plugin.
