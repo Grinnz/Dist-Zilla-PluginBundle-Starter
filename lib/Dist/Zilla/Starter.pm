@@ -139,11 +139,13 @@ In order to provide infinite flexibility to how distributions can be installed,
 a file called F<Makefile.PL> consisting of regular Perl code is run, and is
 expected to generate a F<Makefile> that dictates the later steps of building,
 testing, and installing. (Note: this is user-side building, a separate task
-from the author-side distribution build that will be discussed later.) While
-this is traditionally implemented by a module called L<ExtUtils::MakeMaker>, a
-slightly different process was conceived using a module called L<Module::Build>
-(and later L<Module::Build::Tiny>), in which a F<Build.PL> is provided which
-generates a perl script named F<Build> to perform these tasks instead.
+from the author-side distribution build that will be discussed later.)
+
+While this is traditionally implemented by a module called
+L<ExtUtils::MakeMaker>, a slightly different process was conceived using a
+module called L<Module::Build> (and later L<Module::Build::Tiny>), in which a
+F<Build.PL> is provided which generates a perl script named F<Build> to perform
+these tasks instead.
 
 While both methods have been extended and improved using different modules, for
 Dist::Zilla authors the details of user-side installation are largely
@@ -163,6 +165,7 @@ the legacy format. In either format, this metadata describes aspects of the
 distribution as a whole such as name, author(s), prerequisites, repository and
 bugtracking resources, and optionally the name and version of each included
 package (which if provided will be trusted over PAUSE's own manual scan).
+
 Well-formed metadata is important to both ensuring the modules can be correctly
 and painlessly installed, and to provide important ancillary information to
 tools such as L<MetaCPAN|https://metacpan.org> when it displays the
@@ -173,17 +176,32 @@ L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON> plugins.
 =head2 Other Files
 
 The meat of the CPAN distribution, the code, tests, and documentation, are
-generally expected to be in a certain structure. Modules (F<.pm>) and
-documentation (F<.pod>) are placed in the F<lib/> directory, with a file path
-corresponding to the module name, as they will be ultimately installed. Tests
-(F<.t>) are placed in the F<t/> directory, and do not get installed.
+generally expected to be in a certain structure.
+
+=over
+
+=item *
+
+Modules (F<.pm>) and documentation (F<.pod>) are placed in the F<lib/>
+directory, with a file path corresponding to the module name, as they will be
+ultimately installed.
+
+=item *
+
+Tests (F<.t>) are placed in the F<t/> directory, and do not get installed.
+
+=item *
+
 Executables to install have no strict convention but are usually put in F<bin/>
-or F<script/>. You may see distributions with these important files in other
-places, usually because they predate these conventions or for compatibility
-with old versions of ExtUtils::MakeMaker that required F<.xs> files to be in
-the distribution root. Other directories may be included in the CPAN
-distribution, but have no specific meaning by default to the standard
-installers.
+or F<script/>.
+
+=back
+
+You may see distributions with these important files in other places, usually
+because they predate these conventions or for compatibility with old versions
+of ExtUtils::MakeMaker that required F<.xs> files to be in the distribution
+root. Other directories may be included in the CPAN distribution, but have no
+specific meaning by default to the standard installers.
 
 =head1 A BRIEF HISTORY OF AUTHORING
 
