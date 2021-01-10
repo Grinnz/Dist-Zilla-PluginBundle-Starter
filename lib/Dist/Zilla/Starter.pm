@@ -641,12 +641,11 @@ L<< C<dzil dumpphases>|Dist::Zilla::App::Command::dumpphases >> can be used to
 see a full listing of the phases that the plugins in a F<dist.ini> will run in.
 
 A property of phases that many plugins find useful is that successive phases
-will only run if previous phases completed successfully. For example,
-L<-BeforeRelease|Dist::Zilla::Role::BeforeRelease> will only run if the
-distribution was successfully built, L<-Releaser|Dist::Zilla::Role::Releaser>
-will only run if the BeforeRelease checks and release tests succeeded, and
-L<-AfterRelease|Dist::Zilla::Role::AfterRelease> will only run if the release
-was successful.
+will only run if previous phases completed successfully. For example, the
+L</"BeforeRelease"> phase will only run if the distribution was successfully
+built, the L</"Releaser"> phase will only run if the BeforeRelease checks and
+release tests succeeded, and the L</"AfterRelease"> phase will only run if the
+release was successful.
 
 =head2 BeforeBuild
 
