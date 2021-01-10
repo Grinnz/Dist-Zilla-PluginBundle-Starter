@@ -1,4 +1,5 @@
 {{$NEXT}}
+  - Various minor fixes and updates to the Dist::Zilla::Starter guide.
 
 v5.0.1    2020-12-29 22:13:47 EST
   - Improved formatting and pacing of Dist::Zilla::Starter guide.

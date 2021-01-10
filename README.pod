@@ -637,7 +637,7 @@ A property of phases that many plugins find useful is that successive phases
 will only run if previous phases completed successfully. For example,
 L<-BeforeRelease|Dist::Zilla::Role::BeforeRelease> will only run if the
 distribution was successfully built, L<-Releaser|Dist::Zilla::Role::Releaser>
-will only run if the BeforeRelease checks succeeded, and
+will only run if the BeforeRelease checks and release tests succeeded, and
 L<-AfterRelease|Dist::Zilla::Role::AfterRelease> will only run if the release
 was successful.
 
