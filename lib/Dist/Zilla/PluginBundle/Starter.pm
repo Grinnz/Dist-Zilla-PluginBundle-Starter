@@ -383,7 +383,7 @@ Requires revision 2 or higher.
   [@Starter]
   revision = 6
   installer = DistBuild
-  DistBuild.version = 0.025
+  DistBuild.auto_plugin_requires = 1
 
 The default installer is L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>, which
 works with no extra configuration for most cases. The C<installer> option can
