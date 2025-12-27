@@ -1,4 +1,6 @@
 {{$NEXT}}
+  - Revision 6 added.
+    - Added [MetaMergeFile] and [PrereqsFile] to read metadata from files if present.
 
 v5.0.2    2021-01-09 21:36:36 EST
   - Various minor fixes and updates to the Dist::Zilla::Starter guide.

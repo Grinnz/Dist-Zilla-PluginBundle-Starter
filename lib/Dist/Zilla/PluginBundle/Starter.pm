@@ -6,7 +6,7 @@ with 'Dist::Zilla::Role::PluginBundle::Easy',
   'Dist::Zilla::Role::PluginBundle::PluginRemover';
 use namespace::clean;
 
-our $VERSION = 'v5.0.3';
+our $VERSION = 'v6.0.0';
 
 # Revisions can include entries with the standard plugin name, array ref of plugin/name/config,
 # or coderefs which are passed the pluginbundle object and return a list of plugins in one of these formats.
@@ -123,6 +123,32 @@ my %revisions = (
     'TestRelease',
     'ConfirmRelease',
     sub { $_[0]->pluginset_releaser },
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    sub { $_[0]->pluginset_metaprovides },
+    'ShareDir',
+    sub { $_[0]->pluginset_execdir },
+  ],
+  6 => [
+    sub { $_[0]->pluginset_gatherer },
+    'MetaYAML',
+    'MetaJSON',
+    'License',
+    'Pod2Readme',
+    'PodSyntaxTests',
+    'Test::ReportPrereqs',
+    ['Test::Compile' => { xt_mode => 1 }],
+    sub { $_[0]->pluginset_installer },
+    'Manifest',
+    'PruneCruft',
+    ['PruneFiles' => { filename => ['README.pod'] }],
+    'ManifestSkip',
+    'RunExtraTests',
+    sub { $_[0]->pluginset_release_management }, # before test/confirm for before-release verification
+    'TestRelease',
+    'ConfirmRelease',
+    sub { $_[0]->pluginset_releaser },
+    'MetaMergeFile',
+    'PrereqsFile',
     ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
     sub { $_[0]->pluginset_metaprovides },
     'ShareDir',
@@ -268,7 +294,7 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   version = 0.001
   
   [@Starter]           ; all that is needed to start
-  revision = 5         ; always defaults to revision 1
+  revision = 6         ; always defaults to revision 1
   
   ; configuring examples
   installer = ModuleBuildTiny
@@ -278,7 +304,7 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   regenerate = LICENSE ; copy LICENSE to root after release and dzil regenerate
 
   [@Starter::Git]      ; drop-in variant bundle for git workflows
-  revision = 5         ; requires/defaults to revision 3
+  revision = 6         ; requires/defaults to revision 3
 
 =head1 DESCRIPTION
 
@@ -331,7 +357,7 @@ configured by the composed roles, as in L</"CONFIGURING">.
 =head2 revision
 
   [@Starter]
-  revision = 5
+  revision = 6
 
 Selects the revision to use, from L</"REVISIONS">. Defaults to revision 1.
 
@@ -589,6 +615,22 @@ The L</"installer"> option now supports C<ModuleBuild>.
 
 =back
 
+=head2 Revision 6
+
+Revision 6 is similar to Revision 5, with these differences:
+
+=over 2
+
+=item *
+
+Includes an instance of the L<[MetaMergeFile]|Dist::Zilla::Plugin::MetaMergeFile>
+and L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile> plugins to allow specifying
+arbitrary CPAN metadata in F<metamerge.yml>/F<metamerge.json> and distribution
+prerequisites in F<prereqs.yml>/F<prereqs.json>. These plugins have no effect if
+the corresponding files are not present in the source tree.
+
+=back
+
 =head1 EXAMPLES
 
 Some example F<dist.ini> configurations to get started with.
@@ -603,7 +645,7 @@ Some example F<dist.ini> configurations to get started with.
   version = 1.00
 
   [@Starter]
-  revision = 5
+  revision = 6
 
   [Prereqs / RuntimeRequires]
   perl = 5.010001
@@ -622,7 +664,7 @@ Some example F<dist.ini> configurations to get started with.
   copyright_year   = 2019
 
   [@Starter::Git]
-  revision = 5
+  revision = 6
   managed_versions = 1
   regenerate = Makefile.PL
   regenerate = META.json
@@ -643,7 +685,7 @@ Some example F<dist.ini> configurations to get started with.
   plugin = ReadmeAnyFromPod
 
   [@Starter::Git]
-  revision = 5
+  revision = 6
   installer = ModuleBuildTiny
   managed_versions = 1
   regenerate = Build.PL
@@ -834,6 +876,9 @@ L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile>. To specify prereqs in
 F<dist.ini>, use L<[Prereqs]|Dist::Zilla::Plugin::Prereqs>. To automatically
 guess the distribution's prereqs by parsing the code, use
 L<[AutoPrereqs]|Dist::Zilla::Plugin::AutoPrereqs>.
+
+Since L</"Revision 6">, L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile> is
+enabled by default, but prereqs can still be specified with any other method.
 
 =head1 ENVIRONMENT
 
