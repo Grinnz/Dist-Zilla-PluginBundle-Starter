@@ -876,6 +876,10 @@ To automatically set resource metadata from an associated GitHub repository,
 use L<[GithubMeta]|Dist::Zilla::Plugin::GithubMeta>. To set resource metadata
 manually, use L<[MetaResources]|Dist::Zilla::Plugin::MetaResources>.
 
+Since L</"Revision 6"> or by including L<[MetaMergeFile]|Dist::Zilla::Plugin::MetaMergeFile>
+with an earlier revision, resource metadata and other arbitrary metadata can be
+specified in a F<metamerge.json> or F<metamerge.yml>.
+
 =head2 Prereqs
 
 To specify distribution prereqs in a L<cpanfile>, use
