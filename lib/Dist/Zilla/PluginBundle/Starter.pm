@@ -157,6 +157,7 @@ my %revisions = (
 );
 
 my %allowed_installers = (
+  DistBuild => 1,
   MakeMaker => 1,
   'MakeMaker::Awesome' => 1,
   ModuleBuild => 1,
@@ -379,6 +380,11 @@ Requires revision 2 or higher.
   installer = ModuleBuild
   ModuleBuild.mb_class = My::Module::Builder
 
+  [@Starter]
+  revision = 6
+  installer = DistBuild
+  DistBuild.version = 0.025
+
 The default installer is L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>, which
 works with no extra configuration for most cases. The C<installer> option can
 be used to replace it with one of the following supported installers, which can
@@ -405,6 +411,9 @@ Since revision 5, L<[ModuleBuild]|Dist::Zilla::Plugin::ModuleBuild> is
 supported as an installer, and will generate a F<Build.PL> that uses
 L<Module::Build>. This is not generally recommended unless converting a
 distribution that is already using a L<Module::Build> subclass.
+
+Since revision 6, L<[DistBuild]|Dist::Zilla::Plugin::DistBuild> is supported
+as an installer, and will generate a F<Build.PL> that uses L<Dist::Build>.
 
 =head2 managed_versions
 
