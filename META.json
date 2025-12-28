@@ -46,7 +46,7 @@
             "Dist::Zilla::Plugin::BumpVersionAfterRelease" : "0",
             "Dist::Zilla::Plugin::ConfirmRelease" : "0",
             "Dist::Zilla::Plugin::CopyFilesFromRelease" : "0",
-            "Dist::Zilla::Plugin::DistBuild" : "0",
+            "Dist::Zilla::Plugin::DistBuild" : "0.003",
             "Dist::Zilla::Plugin::DistINI" : "0",
             "Dist::Zilla::Plugin::ExecDir" : "0",
             "Dist::Zilla::Plugin::FakeRelease" : "0",
@@ -107,15 +107,15 @@
    "provides" : {
       "Dist::Zilla::MintingProfile::Starter" : {
          "file" : "lib/Dist/Zilla/MintingProfile/Starter.pm",
-         "version" : "v6.0.0"
+         "version" : "v6.0.1"
       },
       "Dist::Zilla::PluginBundle::Starter" : {
          "file" : "lib/Dist/Zilla/PluginBundle/Starter.pm",
-         "version" : "v6.0.0"
+         "version" : "v6.0.1"
       },
       "Dist::Zilla::Starter" : {
          "file" : "lib/Dist/Zilla/Starter.pm",
-         "version" : "v6.0.0"
+         "version" : "v6.0.1"
       }
    },
    "release_status" : "stable",
@@ -131,7 +131,7 @@
       },
       "x_IRC" : "irc://irc.perl.org/#distzilla"
    },
-   "version" : "v6.0.0",
+   "version" : "v6.0.1",
    "x_contributors" : [
       "Dan Book <grinnz@grinnz.com>",
       "raf <68724930+rafork@users.noreply.github.com>"

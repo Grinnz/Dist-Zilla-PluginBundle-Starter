@@ -33,6 +33,7 @@ my @expected_files = sort qw(
   META.json
   META.yml
   README
+  planner/scriptdir.pl
   t/00-report-prereqs.t
   t/00-report-prereqs.dd
   xt/author/00-compile.t
