@@ -471,9 +471,10 @@ L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>.
 
 The C<[@Starter]> plugin bundle supports the following revisions.
 
-=head2 Revision 1
+=head2 Revision 6
 
-Revision 1 is the default and is equivalent to using the following plugins:
+Revision 6 is the current set of best practices, equivalent to using the
+following plugins if not configured further:
 
 =over 2
 
@@ -485,7 +486,7 @@ Revision 1 is the default and is equivalent to using the following plugins:
 
 =item L<[License]|Dist::Zilla::Plugin::License>
 
-=item L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod>
+=item L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::Pod2Readme>
 
 =item L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>
 
@@ -501,6 +502,10 @@ Revision 1 is the default and is equivalent to using the following plugins:
 
 =item L<[PruneCruft]|Dist::Zilla::Plugin::PruneCruft>
 
+=item L<[PruneFiles]|Dist::Zilla::Plugin::PruneFiles>
+
+  filename = README.pod
+
 =item L<[ManifestSkip]|Dist::Zilla::Plugin::ManifestSkip>
 
 =item L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests>
@@ -511,7 +516,9 @@ Revision 1 is the default and is equivalent to using the following plugins:
 
 =item L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
 
-=item L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>
+=item L<[MetaMergeFile]|Dist::Zilla::Plugin::MetaMergeFile>
+
+=item L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile>
 
 =item L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>
 
@@ -524,43 +531,70 @@ Revision 1 is the default and is equivalent to using the following plugins:
 
 =item L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
 
+  inherit_version = 0
+
 =item L<[ShareDir]|Dist::Zilla::Plugin::ShareDir>
 
 =item L<[ExecDir]|Dist::Zilla::Plugin::ExecDir>
 
 =back
 
-This revision differs from L<[@Basic]|Dist::Zilla::PluginBundle::Basic> as
-follows:
+Revision 6 differs from Revision 5 as follows:
 
 =over 2
 
 =item *
 
-Uses L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod>
-instead of L<[Readme]|Dist::Zilla::Plugin::Readme>.
-
-=item *
-
-Uses L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests> instead of
-L<[ExtraTests]|Dist::Zilla::Plugin::ExtraTests>.
-
-=item *
-
-Includes the following additional plugins:
-L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>,
-L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
-L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
-L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>,
-L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>,
-L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>,
-L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>.
+Includes an instance of the L<[MetaMergeFile]|Dist::Zilla::Plugin::MetaMergeFile>
+and L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile> plugins to allow specifying
+arbitrary CPAN metadata in F<metamerge.yml>/F<metamerge.json> and distribution
+prerequisites in F<prereqs.yml>/F<prereqs.json>. These plugins have no effect if
+the corresponding files are not present in the source tree.
 
 =back
 
+=head2 Revision 5
+
+Revision 5 differs from Revision 4 as follows:
+
+=over 2
+
+=item *
+
+Includes an instance of the L<[PruneFiles]|Dist::Zilla::Plugin::PruneFiles>
+plugin to remove F<README.pod> from the distribution build if present. The CPAN
+toolchain expects C<.pod> files to be documentation and installs them alongside
+the module files, sometimes even if they are outside the F<lib/> subdirectory,
+due to historical distribution layouts. But this is not the purpose of
+F<README.pod>, so it is excluded from the build to avoid cluttering users'
+install locations and confusing MetaCPAN and similar documentation indexes.
+F<README.pod> files generated in the source tree using
+L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> (with
+C<location = root>) are already automatically excluded from the build by that
+plugin.
+
+=item *
+
+The L</"installer"> option now supports C<ModuleBuild>.
+
+=back
+
+=head2 Revision 4
+
+Revision 4 differs from Revision 3 by removing the
+L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig> plugin, because it adds
+significant clutter to the generated META files without much benefit. It can
+easily be added to the F<dist.ini> if desired.
+
+=head2 Revision 3
+
+Revision 3 differs from Revision 2 in that it additionally supports the
+L</"managed_versions"> and L</"regenerate"> options, and variant bundles like
+L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
+
 =head2 Revision 2
 
-Revision 2 is similar to Revision 1, with these differences:
+Revision 2 differs from Revision 1 as follows:
 
 =over 2
 
@@ -585,58 +619,33 @@ The L</"installer"> option is now supported to change the installer plugin.
 
 =back
 
-=head2 Revision 3
+=head2 Revision 1
 
-Revision 3 is similar to Revision 2, but additionally supports the
-L</"managed_versions"> and L</"regenerate"> options, and variant bundles like
-L<[@Starter::Git]|Dist::Zilla::PluginBundle::Starter::Git>.
-
-=head2 Revision 4
-
-Revision 4 is similar to Revision 3, but removes the
-L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig> plugin because it adds
-significant clutter to the generated META files without much benefit. It can
-easily be added to the F<dist.ini> if desired.
-
-=head2 Revision 5
-
-Revision 5 is similar to Revision 4, with these differences:
+Revision 1 is the default if no revision is specified, and differs from
+L<[@Basic]|Dist::Zilla::PluginBundle::Basic> as follows:
 
 =over 2
 
 =item *
 
-Includes an instance of the L<[PruneFiles]|Dist::Zilla::Plugin::PruneFiles>
-plugin to remove F<README.pod> from the distribution build if present. The CPAN
-toolchain expects C<.pod> files to be documentation and installs them alongside
-the module files, sometimes even if they are outside the F<lib/> subdirectory,
-due to historical distribution layouts. But this is not the purpose of
-F<README.pod>, so it is excluded from the build to avoid cluttering users'
-install locations and confusing MetaCPAN and similar documentation indexes.
-F<README.pod> files generated in the source tree using
-L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod> (with
-C<location = root>) are already automatically excluded from the build by that
-plugin.
+Uses L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::ReadmeAnyFromPod>
+instead of L<[Readme]|Dist::Zilla::Plugin::Readme>.
 
 =item *
 
-The L</"installer"> option now supports C<ModuleBuild>.
-
-=back
-
-=head2 Revision 6
-
-Revision 6 is similar to Revision 5, with these differences:
-
-=over 2
+Uses L<[RunExtraTests]|Dist::Zilla::Plugin::RunExtraTests> instead of
+L<[ExtraTests]|Dist::Zilla::Plugin::ExtraTests>.
 
 =item *
 
-Includes an instance of the L<[MetaMergeFile]|Dist::Zilla::Plugin::MetaMergeFile>
-and L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile> plugins to allow specifying
-arbitrary CPAN metadata in F<metamerge.yml>/F<metamerge.json> and distribution
-prerequisites in F<prereqs.yml>/F<prereqs.json>. These plugins have no effect if
-the corresponding files are not present in the source tree.
+Includes the following additional plugins:
+L<[MetaJSON]|Dist::Zilla::Plugin::MetaJSON>,
+L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>,
+L<[Test::ReportPrereqs]|Dist::Zilla::Plugin::Test::ReportPrereqs>,
+L<[Test::Compile]|Dist::Zilla::Plugin::Test::Compile>,
+L<[MetaConfig]|Dist::Zilla::Plugin::MetaConfig>,
+L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>,
+L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>.
 
 =back
 
