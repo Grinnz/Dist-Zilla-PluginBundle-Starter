@@ -551,6 +551,10 @@ arbitrary CPAN metadata in F<metamerge.yml>/F<metamerge.json> and distribution
 prerequisites in F<prereqs.yml>/F<prereqs.json>. These plugins have no effect if
 the corresponding files are not present in the source tree.
 
+=item *
+
+The L</"installer"> option now supports C<DistBuild>.
+
 =back
 
 =head2 Revision 5
