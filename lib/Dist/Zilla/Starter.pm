@@ -3,7 +3,7 @@ package Dist::Zilla::Starter;
 use strict;
 use warnings;
 
-our $VERSION = 'v5.0.3';
+our $VERSION = 'v6.0.1';
 
 1;
 
