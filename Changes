@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+v6.0.0    2025-12-28 06:27:35 EST
   - Revision 6 added.
     - Added [MetaMergeFile] and [PrereqsFile] to read metadata from files if present.
     - Support [DistBuild] as optional installer.
