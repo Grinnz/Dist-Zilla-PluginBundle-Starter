@@ -486,7 +486,7 @@ following plugins if not configured further:
 
 =item L<[License]|Dist::Zilla::Plugin::License>
 
-=item L<[ReadmeAnyFromPod]|Dist::Zilla::Plugin::Pod2Readme>
+=item L<[Pod2Readme]|Dist::Zilla::Plugin::Pod2Readme>
 
 =item L<[PodSyntaxTests]|Dist::Zilla::Plugin::PodSyntaxTests>
 
