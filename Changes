@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+v6.0.2    2026-05-06 01:40:02 EDT
   - Reorder [MetaMergeFile] and [PrereqsFile] in revision 6 before the installer to avoid
     a bug in [MakeMaker::Awesome] where it doesn't see the required 'perl' version.
     - Note that other methods of declaring the required 'perl' version such as [Prereqs],
