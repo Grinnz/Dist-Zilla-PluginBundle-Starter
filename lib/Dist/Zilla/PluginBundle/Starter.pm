@@ -137,6 +137,8 @@ my %revisions = (
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
+    'MetaMergeFile',
+    'PrereqsFile',
     sub { $_[0]->pluginset_installer },
     'Manifest',
     'PruneCruft',
@@ -147,8 +149,6 @@ my %revisions = (
     'TestRelease',
     'ConfirmRelease',
     sub { $_[0]->pluginset_releaser },
-    'MetaMergeFile',
-    'PrereqsFile',
     ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
     sub { $_[0]->pluginset_metaprovides },
     'ShareDir',
@@ -496,6 +496,10 @@ following plugins if not configured further:
 
   xt_mode = 1
 
+=item L<[MetaMergeFile]|Dist::Zilla::Plugin::MetaMergeFile>
+
+=item L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile>
+
 =item L<[MakeMaker]|Dist::Zilla::Plugin::MakeMaker>
 
 =item L<[Manifest]|Dist::Zilla::Plugin::Manifest>
@@ -515,10 +519,6 @@ following plugins if not configured further:
 =item L<[ConfirmRelease]|Dist::Zilla::Plugin::ConfirmRelease>
 
 =item L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
-
-=item L<[MetaMergeFile]|Dist::Zilla::Plugin::MetaMergeFile>
-
-=item L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile>
 
 =item L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>
 

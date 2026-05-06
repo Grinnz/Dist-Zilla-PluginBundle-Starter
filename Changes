@@ -1,4 +1,10 @@
 {{$NEXT}}
+  - Reorder [MetaMergeFile] and [PrereqsFile] in revision 6 before the installer to avoid
+    a bug in [MakeMaker::Awesome] where it doesn't see the required 'perl' version.
+    - Note that other methods of declaring the required 'perl' version such as [Prereqs],
+      [Prereqs::FromCPANfile], [AutoPrereqs], or [MinimumPerl] should also be ordered
+      before [@Starter] to avoid this bug.
+    - Ref: https://github.com/avar/dist-zilla-plugin-makemaker-awesome/pull/9
 
 v6.0.1    2025-12-28 06:54:16 EST
   - Fix test for usage of [DistBuild] installer.
