@@ -107,15 +107,15 @@
    "provides" : {
       "Dist::Zilla::MintingProfile::Starter" : {
          "file" : "lib/Dist/Zilla/MintingProfile/Starter.pm",
-         "version" : "v6.0.2"
+         "version" : "v7.0.0"
       },
       "Dist::Zilla::PluginBundle::Starter" : {
          "file" : "lib/Dist/Zilla/PluginBundle/Starter.pm",
-         "version" : "v6.0.2"
+         "version" : "v7.0.0"
       },
       "Dist::Zilla::Starter" : {
          "file" : "lib/Dist/Zilla/Starter.pm",
-         "version" : "v6.0.2"
+         "version" : "v7.0.0"
       }
    },
    "release_status" : "stable",
@@ -129,9 +129,11 @@
          "url" : "https://github.com/Grinnz/Dist-Zilla-PluginBundle-Starter.git",
          "web" : "https://github.com/Grinnz/Dist-Zilla-PluginBundle-Starter"
       },
-      "x_IRC" : "irc://irc.perl.org/#distzilla"
+      "x_IRC" : {
+         "url" : "irc://irc.perl.org/#distzilla"
+      }
    },
-   "version" : "v6.0.2",
+   "version" : "v7.0.0",
    "x_contributors" : [
       "Dan Book <grinnz@grinnz.com>",
       "raf <68724930+rafork@users.noreply.github.com>"
