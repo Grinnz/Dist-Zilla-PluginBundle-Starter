@@ -957,6 +957,13 @@ F<dist.ini>, use L<[Prereqs]|Dist::Zilla::Plugin::Prereqs>. To automatically
 guess the distribution's prereqs by parsing the code, use
 L<[AutoPrereqs]|Dist::Zilla::Plugin::AutoPrereqs>.
 
+In some cases, some prereqs may need to be determined at install time depending
+on the architecture or status of the end-user machine. These can be specified
+using L<[DynamicPrereqs]|Dist::Zilla::Plugin::DynamicPrereqs> for
+F<Makefile.PL> installers, or the
+L<[DynamicPrereqs::Meta]|Dist::Zilla::DynamicPrereqs::Meta>-adjacent plugin
+corresponding to the installer in use.
+
 Since L</"Revision 6">, L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile> is
 enabled by default, but prereqs can still be specified with any other method.
 
