@@ -1,6 +1,8 @@
 {{$NEXT}}
-  - Also reorder [MetaNoIndex] and [MetaProvides::Package] (and [MetaConfig], in revisions
-    that include it) before the installer in all revisions for consistency.
+  - Revision 7 added.
+    - Added releaser option to support alternate releaser plugins.
+  - Also reorder [MetaNoIndex] and [MetaProvides::Package] (and [MetaConfig], in revisions that
+    include it) before the installer in all revisions for consistency with [MetaMergeFile].
 
 v6.0.2    2026-05-06 01:40:02 EDT
   - Reorder [MetaMergeFile] and [PrereqsFile] in revision 6 before the installer to avoid

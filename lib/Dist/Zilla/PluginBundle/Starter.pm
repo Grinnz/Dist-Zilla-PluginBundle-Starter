@@ -6,7 +6,7 @@ with 'Dist::Zilla::Role::PluginBundle::Easy',
   'Dist::Zilla::Role::PluginBundle::PluginRemover';
 use namespace::clean;
 
-our $VERSION = 'v6.0.3';
+our $VERSION = 'v7.0.0';
 
 # Revisions can include entries with the standard plugin name, array ref of plugin/name/config,
 # or coderefs which are passed the pluginbundle object and return a list of plugins in one of these formats.
@@ -154,6 +154,32 @@ my %revisions = (
     'ShareDir',
     sub { $_[0]->pluginset_execdir },
   ],
+  7 => [
+    sub { $_[0]->pluginset_gatherer },
+    'MetaYAML',
+    'MetaJSON',
+    'License',
+    'Pod2Readme',
+    'PodSyntaxTests',
+    'Test::ReportPrereqs',
+    ['Test::Compile' => { xt_mode => 1 }],
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    sub { $_[0]->pluginset_metaprovides },
+    'MetaMergeFile',
+    'PrereqsFile',
+    sub { $_[0]->pluginset_installer },
+    'Manifest',
+    'PruneCruft',
+    ['PruneFiles' => { filename => ['README.pod'] }],
+    'ManifestSkip',
+    'RunExtraTests',
+    sub { $_[0]->pluginset_release_management }, # before test/confirm for before-release verification
+    'TestRelease',
+    'ConfirmRelease',
+    sub { $_[0]->pluginset_releaser },
+    'ShareDir',
+    sub { $_[0]->pluginset_execdir },
+  ],
 );
 
 my %allowed_installers = (
@@ -169,6 +195,7 @@ my %option_requires = (
   installer => 2,
   managed_versions => 3,
   regenerate => 3,
+  releaser => 7,
 );
 
 has revision => (
@@ -193,6 +220,12 @@ has regenerate => (
   is => 'ro',
   lazy => 1,
   default => sub { $_[0]->payload->{regenerate} // [] },
+);
+
+has releaser => (
+  is => 'ro',
+  lazy => 1,
+  default => sub { $_[0]->payload->{releaser} // 'UploadToCPAN' },
 );
 
 sub mvp_multivalue_args { qw(regenerate) }
@@ -255,7 +288,7 @@ sub pluginset_release_management {
 
 sub pluginset_releaser {
   my ($self) = @_;
-  return $ENV{FAKE_RELEASE} ? 'FakeRelease' : 'UploadToCPAN';
+  return $ENV{FAKE_RELEASE} ? 'FakeRelease' : $self->releaser;
 }
 
 sub pluginset_metaprovides {
@@ -294,18 +327,19 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   copyright_year   = 2017
   version = 0.001
   
-  [@Starter]           ; all that is needed to start
-  revision = 6         ; always defaults to revision 1
+  [@Starter]                  ; all that is needed to start
+  revision = 7                ; always defaults to revision 1
   
   ; configuring examples
-  installer = ModuleBuildTiny
-  -remove = GatherDir  ; to use [Git::GatherDir] instead, for example
-  ExecDir.dir = script ; change the directory used by [ExecDir]
-  managed_versions = 1 ; uses the main module version, and bumps module versions after release
-  regenerate = LICENSE ; copy LICENSE to root after release and dzil regenerate
+  installer = ModuleBuildTiny ; include a different installer in the release instead of MakeMaker
+  -remove = GatherDir         ; to use [Git::GatherDir] instead, for example
+  ExecDir.dir = script        ; change the directory used by [ExecDir]
+  managed_versions = 1        ; uses the main module version, and bumps module versions after release
+  regenerate = LICENSE        ; copy LICENSE to root after release and dzil regenerate
+  releaser = ArchiveRelease   ; use a different releaser instead of the default upload to CPAN
 
-  [@Starter::Git]      ; drop-in variant bundle for git workflows
-  revision = 6         ; requires/defaults to revision 3
+  [@Starter::Git]             ; drop-in variant bundle for git workflows
+  revision = 7                ; requires/defaults to revision 3
 
 =head1 DESCRIPTION
 
@@ -358,7 +392,7 @@ configured by the composed roles, as in L</"CONFIGURING">.
 =head2 revision
 
   [@Starter]
-  revision = 6
+  revision = 7
 
 Selects the revision to use, from L</"REVISIONS">. Defaults to revision 1.
 
@@ -467,13 +501,28 @@ is applied to C<[CopyFilesFromRelease]> to allow these files to be generated
 and copied on demand outside of a release using
 L<< C<dzil regenerate>|Dist::Zilla::App::Command::regenerate >>.
 
+=head2 releaser
+
+Requires revision 7 or higher.
+
+  [@Starter]
+  revision = 7
+  releaser = SigStore::SignRelease
+  SigStore::SignRelease.answer_yes = 1
+
+By default, releasing the distribution uploads it to CPAN using
+L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>. A different C<-Releaser>
+plugin can be specified to replace it. Note that the L<FAKE_RELEASE|/"ENVIRONMENT">
+environment variable will override the releaser even if a different one is 
+configured here.
+
 =head1 REVISIONS
 
 The C<[@Starter]> plugin bundle supports the following revisions.
 
-=head2 Revision 6
+=head2 Revision 7
 
-Revision 6 is the current set of best practices, equivalent to using the
+Revision 7 is the current set of best practices, equivalent to using the
 following plugins if not configured further:
 
 =over 2
@@ -538,6 +587,11 @@ following plugins if not configured further:
 =item L<[ExecDir]|Dist::Zilla::Plugin::ExecDir>
 
 =back
+
+Revision 7 differs from Revision 6 in that it supports the L</"releaser">
+option.
+
+=head2 Revision 6
 
 Revision 6 differs from Revision 5 as follows:
 
@@ -667,7 +721,7 @@ Some example F<dist.ini> configurations to get started with.
   version = 1.00
 
   [@Starter]
-  revision = 6
+  revision = 7
 
   [Prereqs / RuntimeRequires]
   perl = 5.010001
@@ -686,7 +740,7 @@ Some example F<dist.ini> configurations to get started with.
   copyright_year   = 2019
 
   [@Starter::Git]
-  revision = 6
+  revision = 7
   managed_versions = 1
   regenerate = Makefile.PL
   regenerate = META.json
@@ -707,7 +761,7 @@ Some example F<dist.ini> configurations to get started with.
   plugin = ReadmeAnyFromPod
 
   [@Starter::Git]
-  revision = 6
+  revision = 7
   installer = ModuleBuildTiny
   managed_versions = 1
   regenerate = Build.PL
@@ -910,9 +964,9 @@ enabled by default, but prereqs can still be specified with any other method.
 
 The C<FAKE_RELEASE> environment variable is supported as in L<Dist::Milla> and
 L<Minilla>. It replaces the L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
-plugin with L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>, to test the
-release process (including any version bumping and commits!) without actually
-uploading to CPAN.
+plugin (or configured L</"releaser">) with L<[FakeRelease]|Dist::Zilla::Plugin::FakeRelease>,
+to test the release process (including any version bumping and commits!)
+without actually uploading to CPAN.
 
   $ FAKE_RELEASE=1 dzil release
 
