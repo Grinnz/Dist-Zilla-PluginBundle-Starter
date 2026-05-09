@@ -331,12 +331,12 @@ Dist::Zilla::PluginBundle::Starter - A minimal Dist::Zilla plugin bundle
   revision = 7                ; always defaults to revision 1
   
   ; configuring examples
-  installer = ModuleBuildTiny ; include a different installer in the release instead of MakeMaker
+  installer = ModuleBuildTiny ; include a different installer in the release instead of [MakeMaker]
   -remove = GatherDir         ; to use [Git::GatherDir] instead, for example
   ExecDir.dir = script        ; change the directory used by [ExecDir]
   managed_versions = 1        ; uses the main module version, and bumps module versions after release
   regenerate = LICENSE        ; copy LICENSE to root after release and dzil regenerate
-  releaser = ArchiveRelease   ; use a different releaser instead of the default upload to CPAN
+  releaser = ArchiveRelease   ; use a different releaser instead of the default [UploadToCPAN]
 
   [@Starter::Git]             ; drop-in variant bundle for git workflows
   revision = 7                ; requires/defaults to revision 3
