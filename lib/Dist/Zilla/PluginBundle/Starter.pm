@@ -20,6 +20,9 @@ my %revisions = (
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
+    'MetaConfig',
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    'MetaProvides::Package',
     'MakeMaker',
     'Manifest',
     'PruneCruft',
@@ -28,9 +31,6 @@ my %revisions = (
     'TestRelease',
     'ConfirmRelease',
     sub { $_[0]->pluginset_releaser },
-    'MetaConfig',
-    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
-    'MetaProvides::Package',
     'ShareDir',
     'ExecDir',
   ],
@@ -43,6 +43,9 @@ my %revisions = (
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
+    'MetaConfig',
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    ['MetaProvides::Package' => { inherit_version => 0 }],
     sub { $_[0]->pluginset_installer },
     'Manifest',
     'PruneCruft',
@@ -51,9 +54,6 @@ my %revisions = (
     'TestRelease',
     'ConfirmRelease',
     sub { $_[0]->pluginset_releaser },
-    'MetaConfig',
-    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
-    ['MetaProvides::Package' => { inherit_version => 0 }],
     'ShareDir',
     sub { $_[0]->pluginset_execdir },
   ],
@@ -66,6 +66,9 @@ my %revisions = (
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
+    'MetaConfig',
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    sub { $_[0]->pluginset_metaprovides },
     sub { $_[0]->pluginset_installer },
     'Manifest',
     'PruneCruft',
@@ -75,9 +78,6 @@ my %revisions = (
     'TestRelease',
     'ConfirmRelease',
     sub { $_[0]->pluginset_releaser },
-    'MetaConfig',
-    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
-    sub { $_[0]->pluginset_metaprovides },
     'ShareDir',
     sub { $_[0]->pluginset_execdir },
   ],
@@ -90,6 +90,8 @@ my %revisions = (
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    sub { $_[0]->pluginset_metaprovides },
     sub { $_[0]->pluginset_installer },
     'Manifest',
     'PruneCruft',
@@ -99,8 +101,6 @@ my %revisions = (
     'TestRelease',
     'ConfirmRelease',
     sub { $_[0]->pluginset_releaser },
-    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
-    sub { $_[0]->pluginset_metaprovides },
     'ShareDir',
     sub { $_[0]->pluginset_execdir },
   ],
@@ -113,6 +113,8 @@ my %revisions = (
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    sub { $_[0]->pluginset_metaprovides },
     sub { $_[0]->pluginset_installer },
     'Manifest',
     'PruneCruft',
@@ -123,8 +125,6 @@ my %revisions = (
     'TestRelease',
     'ConfirmRelease',
     sub { $_[0]->pluginset_releaser },
-    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
-    sub { $_[0]->pluginset_metaprovides },
     'ShareDir',
     sub { $_[0]->pluginset_execdir },
   ],
@@ -137,6 +137,8 @@ my %revisions = (
     'PodSyntaxTests',
     'Test::ReportPrereqs',
     ['Test::Compile' => { xt_mode => 1 }],
+    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
+    sub { $_[0]->pluginset_metaprovides },
     'MetaMergeFile',
     'PrereqsFile',
     sub { $_[0]->pluginset_installer },
@@ -149,8 +151,6 @@ my %revisions = (
     'TestRelease',
     'ConfirmRelease',
     sub { $_[0]->pluginset_releaser },
-    ['MetaNoIndex' => { directory => [qw(t xt inc share eg examples)] }],
-    sub { $_[0]->pluginset_metaprovides },
     'ShareDir',
     sub { $_[0]->pluginset_execdir },
   ],
@@ -496,6 +496,19 @@ following plugins if not configured further:
 
   xt_mode = 1
 
+=item L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>
+
+  directory = t
+  directory = xt
+  directory = inc
+  directory = share
+  directory = eg
+  directory = examples
+
+=item L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
+
+  inherit_version = 0
+
 =item L<[MetaMergeFile]|Dist::Zilla::Plugin::MetaMergeFile>
 
 =item L<[PrereqsFile]|Dist::Zilla::Plugin::PrereqsFile>
@@ -519,19 +532,6 @@ following plugins if not configured further:
 =item L<[ConfirmRelease]|Dist::Zilla::Plugin::ConfirmRelease>
 
 =item L<[UploadToCPAN]|Dist::Zilla::Plugin::UploadToCPAN>
-
-=item L<[MetaNoIndex]|Dist::Zilla::Plugin::MetaNoIndex>
-
-  directory = t
-  directory = xt
-  directory = inc
-  directory = share
-  directory = eg
-  directory = examples
-
-=item L<[MetaProvides::Package]|Dist::Zilla::Plugin::MetaProvides::Package>
-
-  inherit_version = 0
 
 =item L<[ShareDir]|Dist::Zilla::Plugin::ShareDir>
 
